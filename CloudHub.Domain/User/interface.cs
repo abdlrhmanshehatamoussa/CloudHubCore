@@ -23,7 +23,7 @@
 
         bool Active { get; set; }
 
-        //ILogin Login { get; set; }
+        ILogin Login { get; set; }
 
         //List<Purchases> Purchases { get; set; }
 
