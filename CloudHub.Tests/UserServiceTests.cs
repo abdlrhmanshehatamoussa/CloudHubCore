@@ -97,7 +97,7 @@ namespace CloudHub.Tests
 
             Assert.DoesNotThrowAsync(async () =>
             {
-                LoginResponse response = await userService.Login(3, dto);
+                LoginResponse response = await userService.Login(1, dto);
                 Assert.That(response.Email == "abdlrhmanshehata@gmail.com");
                 Assert.That(response.LoginType == "Basic");
             });

@@ -1,4 +1,5 @@
-﻿using CloudHub.Domain.Repositories;
+﻿using CloudHub.Domain.Entities;
+using CloudHub.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
@@ -32,10 +33,11 @@ namespace CloudHub.Data.Repositories
             DbSet.Remove(entity);
         }
 
-        public async Task<IEnumerable<T>> Where(Expression<Func<T, bool>> expression)
+
+        public async Task<List<T>> Where(Expression<Func<T, bool>> expression)
         {
             IQueryable<T> query = DbSet.Where(expression);
-            IEnumerable<T> results = await query.ToListAsync();
+            List<T> results = await query.ToListAsync();
             return results;
         }
 
@@ -55,6 +57,17 @@ namespace CloudHub.Data.Repositories
         {
             T? result = await DbSet.FindAsync(id);
             return result;
+        }
+
+        public async Task<List<T>> GetAll()
+        {
+            List<T> all = await DbSet.ToListAsync();
+            return all;
+        }
+
+        public void DeleteMultiple(List<T> entities)
+        {
+            DbSet.RemoveRange(entities);
         }
     }
 }

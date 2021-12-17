@@ -31,7 +31,7 @@ namespace CloudHub.Domain.Services
             }
 
             //Check User Email
-            User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.Email);
+            User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.Email && u.ApplicationId == app.Id);
             if (user == null)
             {
                 throw new EntityNotFoundException("User not found");
@@ -44,13 +44,18 @@ namespace CloudHub.Domain.Services
                 throw new InvalidLoginCredentials("Invalid Login Credentials");
             }
 
+            //Delete all existing tokens
+            List<UserToken> allUserTokens = await _unitOfWork.UserTokensRepository.Where(t => t.UserId == user.Id);
+            _unitOfWork.UserTokensRepository.DeleteMultiple(allUserTokens);
+
             //Generate new token
             UserToken token = new UserToken() { UserId = user.Id };
             token.GenerateNewToken();
 
-            //Save Token
-
+            //Add Token
             token = await _unitOfWork.UserTokensRepository.Add(token);
+            
+            //Save
             await _unitOfWork.Save();
             if (token.Id <= 0)
             {
