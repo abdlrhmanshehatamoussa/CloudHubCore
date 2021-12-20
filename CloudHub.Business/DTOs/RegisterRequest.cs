@@ -1,8 +1,10 @@
-﻿namespace CloudHub.Domain.Entities
+﻿using CloudHub.Domain.Entities;
+
+namespace CloudHub.Business.DTO
 {
     public struct RegisterRequest
     {
-        public RegisterRequest(string imageUrl, string email, string password, int loginTypeId, string name)
+        public RegisterRequest(string email, string password, string name, string? imageUrl, LoginTypeValues loginTypeId)
         {
             ImageUrl = imageUrl;
             Email = email;
@@ -11,10 +13,10 @@
             Name = name;
         }
 
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
         public string Email { get; set; }
         public string Passcode { get; set; }
-        public int LoginTypeId { get; set; }
+        public LoginTypeValues LoginTypeId { get; set; }
         public string Name { get; set; }
     }
 }

@@ -8,10 +8,10 @@ namespace CloudHub.Data.Repositories
 
     public class Repository<T> : IRepository<T> where T : class
     {
-        public Repository(Microsoft.EntityFrameworkCore.DbContext context) => _context = context;
+        public Repository(DbContext context) => _context = context;
 
 
-        private readonly Microsoft.EntityFrameworkCore.DbContext _context;
+        private readonly DbContext _context;
 
         private DbSet<T> DbSet
         {

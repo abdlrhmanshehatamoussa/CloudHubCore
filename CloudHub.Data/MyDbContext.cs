@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CloudHub.Data
 {
-    public partial class DbContext : Microsoft.EntityFrameworkCore.DbContext
+    public partial class MyDbContext : DbContext
     {
-        public DbContext(DbContextOptions<DbContext> options)
+        public MyDbContext(DbContextOptions<MyDbContext> options)
             : base(options)
         {
         }

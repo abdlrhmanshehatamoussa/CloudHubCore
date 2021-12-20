@@ -12,7 +12,7 @@
         public string Name { get; set; } = null!;
         public string ClientKey { get; set; } = null!;
         public string ClientSecret { get; set; } = null!;
-        public int ClientTypeId { get; set; }
+        public ClientTypeValues ClientTypeId { get; set; }
         public DateTime ModifiedOn { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool? Active { get; set; }

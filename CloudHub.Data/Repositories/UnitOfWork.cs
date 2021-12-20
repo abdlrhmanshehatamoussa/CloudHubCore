@@ -6,14 +6,9 @@ namespace CloudHub.Data.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        DbContext _dbContext;
+        MyDbContext _dbContext;
 
-        public UnitOfWork(string connectionString)
-        {
-            DbContextOptionsBuilder<DbContext> optionsBuilder = new DbContextOptionsBuilder<DbContext>() { };
-            optionsBuilder.UseNpgsql(connectionString);
-            _dbContext = new DbContext(optionsBuilder.Options);
-        }
+        public UnitOfWork(MyDbContext context) => _dbContext = context;
 
 
         public IRepository<User> UsersRepository => new Repository<User>(_dbContext);
