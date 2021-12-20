@@ -23,7 +23,7 @@ namespace CloudHub.Tests
         {
             LoginRequest dto = new LoginRequest()
             {
-                Email = "abdelrahman.shehata@gmail.com",
+                Email = "abdlrhmanshehata@gmail.com",
                 Passcode = "123456",
                 LoginTypeId = LoginTypeValues.LOGIN_TYPE_GOOGLE,
             };
@@ -31,8 +31,6 @@ namespace CloudHub.Tests
             {
                 await userService.Login(0, dto);
             });
-
-            Assert.That(ex?.Message == "Application not found");
         }
 
         [Test]
@@ -40,15 +38,14 @@ namespace CloudHub.Tests
         {
             LoginRequest dto = new LoginRequest()
             {
-                Email = "abdelrahman.shehata@gmail.com",
+                Email = "abdlrhmanshehata@gmail.com",
                 Passcode = "123456",
                 LoginTypeId = 0,
             };
-            EntityNotFoundException? ex = Assert.ThrowsAsync<EntityNotFoundException>(async () =>
+            InvalidLoginCredentials? ex = Assert.ThrowsAsync<InvalidLoginCredentials>(async () =>
             {
-                await userService.Login(3, dto);
+                await userService.Login(1, dto);
             });
-            Assert.That(ex?.Message == "LoginType not found");
         }
 
         [Test]
@@ -63,9 +60,8 @@ namespace CloudHub.Tests
 
             EntityNotFoundException? ex = Assert.ThrowsAsync<EntityNotFoundException>(async () =>
             {
-                await userService.Login(3, dto);
+                await userService.Login(1, dto);
             });
-            Assert.That(ex?.Message == "User not found");
         }
 
         [Test]
@@ -80,7 +76,7 @@ namespace CloudHub.Tests
 
             InvalidLoginCredentials? ex = Assert.ThrowsAsync<InvalidLoginCredentials>(async () =>
             {
-                await userService.Login(3, dto);
+                await userService.Login(1, dto);
             });
         }
 

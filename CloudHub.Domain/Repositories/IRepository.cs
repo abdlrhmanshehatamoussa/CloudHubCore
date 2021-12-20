@@ -13,5 +13,7 @@ namespace CloudHub.Domain.Repositories
         Task<List<T>> Where(Expression<Func<T, bool>> expression);
         Task<T?> FirstWhere(Expression<Func<T, bool>> expression);
         void Update(T entity);
+        Task<List<T>> Where(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes);
+        Task<T?> FirstWhere(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes);
     }
 }
