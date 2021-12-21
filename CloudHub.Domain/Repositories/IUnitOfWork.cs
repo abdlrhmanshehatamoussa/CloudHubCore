@@ -13,13 +13,12 @@ namespace CloudHub.Domain.Repositories
         IRepository<UserToken> UserTokensRepository { get; }
         IRepository<Login> LoginsRepository { get; }
         IRepository<LoginType> LoginTypesRepository { get; }
-        IRepository<Action> ActionsRepository { get; }
+        IRepository<UserAction> UserActionsRepository { get; }
         IRepository<Feature> FeaturesRepository { get; }
         IRepository<Nonce> NoncesRepository { get; }
         IRepository<PaymentGateway> PaymentGatewaysRepository { get; }
         IRepository<Purchase> PurchasesRepository { get; }
         IRepository<Release> ReleasesRepository { get; }
-
         Task Save();
     }
 }

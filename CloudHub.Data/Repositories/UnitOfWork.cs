@@ -1,6 +1,5 @@
 ﻿using CloudHub.Domain.Entities;
 using CloudHub.Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace CloudHub.Data.Repositories
 {
@@ -20,7 +19,7 @@ namespace CloudHub.Data.Repositories
         public IRepository<UserToken> UserTokensRepository => new Repository<UserToken>(_dbContext);
         public IRepository<Login> LoginsRepository => new Repository<Login>(_dbContext);
         public IRepository<LoginType> LoginTypesRepository => new Repository<LoginType>(_dbContext);
-        public IRepository<Action> ActionsRepository => new Repository<Action>(_dbContext);
+        public IRepository<UserAction> UserActionsRepository => new Repository<UserAction>(_dbContext);
         public IRepository<Feature> FeaturesRepository => new Repository<Feature>(_dbContext);
         public IRepository<Nonce> NoncesRepository => new Repository<Nonce>(_dbContext);
         public IRepository<PaymentGateway> PaymentGatewaysRepository => new Repository<PaymentGateway>(_dbContext);

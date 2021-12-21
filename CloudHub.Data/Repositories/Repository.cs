@@ -85,5 +85,10 @@ namespace CloudHub.Data.Repositories
         {
             DbSet.RemoveRange(entities);
         }
+
+        public async Task SaveBulk(List<T> userActions)
+        {
+            await DbSet.AddRangeAsync(userActions);
+        }
     }
 }

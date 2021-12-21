@@ -1,5 +1,4 @@
-﻿using CloudHub.Domain.Entities;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace CloudHub.Domain.Repositories
 {
@@ -15,5 +14,6 @@ namespace CloudHub.Domain.Repositories
         void Update(T entity);
         Task<List<T>> Where(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes);
         Task<T?> FirstWhere(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes);
+        Task SaveBulk(List<T> userActions);
     }
 }

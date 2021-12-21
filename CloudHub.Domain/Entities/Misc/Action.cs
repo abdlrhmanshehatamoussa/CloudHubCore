@@ -8,7 +8,7 @@
         public string? Payload { get; set; }
         public int? AppVersion { get; set; }
         public int ApplicationId { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
         public virtual Application Application { get; set; } = null!;
     }

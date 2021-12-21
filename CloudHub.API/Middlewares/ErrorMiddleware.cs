@@ -20,7 +20,7 @@ namespace CloudHub.API.Middlewares
             {
                 HttpResponse response = context.Response;
                 response.ContentType = "application/json";
-                string message = string.Empty;
+                string message = error.Message;
                 switch (error)
                 {
                     case EntityNotFoundException:
@@ -40,6 +40,9 @@ namespace CloudHub.API.Middlewares
                         break;
                     case ExpiredTokenException:
                         response.StatusCode = 498;
+                        break;
+                    case MissingParameterException:
+                        response.StatusCode = 423;
                         break;
                     default:
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
