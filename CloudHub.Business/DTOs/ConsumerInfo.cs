@@ -6,6 +6,6 @@ namespace CloudHub.Business.Services
     { 
         public ClientApplicationRelation ClientApplication { get; set; }
         public Nonce? Nonce { get; set; }
-        public User? User { get; set; }
+        public UserToken? UserToken { get; set; }
     }
 }

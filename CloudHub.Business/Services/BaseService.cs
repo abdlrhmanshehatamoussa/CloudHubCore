@@ -32,19 +32,19 @@ namespace CloudHub.Business.Services
                 if (nonce.ConsumedOn.HasValue) { throw new ConsumedNonceException(); }
             }
 
-            User? user = null;
+            UserToken? userToken = null;
             if (credentials.UserToken != null)
             {
-                UserToken? token = await _unitOfWork.UserTokensRepository.FirstWhere(t => t.Token == credentials.UserToken, t => t.User);
-                if (token == null) { throw new NotAuthenticatedException(); }
-                if (token.Active != true || token.RemainingSeconds <= 30) { throw new ExpiredTokenException(); }
-                user = token.User;
+                userToken = await _unitOfWork.UserTokensRepository.FirstWhere(t => t.Token == credentials.UserToken, t => t.User, t => t.User.Login, t => t.User.Login.LoginType);
+                if (userToken == null) { throw new NotAuthenticatedException(); }
+                if (userToken.Active != true || userToken.RemainingSeconds <= 30) { throw new ExpiredTokenException(); }
+
             }
 
             return new ConsumerInfo()
             {
                 ClientApplication = clientApplication,
-                User = user,
+                UserToken = userToken,
                 Nonce = nonce
             };
         }

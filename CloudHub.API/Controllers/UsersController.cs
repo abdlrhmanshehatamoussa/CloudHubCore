@@ -16,6 +16,25 @@ namespace CloudHub.API.Controllers
 
 
 
+        [HttpGet]
+        public async Task<dynamic> Fetch()
+        {
+            LoginResponse response = await UserService.FetchUser(ClientCredentials);
+
+            return new
+            {
+                email = response.Email,
+                name = response.Name,
+                login_type = response.LoginTypeName,
+                image_url = response.ImageURL,
+                user_token = response.TokenBody,
+                user_token_expires_in = response.TokenRemainingSeconds,
+                global_id = response.GlobalId,
+            };
+        }
+
+
+
         [HttpPost]
         [Route("login")]
         public async Task<dynamic> Login([FromBody] LoginRequestJson json)

@@ -99,11 +99,11 @@ namespace CloudHub.Tests
                 credentials.Nonce = nonce.Token;
                 LoginResponse response = await service.Login(credentials, new LoginRequest()
                 {
-                    Email = "abdlrhmanshehata@gmail.com",
+                    Email = "abdlrhman.shehata@gmail.com",
                     Passcode = "123456789",
                     LoginTypeId = LoginTypeValues.LOGIN_TYPE_BASIC
                 });
-                Assert.That(response.Email == "abdlrhmanshehata@gmail.com");
+                Assert.That(response.Email == "abdlrhman.shehata@gmail.com");
                 Assert.That(response.LoginTypeName == "Basic");
             });
         }

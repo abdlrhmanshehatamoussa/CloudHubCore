@@ -1,4 +1,5 @@
 ﻿using CloudHub.Business.DTO;
+using CloudHub.Crosscutting;
 using CloudHub.Domain.Entities;
 using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Repositories;
@@ -7,13 +8,27 @@ namespace CloudHub.Business.Services
 {
     public class UserService : BaseService
     {
-        public UserService(IUnitOfWork unitOfWork) : base(unitOfWork)
-        {
-        }
+        public UserService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
 
-        public Task<LoginResponse> RetrieveUserInfo(ConsumerCredentials consumerCredentials)
+        public async Task<LoginResponse> FetchUser(ConsumerCredentials consumerCredentials)
         {
-            throw new NotImplementedException();
+            ConsumerInfo consumerInfo = await GetConsumerInfo(consumerCredentials);
+            Nonce nonce = consumerInfo.Nonce ?? throw new InvalidNonceException();
+            UserToken token = consumerInfo.UserToken ?? throw new NotAuthenticatedException();
+            User user = token.User;
+
+            //Return the result
+            return new LoginResponse()
+            {
+                Email = user.Email,
+                TokenBody = token.Token,
+                GlobalId = user.GlobalId,
+                ImageURL = user.ImageUrl,
+                LoginTypeName = user.Login.LoginType.Name,
+                Name = user.Name,
+                TokenRemainingSeconds = token.RemainingSeconds,
+                TokenAgeSeconds = token.AgeSeconds,
+            };
         }
 
         public async Task<RegisterResponse> RegisterNewUser(ConsumerCredentials credentials, RegisterRequest dto)
@@ -34,7 +49,7 @@ namespace CloudHub.Business.Services
             user.ImageUrl = dto.ImageUrl;
             user.ApplicationId = consumerInfo.ClientApplication.ApplicationId;
             double timeStamp = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
-            user.GlobalId = String.Format("{0}{1}{2}", dto.Email, consumerInfo.ClientApplication.ApplicationId, timeStamp);
+            user.GlobalId = Utils.Hash256(String.Format("{0}{1}{2}", dto.Email, consumerInfo.ClientApplication.ApplicationId, timeStamp));
 
             user = await _unitOfWork.UsersRepository.Add(user);
 

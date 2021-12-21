@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CloudHub.Crosscutting\CloudHub.Crosscutting.csproj" />
-    <ProjectReference Include="..\CloudHub.Domain\CloudHub.Domain.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="6.0.1" />
   </ItemGroup>
 
 </Project>
