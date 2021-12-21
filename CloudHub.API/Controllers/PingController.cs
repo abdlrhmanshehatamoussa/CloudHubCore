@@ -1,5 +1,4 @@
 ﻿using CloudHub.Business.Services;
-using CloudHub.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers

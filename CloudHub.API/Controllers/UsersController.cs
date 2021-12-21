@@ -1,6 +1,6 @@
+using CloudHub.API.DTO;
 using CloudHub.Business.DTO;
 using CloudHub.Business.Services;
-using CloudHub.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers
@@ -79,21 +79,4 @@ namespace CloudHub.API.Controllers
         }
 
     }
-
-    public struct LoginRequestJson
-    {
-        public string email { get; set; }
-        public string password { get; set; }
-        public LoginTypeValues login_type { get; set; }
-    }
-
-    public struct RegisterRequestJson
-    {
-        public string name { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public string? image_url { get; set; }
-        public LoginTypeValues login_type { get; set; }
-    }
-
 }

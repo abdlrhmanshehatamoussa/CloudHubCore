@@ -86,6 +86,8 @@ namespace CloudHub.Business.Services
             return new RegisterResponse() { Email = user.Email, Name = user.Name, ImageURL = user.ImageUrl, GlobalId = user.GlobalId };
         }
 
+
+
         public async Task<LoginResponse> Login(ConsumerCredentials clientCredentials, LoginRequest dto)
         {
             ConsumerInfo consumerInfo = await GetConsumerInfo(clientCredentials);
