@@ -1,6 +1,6 @@
 ﻿using CloudHub.Domain.Entities;
 
-namespace CloudHub.Business.Services
+namespace CloudHub.Domain.Services
 {
     public struct ConsumerInfo
     { 

@@ -1,5 +1,5 @@
-﻿using CloudHub.API.DTO;
-using CloudHub.Business.Services;
+﻿using CloudHub.Domain.DTO;
+using CloudHub.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers
@@ -12,14 +12,17 @@ namespace CloudHub.API.Controllers
         private readonly UserActionService _userActionService;
 
         [HttpPost]
-        public async Task<dynamic> SaveActions([FromBody] ActionsSaveRequest request)
+        public async Task<dynamic> SaveActions([FromBody] UserActionCreationArrayWrapper request)
         {
-            var creationParams = request.actions.Select(a => a.ToObject()).ToList();
-            await _userActionService.SaveActions(ConsumerCredentials, creationParams);
+            await _userActionService.SaveActions(ConsumerCredentials, request.actions);
             return new
             {
-                inserted = 0
+                inserted = request.actions.Count()
             };
         }
+    }
+    public struct UserActionCreationArrayWrapper
+    {
+        public List<UserActionCreation> actions { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CloudHub.Business.DTO
+﻿namespace CloudHub.Domain.DTO
 {
     public struct ConsumerCredentials
     { 

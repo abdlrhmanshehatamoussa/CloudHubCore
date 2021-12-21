@@ -1,10 +1,10 @@
-using CloudHub.Business.DTO;
-using CloudHub.Business.Services;
 using CloudHub.Data;
 using CloudHub.Data.Repositories;
+using CloudHub.Domain.DTO;
 using CloudHub.Domain.Entities;
 using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Repositories;
+using CloudHub.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
@@ -33,12 +33,7 @@ namespace CloudHub.Tests
                 ApplicationGuid = "asdasd",
                 ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e"
             };
-            LoginRequest dto = new LoginRequest()
-            {
-                Email = "abdlrhmanshehata@gmail.com",
-                Passcode = "123456789",
-                LoginTypeId = LoginTypeValues.LOGIN_TYPE_BASIC
-            };
+            LoginRequest dto = new LoginRequest("abdlrhmanshehata@gmail.com", "123456789", LoginTypeValues.LOGIN_TYPE_BASIC);
             NotAuthenticatedException? ex = Assert.ThrowsAsync<NotAuthenticatedException>(async () =>
             {
                 await service.Login(credentials, dto);
@@ -49,12 +44,7 @@ namespace CloudHub.Tests
         public void ValidApplicationIdInvalidLogin()
         {
             ValidAppInvaldLoginRequest(
-                 new LoginRequest()
-                 {
-                     Email = "abdlrhmanshehata@gmail.com",
-                     Passcode = "123456789",
-                     LoginTypeId = 0
-                 }
+                 new LoginRequest("abdlrhmanshehata@gmail.com", "123456789", 0)
             );
         }
 
@@ -62,12 +52,7 @@ namespace CloudHub.Tests
         public void ValidApplicationInvalidEmail()
         {
             ValidAppInvaldLoginRequest(
-                  new LoginRequest()
-                  {
-                      Email = "!",
-                      Passcode = "123456789",
-                      LoginTypeId = LoginTypeValues.LOGIN_TYPE_BASIC
-                  }
+                  new LoginRequest("!", "123456789", LoginTypeValues.LOGIN_TYPE_BASIC)
              );
         }
 
@@ -75,12 +60,7 @@ namespace CloudHub.Tests
         public void ValidApplicationInvalidPassword()
         {
             ValidAppInvaldLoginRequest(
-                new LoginRequest()
-                {
-                    Email = "abdlrhmanshehata@gmail.com",
-                    Passcode = "123123",
-                    LoginTypeId = LoginTypeValues.LOGIN_TYPE_BASIC
-                }
+                new LoginRequest("abdlrhmanshehata@gmail.com", "123123", LoginTypeValues.LOGIN_TYPE_BASIC)
             );
         }
 
@@ -97,12 +77,7 @@ namespace CloudHub.Tests
                 };
                 Nonce nonce = await nonceService.GenereateNonce(credentials);
                 credentials.Nonce = nonce.Token;
-                LoginResponse response = await service.Login(credentials, new LoginRequest()
-                {
-                    Email = "abdlrhman.shehata@gmail.com",
-                    Passcode = "123456789",
-                    LoginTypeId = LoginTypeValues.LOGIN_TYPE_BASIC
-                });
+                LoginResponse response = await service.Login(credentials, new LoginRequest("abdlrhman.shehata@gmail.com", "123456789", LoginTypeValues.LOGIN_TYPE_BASIC));
                 Assert.That(response.Email == "abdlrhman.shehata@gmail.com");
                 Assert.That(response.LoginTypeName == "Basic");
             });

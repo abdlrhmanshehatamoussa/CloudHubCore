@@ -6,7 +6,7 @@
         public string ReleaseName { get; set; } = null!;
         public string Notes { get; set; } = null!;
         public int ApplicationId { get; set; }
-        public DateOnly ReleaseDate { get; set; }
+        public DateOnly ReleaseDate { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
 
         public virtual Application Application { get; set; } = null!;
     }

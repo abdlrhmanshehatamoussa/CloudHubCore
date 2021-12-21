@@ -1,4 +1,4 @@
-﻿using CloudHub.Business.DTO;
+﻿using CloudHub.Domain.DTO;
 using CloudHub.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 

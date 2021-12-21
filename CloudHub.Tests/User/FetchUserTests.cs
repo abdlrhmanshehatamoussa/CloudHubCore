@@ -1,17 +1,15 @@
-﻿using CloudHub.Business.DTO;
-using CloudHub.Business.Services;
-using CloudHub.Data;
+﻿using CloudHub.Data;
 using CloudHub.Data.Repositories;
+using CloudHub.Domain.DTO;
 using CloudHub.Domain.Entities;
 using CloudHub.Domain.Repositories;
+using CloudHub.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using System;
-using System.Linq;
 
 namespace CloudHub.Tests
 {
-    public class RegisterTests
+    public class FetchUserTests
     {
         private UserService userService = null!;
         private NonceService nonceService = null!;
@@ -34,31 +32,15 @@ namespace CloudHub.Tests
                 ConsumerCredentials credentials = new ConsumerCredentials()
                 {
                     ApplicationGuid = "12910e89-564c-42c8-ad0b-8529d4cd5e04",
-                    ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e"
+                    ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e",
+                    UserToken = "f139e8d9-1acb-444b-9903-62df96913e26e8d270e7-1aa9-41b4-8de8-ca0b00798a04"
                 };
                 Nonce nonce = await nonceService.GenereateNonce(credentials);
                 credentials.Nonce = nonce.Token;
-                string random = RandomString(8);
-                string email = random + "@gmail.com";
-                RegisterResponse response = await userService.RegisterNewUser(credentials, new RegisterRequest
-                 (
-                     email,
-                     "123456789",
-                     random,
-                     "",
-                     LoginTypeValues.LOGIN_TYPE_BASIC
-                 ));
-                Assert.That(response.Email == email);
+                LoginResponse response = await userService.FetchUser(credentials);
+                Assert.That(response.Email == "abdlrhmanshehata@gmail.com");
                 Assert.IsNotNull(response.GlobalId);
             });
-        }
-
-        private static Random random = new Random();
-        public static string RandomString(int length)
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

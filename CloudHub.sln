@@ -11,9 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Data", "CloudHub.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Tests", "CloudHub.Tests\CloudHub.Tests.csproj", "{645CAA17-AFA0-467E-8BE3-63ED7BFA5BD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudHub.Business", "CloudHub.Business\CloudHub.Business.csproj", "{F1DFF44E-09CA-497A-A966-9A7B0E4F97C1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudHub.Crosscutting", "CloudHub.Crosscutting\CloudHub.Crosscutting.csproj", "{47220EAF-8C56-414F-A89A-1A0893477F51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Crosscutting", "CloudHub.Crosscutting\CloudHub.Crosscutting.csproj", "{47220EAF-8C56-414F-A89A-1A0893477F51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +35,6 @@ Global
 		{645CAA17-AFA0-467E-8BE3-63ED7BFA5BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{645CAA17-AFA0-467E-8BE3-63ED7BFA5BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{645CAA17-AFA0-467E-8BE3-63ED7BFA5BD8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1DFF44E-09CA-497A-A966-9A7B0E4F97C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1DFF44E-09CA-497A-A966-9A7B0E4F97C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1DFF44E-09CA-497A-A966-9A7B0E4F97C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1DFF44E-09CA-497A-A966-9A7B0E4F97C1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{47220EAF-8C56-414F-A89A-1A0893477F51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{47220EAF-8C56-414F-A89A-1A0893477F51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47220EAF-8C56-414F-A89A-1A0893477F51}.Release|Any CPU.ActiveCfg = Release|Any CPU

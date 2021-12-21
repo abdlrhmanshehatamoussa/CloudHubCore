@@ -20,20 +20,20 @@ namespace CloudHub.API.Middlewares
             {
                 HttpResponse response = context.Response;
                 response.ContentType = "application/json";
-                string message = error.Message;
+                string message = string.Empty;
                 switch (error)
                 {
-                    case EntityNotFoundException:
+                    case UnprocessableEntityException:
                         response.StatusCode = 422;
                         break;
                     case NotAuthenticatedException:
                         response.StatusCode = 403;
                         break;
                     case ConsumedNonceException:
-                        response.StatusCode =  496;
+                        response.StatusCode = 496;
                         break;
                     case InvalidNonceException:
-                        response.StatusCode =  497;
+                        response.StatusCode = 497;
                         break;
                     case UserExistsException:
                         response.StatusCode = 494;
@@ -43,10 +43,21 @@ namespace CloudHub.API.Middlewares
                         break;
                     case MissingParameterException:
                         response.StatusCode = 423;
+                        message = error.Message;
+                        break;
+                    case EmptyResponseException:
+                        response.StatusCode = 204;
                         break;
                     default:
-                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        message = "Unhandled Error";
+                        if (error.Source == "Microsoft.Extensions.DependencyInjection.Abstractions")
+                        {
+                            response.StatusCode = 598;
+                        }
+                        else
+                        {
+                            response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                            message = "Unhandled Error";
+                        }
                         break;
                 }
                 await response.WriteAsync(message);

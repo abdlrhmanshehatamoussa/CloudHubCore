@@ -1,10 +1,10 @@
-﻿using CloudHub.Business.DTO;
+﻿using CloudHub.Domain.DTO;
 using CloudHub.Crosscutting;
 using CloudHub.Domain.Entities;
 using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Repositories;
 
-namespace CloudHub.Business.Services
+namespace CloudHub.Domain.Services
 {
     public class UserService : BaseService
     {
@@ -42,29 +42,29 @@ namespace CloudHub.Business.Services
             int nonceId = consumerInfo.Nonce?.Id ?? throw new InvalidNonceException();
 
             //Fetch user from database
-            User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.Email && u.ApplicationId == consumerInfo.ClientApplication.ApplicationId);
+            User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.email && u.ApplicationId == consumerInfo.ClientApplication.ApplicationId);
 
             //Check user
             if (user != null) { throw new UserExistsException(); }
 
             //Create user
             user = new User();
-            user.Email = dto.Email;
-            user.Name = dto.Name;
-            user.ImageUrl = dto.ImageUrl;
+            user.Email = dto.email;
+            user.Name = dto.name;
+            user.ImageUrl = dto.image_url;
             user.ApplicationId = consumerInfo.ClientApplication.ApplicationId;
             double timeStamp = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
-            user.GlobalId = Utils.Hash256(String.Format("{0}{1}{2}", dto.Email, consumerInfo.ClientApplication.ApplicationId, timeStamp));
+            user.GlobalId = Utils.Hash256(String.Format("{0}{1}{2}", dto.email, consumerInfo.ClientApplication.ApplicationId, timeStamp));
 
             user = await _unitOfWork.UsersRepository.Add(user);
 
             //Create Login
             Login login = new Login();
-            login.LoginTypeId = dto.LoginTypeId;
+            login.LoginTypeId = dto.login_type;
             login.User = user;
-            if (dto.LoginTypeId == LoginTypeValues.LOGIN_TYPE_BASIC)
+            if (dto.login_type == LoginTypeValues.LOGIN_TYPE_BASIC)
             {
-                login.Passcode = dto.Passcode;
+                login.Passcode = dto.password;
             }
             else
             {
@@ -95,7 +95,7 @@ namespace CloudHub.Business.Services
 
             //Fetch user from database
             User? user = await _unitOfWork.UsersRepository.FirstWhere(
-                (User u) => u.Email == dto.Email && u.ApplicationId == consumerInfo.ClientApplication.ApplicationId,
+                (User u) => u.Email == dto.email && u.ApplicationId == consumerInfo.ClientApplication.ApplicationId,
                 u => u.Application,
                 u => u.UserTokens,
                 u => u.Login,
@@ -106,9 +106,9 @@ namespace CloudHub.Business.Services
             if (user == null) { throw new NotAuthenticatedException(); }
 
             //Check user credentials
-            if (user.Login.LoginTypeId != dto.LoginTypeId) { throw new NotAuthenticatedException(); }
+            if (user.Login.LoginTypeId != dto.login_type) { throw new NotAuthenticatedException(); }
 
-            if (dto.LoginTypeId != LoginTypeValues.LOGIN_TYPE_BASIC)
+            if (dto.login_type != LoginTypeValues.LOGIN_TYPE_BASIC)
             {
                 //OAuthInfo info  = await ExchangeOAuthAccessToken(dto.Passcode, dto.LoginTypeId);
                 //if (info.Email != dto.Email) { throw new NotAuthenticatedException(); }
@@ -116,7 +116,7 @@ namespace CloudHub.Business.Services
             }
             else
             {
-                if (user.Login.Passcode != dto.Passcode) { throw new NotAuthenticatedException(); }
+                if (user.Login.Passcode != dto.password) { throw new NotAuthenticatedException(); }
             }
 
             //Delete all existing tokens

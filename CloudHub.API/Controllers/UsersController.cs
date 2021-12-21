@@ -1,6 +1,5 @@
-using CloudHub.API.DTO;
-using CloudHub.Business.DTO;
-using CloudHub.Business.Services;
+using CloudHub.Domain.DTO;
+using CloudHub.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers
@@ -35,14 +34,8 @@ namespace CloudHub.API.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<dynamic> Login([FromBody] LoginRequestJson json)
+        public async Task<dynamic> Login([FromBody] LoginRequest request)
         {
-            LoginRequest request = new LoginRequest()
-            {
-                Email = json.email,
-                Passcode = json.password,
-                LoginTypeId = json.login_type
-            };
             LoginResponse response = await _userService.Login(ConsumerCredentials, request);
 
             return new
@@ -59,9 +52,8 @@ namespace CloudHub.API.Controllers
 
 
         [HttpPost]
-        public async Task<dynamic> Register([FromBody] RegisterRequestJson json)
+        public async Task<dynamic> Register([FromBody] RegisterRequest request)
         {
-            RegisterRequest request = new RegisterRequest(json.email, json.password, json.name, json.image_url, json.login_type);
             RegisterResponse response = await _userService.RegisterNewUser(ConsumerCredentials, request);
 
             return new

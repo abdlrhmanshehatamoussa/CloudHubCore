@@ -1,8 +1,8 @@
-﻿using CloudHub.Business.DTO;
+﻿using CloudHub.Domain.DTO;
 using CloudHub.Domain.Entities;
 using CloudHub.Domain.Repositories;
 
-namespace CloudHub.Business.Services
+namespace CloudHub.Domain.Services
 {
     public class NonceService : BaseService
     {

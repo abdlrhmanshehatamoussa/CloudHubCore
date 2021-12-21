@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CloudHub.Crosscutting\CloudHub.Crosscutting.csproj" />
+  </ItemGroup>
+
 </Project>

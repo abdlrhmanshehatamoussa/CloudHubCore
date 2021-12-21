@@ -1,9 +1,9 @@
-﻿using CloudHub.Business.DTO;
+﻿using CloudHub.Domain.DTO;
 using CloudHub.Domain.Entities;
 using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Repositories;
 
-namespace CloudHub.Business.Services
+namespace CloudHub.Domain.Services
 {
 
     public class BaseService
@@ -53,8 +53,8 @@ namespace CloudHub.Business.Services
         {
             Nonce? nonce = await _unitOfWork.NoncesRepository.GetByPk(nonceId);
             if (nonce == null) { throw new Exception("Nonce not found"); }
-            nonce.ConsumedOn = DateTime.UtcNow;
-            _unitOfWork.NoncesRepository.Update(nonce);
+            //nonce.ConsumedOn = DateTime.UtcNow;
+            //_unitOfWork.NoncesRepository.Update(nonce);
         }
     }
 }

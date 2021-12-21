@@ -56,6 +56,11 @@ namespace CloudHub.Data.Repositories
             return results;
         }
 
+        public Task<bool> Any(Expression<Func<T, bool>> expression)
+        {
+            return DbSet.AnyAsync(expression);
+        }
+
         public async Task<T?> FirstWhere(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = DbSet.Where(expression);
