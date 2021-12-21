@@ -17,6 +17,11 @@ namespace CloudHub.Business.Services
             UserToken token = consumerInfo.UserToken ?? throw new NotAuthenticatedException();
             User user = token.User;
 
+
+            //Consume Nonce
+            await ConsumeNonce(nonce.Id);
+            await _unitOfWork.Save();
+
             //Return the result
             return new LoginResponse()
             {

@@ -1,4 +1,5 @@
-﻿using CloudHub.Domain.Repositories;
+﻿using CloudHub.Business.Services;
+using CloudHub.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers
@@ -7,16 +8,24 @@ namespace CloudHub.API.Controllers
     [Route("ping")]
     public class PingController : BasicController
     {
-        private readonly APISettings apiSettings;
+        public PingController(APISettings apiSettings, BaseService baseService)
+        {
+            this.apiSettings = apiSettings;
+            BaseService = baseService;
+        }
 
-        public PingController(IUnitOfWork unitOfWork, APISettings apiSettings) : base(unitOfWork) => this.apiSettings = apiSettings;
+        private readonly APISettings apiSettings;
+        private readonly BaseService BaseService;
+
 
         [HttpGet]
-        public dynamic Ping()
+        public async Task<dynamic> Ping()
         {
+            ConsumerInfo info = await BaseService.GetConsumerInfo(ConsumerCredentials);
             return new
             {
                 timestamp = DateTime.Now,
+                application = info.ClientApplication.Application.Name,
                 build_id = apiSettings.BuildId,
                 environment = apiSettings.Environment
             };

@@ -1,6 +1,5 @@
 ﻿using CloudHub.Business.Services;
 using CloudHub.Domain.Entities;
-using CloudHub.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers
@@ -8,14 +7,15 @@ namespace CloudHub.API.Controllers
     [Route("nonce")]
     public class NoncesController : BasicController
     {
-        public NoncesController(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+        public NoncesController(NonceService nonceService) => this._nonceService = nonceService;
 
-        private NonceService nonceService => new NonceService(unitOfWork);
-        
+        private readonly NonceService _nonceService;
+
+
         [HttpPost]
         public async Task<dynamic> Post()
         {
-            Nonce nonce = await nonceService.GenereateNonce(ClientCredentials);
+            Nonce nonce = await _nonceService.GenereateNonce(ConsumerCredentials);
             return new { 
                 token = nonce.Token,
                 created_on = nonce.CreatedOn.ToString()

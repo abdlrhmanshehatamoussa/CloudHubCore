@@ -1,5 +1,7 @@
 using CloudHub.API;
+using CloudHub.API.Filters;
 using CloudHub.API.Middlewares;
+using CloudHub.Business.Services;
 using CloudHub.Data;
 using CloudHub.Data.Repositories;
 using CloudHub.Domain.Repositories;
@@ -19,10 +21,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<MyDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<BaseService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<NonceService>();
 builder.Services.AddSingleton<APISettings>((_) => settings);
-builder.Services.AddControllers(
-    //options => options.Filters.Add<ExtractSessionFilter>()
-);
+builder.Services.AddControllers(options => options.Filters.Add<ConsumerCredentialsFilter>());
 
 //Swagger
 builder.Services.AddEndpointsApiExplorer();

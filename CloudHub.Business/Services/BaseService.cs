@@ -12,7 +12,7 @@ namespace CloudHub.Business.Services
 
         public BaseService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
-        protected async Task<ConsumerInfo> GetConsumerInfo(ConsumerCredentials credentials)
+        public async Task<ConsumerInfo> GetConsumerInfo(ConsumerCredentials credentials)
         {
             Client? client = await _unitOfWork.ClientsRepository.FirstWhere(c => c.ClientKey == credentials.ClientKey, c => c.ClientsApplications);
             if (client == null) { throw new NotAuthenticatedException(); }

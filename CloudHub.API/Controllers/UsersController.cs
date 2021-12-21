@@ -1,7 +1,6 @@
 using CloudHub.Business.DTO;
 using CloudHub.Business.Services;
 using CloudHub.Domain.Entities;
-using CloudHub.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers
@@ -10,16 +9,15 @@ namespace CloudHub.API.Controllers
     [Route("users")]
     public class UsersController : BasicController
     {
-        public UsersController(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+        public UsersController(UserService userService) => _userService = userService;
 
-        private UserService UserService => new UserService(unitOfWork);
-
+        private UserService _userService;
 
 
         [HttpGet]
         public async Task<dynamic> Fetch()
         {
-            LoginResponse response = await UserService.FetchUser(ClientCredentials);
+            LoginResponse response = await _userService.FetchUser(ConsumerCredentials);
 
             return new
             {
@@ -45,7 +43,7 @@ namespace CloudHub.API.Controllers
                 Passcode = json.password,
                 LoginTypeId = json.login_type
             };
-            LoginResponse response = await UserService.Login(ClientCredentials, request);
+            LoginResponse response = await _userService.Login(ConsumerCredentials, request);
 
             return new
             {
@@ -64,7 +62,7 @@ namespace CloudHub.API.Controllers
         public async Task<dynamic> Register([FromBody] RegisterRequestJson json)
         {
             RegisterRequest request = new RegisterRequest(json.email, json.password, json.name, json.image_url, json.login_type);
-            RegisterResponse response = await UserService.RegisterNewUser(ClientCredentials, request);
+            RegisterResponse response = await _userService.RegisterNewUser(ConsumerCredentials, request);
 
             return new
             {
