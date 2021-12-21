@@ -38,6 +38,9 @@ namespace CloudHub.API.Middlewares
                     case UserExistsException:
                         response.StatusCode = 494;
                         break;
+                    case ExpiredTokenException:
+                        response.StatusCode = 498;
+                        break;
                     default:
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         message = "Unhandled Error";

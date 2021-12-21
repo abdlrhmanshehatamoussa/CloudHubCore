@@ -31,12 +31,16 @@ namespace CloudHub.Tests
         {
             Assert.DoesNotThrowAsync(async () =>
             {
-                ClientCredentials clientCredentials = new ClientCredentials("12910e89-564c-42c8-ad0b-8529d4cd5e04", "f7ebe638-3f34-4dbe-b0c7-65104794ce9e");
-                string nonce = await nonceService.GenereateNonce(clientCredentials);
-                clientCredentials.Nonce = nonce;
+                ConsumerCredentials credentials = new ConsumerCredentials()
+                {
+                    ApplicationGuid = "12910e89-564c-42c8-ad0b-8529d4cd5e04",
+                    ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e"
+                };
+                Nonce nonce = await nonceService.GenereateNonce(credentials);
+                credentials.Nonce = nonce.Token;
                 string random = RandomString(8);
                 string email = random + "@gmail.com";
-                RegisterResponse response = await userService.RegisterNewUser(clientCredentials, new RegisterRequest
+                RegisterResponse response = await userService.RegisterNewUser(credentials, new RegisterRequest
                  (
                      email,
                      "123456789",

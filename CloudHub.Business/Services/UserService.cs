@@ -11,18 +11,18 @@ namespace CloudHub.Business.Services
         {
         }
 
-        public Task<LoginResponse> RetrieveUserInfo(UserCredentials userCredentials)
+        public Task<LoginResponse> RetrieveUserInfo(ConsumerCredentials consumerCredentials)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<RegisterResponse> RegisterNewUser(ClientCredentials clientCredentials, RegisterRequest dto)
+        public async Task<RegisterResponse> RegisterNewUser(ConsumerCredentials credentials, RegisterRequest dto)
         {
-            ClientInfo clientInfo = await GetClientInfo(clientCredentials);
-            int nonceId = clientInfo.NonceId ?? throw new InvalidNonceException();
+            ConsumerInfo consumerInfo = await GetConsumerInfo(credentials);
+            int nonceId = consumerInfo.Nonce?.Id ?? throw new InvalidNonceException();
 
             //Fetch user from database
-            User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.Email && u.ApplicationId == clientInfo.ApplicationId);
+            User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.Email && u.ApplicationId == consumerInfo.ClientApplication.ApplicationId);
 
             //Check user
             if (user != null) { throw new UserExistsException(); }
@@ -32,9 +32,9 @@ namespace CloudHub.Business.Services
             user.Email = dto.Email;
             user.Name = dto.Name;
             user.ImageUrl = dto.ImageUrl;
-            user.ApplicationId = clientInfo.ApplicationId;
+            user.ApplicationId = consumerInfo.ClientApplication.ApplicationId;
             double timeStamp = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
-            user.GlobalId = String.Format("{0}{1}{2}", dto.Email, clientInfo.ApplicationId, timeStamp);
+            user.GlobalId = String.Format("{0}{1}{2}", dto.Email, consumerInfo.ClientApplication.ApplicationId, timeStamp);
 
             user = await _unitOfWork.UsersRepository.Add(user);
 
@@ -66,14 +66,14 @@ namespace CloudHub.Business.Services
             return new RegisterResponse() { Email = user.Email, Name = user.Name, ImageURL = user.ImageUrl, GlobalId = user.GlobalId };
         }
 
-        public async Task<LoginResponse> Login(ClientCredentials clientCredentials, LoginRequest dto)
+        public async Task<LoginResponse> Login(ConsumerCredentials clientCredentials, LoginRequest dto)
         {
-            ClientInfo clientInfo = await GetClientInfo(clientCredentials);
-            int nonceId = clientInfo.NonceId ?? throw new InvalidNonceException();
+            ConsumerInfo consumerInfo = await GetConsumerInfo(clientCredentials);
+            int nonceId = consumerInfo.Nonce?.Id ?? throw new InvalidNonceException();
 
             //Fetch user from database
             User? user = await _unitOfWork.UsersRepository.FirstWhere(
-                (User u) => u.Email == dto.Email && u.ApplicationId == clientInfo.ApplicationId,
+                (User u) => u.Email == dto.Email && u.ApplicationId == consumerInfo.ClientApplication.ApplicationId,
                 u => u.Application,
                 u => u.UserTokens,
                 u => u.Login,

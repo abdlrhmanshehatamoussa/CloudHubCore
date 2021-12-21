@@ -11,36 +11,25 @@ namespace CloudHub.API.Controllers
 
         protected readonly IUnitOfWork unitOfWork;
 
-        protected ClientCredentials ClientCredentials
+        protected ConsumerCredentials ClientCredentials
         {
             get
             {
                 string clientKey = HttpContext.Request.Headers[Constants.HEADERS_CLIENT_KEY];
                 string applicationGuid = HttpContext.Request.Headers[Constants.HEADERS_APP_GUID];
                 string nonce = HttpContext.Request.Headers[Constants.HEADERS_NONCE];
+                string userToken = HttpContext.Request.Headers[Constants.HEADERS_USER_TOKEN];
 
                 if (string.IsNullOrWhiteSpace(clientKey) || string.IsNullOrWhiteSpace(applicationGuid)) { throw new NotAuthenticatedException(); }
 
-                return new ClientCredentials(
-                    applicationGuid: applicationGuid,
-                    clientKey: clientKey,
-                    nonce: nonce
-                );
+                return new ConsumerCredentials()
+                {
+                    ApplicationGuid = applicationGuid,
+                    ClientKey = clientKey,
+                    Nonce = nonce,
+                    UserToken = userToken
+                };
             }
         }
-
-        //protected UserCredentials UserCredentials
-        //{
-        //    get
-        //    {
-        //        string clientKey = HttpContext.Request.Headers[Constants.HEADERS_CLIENT_KEY];
-        //        string applicationGuid = HttpContext.Request.Headers[Constants.HEADERS_APP_GUID];
-        //        string nonce = HttpContext.Request.Headers[Constants.HEADERS_NONCE];
-
-        //        if (string.IsNullOrWhiteSpace(clientKey) || string.IsNullOrWhiteSpace(applicationGuid)) { throw new NotAuthenticatedException(); }
-
-        //        //return new UserCredentials(applicationGuid, clientKey, nonce);
-        //    }
-        //}
     }
 }

@@ -10,12 +10,12 @@ namespace CloudHub.Business.Services
         {
         }
 
-        public async Task<Nonce> GenereateNonce(ClientCredentials credentials)
+        public async Task<Nonce> GenereateNonce(ConsumerCredentials credentials)
         {
-            ClientInfo clientInfo = await GetClientInfo(credentials);
+            ConsumerInfo consumerInfo = await GetConsumerInfo(credentials);
             Nonce nonce = new Nonce();
-            nonce.ClientId = clientInfo.ClientId;
-            nonce.ApplicationId = clientInfo.ApplicationId;
+            nonce.ClientId = consumerInfo.ClientApplication.ClientId;
+            nonce.ApplicationId = consumerInfo.ClientApplication.ApplicationId;
             nonce.GenerateToken();
             nonce = await _unitOfWork.NoncesRepository.Add(nonce);
             await _unitOfWork.Save();
