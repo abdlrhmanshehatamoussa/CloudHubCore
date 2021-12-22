@@ -28,6 +28,7 @@ namespace CloudHub.API.Controllers
         [HttpPost]
         public Task<dynamic> Purchase()
         {
+            //TODO: Implement
             throw new NotImplementedException();
         }
 
@@ -36,6 +37,7 @@ namespace CloudHub.API.Controllers
         [Route("validate")]
         public Task<dynamic> Validate()
         {
+            //TODO: Implement
             throw new NotImplementedException();
         }
     }
