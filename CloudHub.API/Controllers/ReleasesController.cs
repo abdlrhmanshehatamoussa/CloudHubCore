@@ -24,9 +24,9 @@ namespace CloudHub.API.Controllers
         }
 
         [HttpGet]
-        public async Task<dynamic> Fetch()
+        public async Task<dynamic> FetchAll()
         {
-            List<Release> releases = await _releaseService.Fetch(ConsumerCredentials);
+            List<Release> releases = await _releaseService.FetchAll(ConsumerCredentials);
             return releases.Select(r => GetResponse(r));
         }
 

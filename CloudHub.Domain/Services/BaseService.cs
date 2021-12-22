@@ -8,9 +8,16 @@ namespace CloudHub.Domain.Services
 
     public class BaseService
     {
+        public BaseService(IUnitOfWork unitOfWork, IProductionModeProvider productionModeProvider)
+        {
+            _unitOfWork = unitOfWork;
+            this.productionModeProvider = productionModeProvider;
+        }
+        
+        
         protected readonly IUnitOfWork _unitOfWork;
+        protected readonly IProductionModeProvider productionModeProvider;
 
-        public BaseService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
         public async Task<ConsumerInfo> GetConsumerInfo(ConsumerCredentials credentials)
         {
@@ -37,6 +44,7 @@ namespace CloudHub.Domain.Services
             {
                 userToken = await _unitOfWork.UserTokensRepository.FirstWhere(t => t.Token == credentials.UserToken, t => t.User, t => t.User.Login, t => t.User.Login.LoginType);
                 if (userToken == null) { throw new NotAuthenticatedException(); }
+                if (userToken.User.ApplicationId != app.Id) { throw new NotAuthenticatedException(); }
                 if (userToken.Active != true || userToken.RemainingSeconds <= 30) { throw new ExpiredTokenException(); }
 
             }
@@ -51,10 +59,12 @@ namespace CloudHub.Domain.Services
 
         protected async Task ConsumeNonce(int nonceId)
         {
+            if (productionModeProvider.IsProductionModeEnabled == false) { return; }
             Nonce? nonce = await _unitOfWork.NoncesRepository.GetByPk(nonceId);
             if (nonce == null) { throw new Exception("Nonce not found"); }
-            //nonce.ConsumedOn = DateTime.UtcNow;
-            //_unitOfWork.NoncesRepository.Update(nonce);
+            nonce.ConsumedOn = DateTime.UtcNow;
+            _unitOfWork.NoncesRepository.Update(nonce);
+
         }
     }
 }

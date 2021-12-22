@@ -8,7 +8,9 @@ namespace CloudHub.Domain.Services
 
     public class UserActionService : BaseService
     {
-        public UserActionService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+        public UserActionService(IUnitOfWork unitOfWork, IProductionModeProvider productionModeProvider) : base(unitOfWork, productionModeProvider)
+        {
+        }
 
         public async Task SaveActions(ConsumerCredentials credentials, List<UserActionCreation> creationParams)
         {

@@ -10,4 +10,8 @@
     <ProjectReference Include="..\CloudHub.Crosscutting\CloudHub.Crosscutting.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTO\Feature\" />
+  </ItemGroup>
+
 </Project>

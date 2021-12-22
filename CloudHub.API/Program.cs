@@ -8,7 +8,7 @@ using CloudHub.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
 
-//Load App settings
+//TODO: Load App settings from configurations instead of hard-coded
 string buildId = "000";
 string envName = "Development";
 string connectionString = "Host=127.0.0.1;Database=cloudhub-api2;Username=postgres;Password=123456";
@@ -21,12 +21,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<MyDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IProductionModeProvider>((_) => settings);
 builder.Services.AddScoped<BaseService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<NonceService>();
 builder.Services.AddScoped<ReleaseService>();
 builder.Services.AddScoped<FeatureService>();
 builder.Services.AddScoped<UserActionService>();
+builder.Services.AddScoped<PurchaseService>();
 builder.Services.AddSingleton<APISettings>((_) => settings);
 builder.Services.AddControllers(options => options.Filters.Add<ConsumerCredentialsFilter>());
 

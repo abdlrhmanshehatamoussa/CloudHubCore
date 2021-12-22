@@ -7,7 +7,9 @@ namespace CloudHub.Domain.Services
 {
     public class ReleaseService : BaseService
     {
-        public ReleaseService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+        public ReleaseService(IUnitOfWork unitOfWork, IProductionModeProvider productionModeProvider) : base(unitOfWork, productionModeProvider)
+        {
+        }
 
         public async Task<Release> Save(ConsumerCredentials consumerCredentials, ReleaseCreation request)
         {
@@ -26,7 +28,7 @@ namespace CloudHub.Domain.Services
             return release;
         }
 
-        public async Task<List<Release>> Fetch(ConsumerCredentials consumerCredentials)
+        public async Task<List<Release>> FetchAll(ConsumerCredentials consumerCredentials)
         {
             ConsumerInfo info = await GetConsumerInfo(consumerCredentials);
             int nonceId = info.Nonce?.Id ?? throw new InvalidNonceException();

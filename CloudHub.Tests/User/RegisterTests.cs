@@ -5,6 +5,7 @@ using CloudHub.Domain.Entities;
 using CloudHub.Domain.Repositories;
 using CloudHub.Domain.Services;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using NUnit.Framework;
 using System;
 using System.Linq;
@@ -22,8 +23,10 @@ namespace CloudHub.Tests
             DbContextOptionsBuilder<MyDbContext> builder = new DbContextOptionsBuilder<MyDbContext>();
             builder.UseNpgsql(Constants.PSQL_HOST);
             IUnitOfWork unitOfWork = new UnitOfWork(new MyDbContext(builder.Options));
-            userService = new UserService(unitOfWork);
-            nonceService = new NonceService(unitOfWork);
+            Mock<IProductionModeProvider> mock = new Mock<IProductionModeProvider>();
+            mock.Setup(x => x.IsProductionModeEnabled).Returns(false);
+            userService = new UserService(unitOfWork, mock.Object);
+            nonceService = new NonceService(unitOfWork, mock.Object);
         }
 
         [Test]

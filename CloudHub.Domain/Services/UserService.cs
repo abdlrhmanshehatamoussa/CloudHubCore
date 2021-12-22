@@ -8,7 +8,9 @@ namespace CloudHub.Domain.Services
 {
     public class UserService : BaseService
     {
-        public UserService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+        public UserService(IUnitOfWork unitOfWork, IProductionModeProvider productionModeProvider) : base(unitOfWork, productionModeProvider)
+        {
+        }
 
         public async Task<LoginResponse> FetchUser(ConsumerCredentials consumerCredentials)
         {
@@ -68,6 +70,7 @@ namespace CloudHub.Domain.Services
             }
             else
             {
+                //TODO: Implement
                 //OAuthInfo info  = await ExchangeOAuthAccessToken(dto.Passcode, dto.LoginTypeId);
                 //if (info.Email != dto.Email) { throw new NotAuthenticatedException(); }
                 //login.Passcode = info.OAuthOpenId;
@@ -110,6 +113,7 @@ namespace CloudHub.Domain.Services
 
             if (dto.login_type != LoginTypeValues.LOGIN_TYPE_BASIC)
             {
+                //TODO: Implement
                 //OAuthInfo info  = await ExchangeOAuthAccessToken(dto.Passcode, dto.LoginTypeId);
                 //if (info.Email != dto.Email) { throw new NotAuthenticatedException(); }
                 throw new NotImplementedException();

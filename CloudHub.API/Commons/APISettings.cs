@@ -1,6 +1,8 @@
-﻿namespace CloudHub.API
+﻿using CloudHub.Domain.Services;
+
+namespace CloudHub.API
 {
-    public class APISettings
+    public class APISettings: IProductionModeProvider
     {
         public APISettings(string environment, string buildId, bool isProduction, string connectionString)
         {
@@ -14,5 +16,7 @@
         public string BuildId { get; set; }
         public bool IsProduction { get; set; }
         public string ConnectionString { get; set; }
+
+        public bool IsProductionModeEnabled => IsProduction;
     }
 }
