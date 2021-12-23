@@ -1,6 +1,6 @@
 ﻿namespace CloudHub.Domain.Services
 {
-    public interface IProductionModeProvider
+    public interface IServiceConfigurations
     {
         bool IsProductionModeEnabled { get; }
     }

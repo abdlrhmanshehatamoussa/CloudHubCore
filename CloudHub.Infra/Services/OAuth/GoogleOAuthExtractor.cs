@@ -3,11 +3,11 @@ using System.Text.Json;
 
 namespace CloudHub.Infra.Services
 {
-    internal class GoogleOAuthExtractor : IOAuthExtractor
+    public class GoogleOAuthExtractor : IOAuthExtractor
     {
+        public GoogleOAuthExtractor(IGoogleServicesConfigurations googleServicesConfigurations) => this.googleServicesConfigurations = googleServicesConfigurations;
 
-        //TODO: Pass this as a constructor class (IGoogleOAuthExtractorConfigurations)
-        private const string GOOGLE_OAUTH_BASE_URL = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=";
+        private readonly IGoogleServicesConfigurations googleServicesConfigurations;
 
         public OAuthUser ExtractUser(string body)
         {
@@ -20,8 +20,8 @@ namespace CloudHub.Infra.Services
 
         public string BuildURL(string token)
         {
-            if (string.IsNullOrWhiteSpace(token)) { throw new ArgumentNullException("OAuth token cannot be empty"); }
-            string url = string.Format("{0}{1}", GOOGLE_OAUTH_BASE_URL, token);
+            if (string.IsNullOrWhiteSpace(token)) { throw new ArgumentNullException(nameof(token)); }
+            string url = string.Format("{0}{1}", googleServicesConfigurations.GoogleTokenInfoApiUrl, token);
             return url;
         }
 

@@ -8,7 +8,7 @@ namespace CloudHub.Domain.Services
 
     public class BaseService
     {
-        public BaseService(IUnitOfWork unitOfWork, IProductionModeProvider productionModeProvider)
+        public BaseService(IUnitOfWork unitOfWork, IServiceConfigurations productionModeProvider)
         {
             _unitOfWork = unitOfWork;
             this.productionModeProvider = productionModeProvider;
@@ -16,7 +16,7 @@ namespace CloudHub.Domain.Services
         
         
         protected readonly IUnitOfWork _unitOfWork;
-        protected readonly IProductionModeProvider productionModeProvider;
+        protected readonly IServiceConfigurations productionModeProvider;
 
 
         public async Task<ConsumerInfo> GetConsumerInfo(ConsumerCredentials credentials)

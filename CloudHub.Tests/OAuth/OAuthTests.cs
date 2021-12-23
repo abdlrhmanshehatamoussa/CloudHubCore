@@ -1,6 +1,7 @@
 ﻿using CloudHub.Domain.Entities;
 using CloudHub.Domain.Services;
 using CloudHub.Infra.Services;
+using Moq;
 using NUnit.Framework;
 using System;
 
@@ -13,7 +14,9 @@ namespace CloudHub.Tests.OAuth
         [SetUp]
         public void Setup()
         {
-            oAuthService = new OAuthService();
+            Mock<IGoogleServicesConfigurations> mock = new();
+            mock.Setup(x => x.GoogleTokenInfoApiUrl).Returns("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=");
+            oAuthService = new OAuthService(new GoogleOAuthExtractor(mock.Object));
         }
 
         [Test]

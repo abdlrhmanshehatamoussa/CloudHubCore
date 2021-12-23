@@ -8,7 +8,7 @@ namespace CloudHub.Domain.Services
 
     public class UserActionService : BaseService
     {
-        public UserActionService(IUnitOfWork unitOfWork, IProductionModeProvider productionModeProvider) : base(unitOfWork, productionModeProvider)
+        public UserActionService(IUnitOfWork unitOfWork, IServiceConfigurations productionModeProvider) : base(unitOfWork, productionModeProvider)
         {
         }
 

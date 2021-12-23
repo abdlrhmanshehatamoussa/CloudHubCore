@@ -7,13 +7,13 @@ namespace CloudHub.API.Controllers
     [Route("ping")]
     public class PingController : BasicController
     {
-        public PingController(APISettings apiSettings, BaseService baseService)
+        public PingController(APIConfigurations apiSettings, BaseService baseService)
         {
             this.apiSettings = apiSettings;
             BaseService = baseService;
         }
 
-        private readonly APISettings apiSettings;
+        private readonly APIConfigurations apiSettings;
         private readonly BaseService BaseService;
 
 

@@ -8,22 +8,28 @@ using CloudHub.Infra.Services;
 using Microsoft.EntityFrameworkCore;
 
 
-//TODO: Load App settings from configurations instead of hard-coded
-string buildId = "000";
-string envName = "Development";
-string connectionString = "Host=127.0.0.1;Database=cloudhub-api2;Username=postgres;Password=123456";
-bool isProduction = false;
-APISettings settings = new APISettings(envName, buildId, isProduction, connectionString);
+var configurationBuilder = new ConfigurationBuilder().SetBasePath(AppContext.BaseDirectory).AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+IConfiguration configuration = configurationBuilder.Build();
+
+string buildId = configuration.GetValue<string>("build_id");
+string envName = configuration.GetValue<string>("env");
+string connectionString = configuration.GetValue<string>("api_database");
+bool isProduction = configuration.GetValue<bool>("production_mode");
+string googleTokenInfoApiUrl = configuration.GetValue<string>("google_token_info_api_url");
+
+APIConfigurations settings = new(envName, buildId, isProduction, connectionString, googleTokenInfoApiUrl);
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<APISettings>((_) => settings);
-builder.Services.AddScoped<IOAuthService,OAuthService>();
+builder.Services.AddScoped<APIConfigurations>((_) => settings);
+builder.Services.AddScoped<IGoogleServicesConfigurations>((_) => settings);
+builder.Services.AddScoped<GoogleOAuthExtractor>();
+builder.Services.AddScoped<IOAuthService, OAuthService>();
 builder.Services.AddDbContext<MyDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IProductionModeProvider>((_) => settings);
+builder.Services.AddScoped<IServiceConfigurations>((_) => settings);
 builder.Services.AddScoped<BaseService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<NonceService>();

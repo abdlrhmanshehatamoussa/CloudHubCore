@@ -12,17 +12,17 @@ namespace CloudHub.Tests
 {
     public class LoginTests
     {
-        private UserService service = null!;
+        private readonly UserService service = null!;
 
         [SetUp]
         public void Setup()
         {
-            DbContextOptionsBuilder<MyDbContext> builder = new DbContextOptionsBuilder<MyDbContext>();
+            DbContextOptionsBuilder<MyDbContext> builder = new();
             //TODO: Replace database connection with test stubs
             builder.UseNpgsql(Constants.PSQL_HOST);
 
             IUnitOfWork unitOfWork = new UnitOfWork(new MyDbContext(builder.Options));
-            Mock<IProductionModeProvider> mock = new Mock<IProductionModeProvider>();
+            Mock<IServiceConfigurations> mock = new();
             mock.Setup(x => x.IsProductionModeEnabled).Returns(false);
 
             //TODO: 
@@ -32,12 +32,12 @@ namespace CloudHub.Tests
         [Test]
         public void InValidApplicationGuidValidLogin()
         {
-            ConsumerCredentials credentials = new ConsumerCredentials()
+            ConsumerCredentials credentials = new()
             {
                 ApplicationGuid = "asdasd",
                 ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e"
             };
-            LoginRequest dto = new LoginRequest("abdlrhmanshehata@gmail.com", "123456789", LoginTypeValues.LOGIN_TYPE_BASIC);
+            LoginRequest dto = new("abdlrhmanshehata@gmail.com", "123456789", LoginTypeValues.LOGIN_TYPE_BASIC);
             NotAuthenticatedException? ex = Assert.ThrowsAsync<NotAuthenticatedException>(async () =>
             {
                 await service.Login(credentials, dto);
@@ -74,7 +74,7 @@ namespace CloudHub.Tests
         {
             Assert.DoesNotThrowAsync(async () =>
             {
-                ConsumerCredentials credentials = new ConsumerCredentials()
+                ConsumerCredentials credentials = new()
                 {
                     ApplicationGuid = "12910e89-564c-42c8-ad0b-8529d4cd5e04",
                     ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e",
@@ -91,7 +91,7 @@ namespace CloudHub.Tests
 
             Assert.ThrowsAsync<NotAuthenticatedException>(async () =>
             {
-                ConsumerCredentials credentials = new ConsumerCredentials()
+                ConsumerCredentials credentials = new()
                 {
                     ApplicationGuid = "12910e89-564c-42c8-ad0b-8529d4cd5e04",
                     ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e",

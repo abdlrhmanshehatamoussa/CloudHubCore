@@ -5,7 +5,7 @@ namespace CloudHub.Infra.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        MyDbContext _dbContext;
+        private readonly MyDbContext _dbContext;
 
         public UnitOfWork(MyDbContext context) => _dbContext = context;
 

@@ -13,16 +13,16 @@ namespace CloudHub.Tests
 {
     public class RegisterTests
     {
-        private UserService userService = null!;
+        private readonly UserService userService = null!;
         private NonceService nonceService = null!;
 
         [SetUp]
         public void Setup()
         {
-            DbContextOptionsBuilder<MyDbContext> builder = new DbContextOptionsBuilder<MyDbContext>();
+            DbContextOptionsBuilder<MyDbContext> builder = new();
             builder.UseNpgsql(Constants.PSQL_HOST);
             IUnitOfWork unitOfWork = new UnitOfWork(new MyDbContext(builder.Options));
-            Mock<IProductionModeProvider> mock = new Mock<IProductionModeProvider>();
+            Mock<IServiceConfigurations> mock = new();
             mock.Setup(x => x.IsProductionModeEnabled).Returns(false);
             //userService = new UserService(unitOfWork, mock.Object);
             nonceService = new NonceService(unitOfWork, mock.Object);
@@ -33,7 +33,7 @@ namespace CloudHub.Tests
         {
             Assert.DoesNotThrowAsync(async () =>
             {
-                ConsumerCredentials credentials = new ConsumerCredentials()
+                ConsumerCredentials credentials = new()
                 {
                     ApplicationGuid = "12910e89-564c-42c8-ad0b-8529d4cd5e04",
                     ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e"
@@ -55,7 +55,7 @@ namespace CloudHub.Tests
             });
         }
 
-        private static Random random = new Random();
+        private static readonly Random random = new();
         public static string RandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

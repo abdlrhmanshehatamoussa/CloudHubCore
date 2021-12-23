@@ -7,7 +7,7 @@ namespace CloudHub.Domain.Services
 {
     public class ReleaseService : BaseService
     {
-        public ReleaseService(IUnitOfWork unitOfWork, IProductionModeProvider productionModeProvider) : base(unitOfWork, productionModeProvider)
+        public ReleaseService(IUnitOfWork unitOfWork, IServiceConfigurations productionModeProvider) : base(unitOfWork, productionModeProvider)
         {
         }
 

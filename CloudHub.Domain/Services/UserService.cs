@@ -8,7 +8,7 @@ namespace CloudHub.Domain.Services
 {
     public class UserService : BaseService
     {
-        public UserService(IUnitOfWork unitOfWork, IProductionModeProvider productionModeProvider, IOAuthService oAuthService) : base(unitOfWork, productionModeProvider)
+        public UserService(IUnitOfWork unitOfWork, IServiceConfigurations productionModeProvider, IOAuthService oAuthService) : base(unitOfWork, productionModeProvider)
         {
             _oAuthService = oAuthService;
         }
@@ -53,18 +53,20 @@ namespace CloudHub.Domain.Services
             if (user != null) { throw new UserExistsException(); }
 
             //Create user
-            user = new User();
-            user.Email = dto.email;
-            user.Name = dto.name;
-            user.ImageUrl = dto.image_url;
-            user.ApplicationId = consumerInfo.ClientApplication.ApplicationId;
+            user = new User
+            {
+                Email = dto.email,
+                Name = dto.name,
+                ImageUrl = dto.image_url,
+                ApplicationId = consumerInfo.ClientApplication.ApplicationId
+            };
             double timeStamp = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
             user.GlobalId = Utils.Hash256(String.Format("{0}{1}{2}", dto.email, consumerInfo.ClientApplication.ApplicationId, timeStamp));
 
             user = await _unitOfWork.UsersRepository.Add(user);
 
             //Create Login
-            Login login = new Login();
+            Login login = new();
             login.LoginTypeId = dto.login_type;
             login.User = user;
             if (dto.login_type == LoginTypeValues.LOGIN_TYPE_BASIC)
@@ -126,7 +128,7 @@ namespace CloudHub.Domain.Services
             _unitOfWork.UserTokensRepository.DeleteMultiple(user.UserTokens.ToList());
 
             //Generate new token
-            UserToken token = new UserToken() { UserId = user.Id };
+            UserToken token = new() { UserId = user.Id };
             token.GenerateNewToken();
 
             //Add Token

@@ -6,12 +6,8 @@ namespace CloudHub.Domain.Services
     {
         public OAuthUser(string email, string openId, int expiresInSeconds)
         {
-            //TODO: Throw proper exceptions
-            if (email == null) { throw new NotAuthenticatedException(); }
-            if (openId == null) { throw new NotAuthenticatedException(); }
-
-            Email = email;
-            OpenId = openId;
+            Email = email ?? throw new NotAuthenticatedException();
+            OpenId = openId ?? throw new NotAuthenticatedException();
             ExpiresInSeconds = expiresInSeconds;
         }
 
