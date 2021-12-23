@@ -1,4 +1,5 @@
 ﻿using CloudHub.Crosscutting;
+using CloudHub.Domain.DTO;
 using NUnit.Framework;
 
 namespace CloudHub.Tests
@@ -17,7 +18,10 @@ namespace CloudHub.Tests
         [Test]
         public void Test()
         {
-            Assert.Pass();
+            Assert.DoesNotThrow(() =>
+            {
+                RegisterRequest request = new(name: "asdasd", email:"egeg.com", password: "12345678", null, Domain.Entities.LoginTypeValues.LOGIN_TYPE_GOOGLE);
+            });
         }
     }
 }

@@ -9,7 +9,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 
-namespace CloudHub.Tests
+namespace CloudHub.Tests.User
 {
     public class RegisterTests
     {

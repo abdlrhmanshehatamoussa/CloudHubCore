@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using NUnit.Framework;
 
-namespace CloudHub.Tests
+namespace CloudHub.Tests.User
 {
     public class LoginTests
     {

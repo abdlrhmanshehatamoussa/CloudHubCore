@@ -69,17 +69,26 @@ namespace CloudHub.Domain.Services
             Login login = new();
             login.LoginTypeId = dto.login_type;
             login.User = user;
+            string passcode;
             if (dto.login_type == LoginTypeValues.LOGIN_TYPE_BASIC)
             {
-                login.Passcode = dto.password;
+                passcode = dto.password;
             }
             else
             {
                 OAuthUser? oAuthUser = await _oAuthService.GetUserByToken(dto.password, dto.login_type);
                 if (oAuthUser == null || oAuthUser.Email != dto.email) { throw new NotAuthenticatedException(); }
-                login.Passcode = oAuthUser.OpenId;
+                passcode = oAuthUser.OpenId;
             }
+            
+            /*
+            //TODO: Encrypt password before saving it, using client secret
+            string clientSecret = consumerInfo.ClientApplication.Client.ClientSecret;
+            login.Passcode = Encrypt(passcode,clientSecret);
 
+            - You will have to decrypt the password in the Login usecase
+             */
+            login.Passcode = passcode;
             login = await _unitOfWork.LoginsRepository.Add(login);
 
             //Consume Nonce
