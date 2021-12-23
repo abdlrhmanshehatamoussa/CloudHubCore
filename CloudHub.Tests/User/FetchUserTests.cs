@@ -22,7 +22,7 @@ namespace CloudHub.Tests
             IUnitOfWork unitOfWork = new UnitOfWork(new MyDbContext(builder.Options));
             Mock<IProductionModeProvider> mock = new Mock<IProductionModeProvider>();
             mock.Setup(x => x.IsProductionModeEnabled).Returns(false);
-            userService = new UserService(unitOfWork, mock.Object);
+            //userService = new UserService(unitOfWork, mock.Object);
             nonceService = new NonceService(unitOfWork, mock.Object);
         }
 

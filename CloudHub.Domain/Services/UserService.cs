@@ -8,9 +8,12 @@ namespace CloudHub.Domain.Services
 {
     public class UserService : BaseService
     {
-        public UserService(IUnitOfWork unitOfWork, IProductionModeProvider productionModeProvider) : base(unitOfWork, productionModeProvider)
+        public UserService(IUnitOfWork unitOfWork, IProductionModeProvider productionModeProvider, IOAuthService oAuthService) : base(unitOfWork, productionModeProvider)
         {
+            _oAuthService = oAuthService;
         }
+
+        private readonly IOAuthService _oAuthService;
 
         public async Task<LoginResponse> FetchUser(ConsumerCredentials consumerCredentials)
         {
@@ -70,11 +73,9 @@ namespace CloudHub.Domain.Services
             }
             else
             {
-                //TODO: Implement
-                //OAuthInfo info  = await ExchangeOAuthAccessToken(dto.Passcode, dto.LoginTypeId);
-                //if (info.Email != dto.Email) { throw new NotAuthenticatedException(); }
-                //login.Passcode = info.OAuthOpenId;
-                throw new NotImplementedException();
+                OAuthUser? oAuthUser = await _oAuthService.GetUserByToken(dto.password, dto.login_type);
+                if (oAuthUser == null || oAuthUser.Email != dto.email) { throw new NotAuthenticatedException(); }
+                login.Passcode = oAuthUser.OpenId;
             }
 
             login = await _unitOfWork.LoginsRepository.Add(login);
@@ -113,10 +114,8 @@ namespace CloudHub.Domain.Services
 
             if (dto.login_type != LoginTypeValues.LOGIN_TYPE_BASIC)
             {
-                //TODO: Implement
-                //OAuthInfo info  = await ExchangeOAuthAccessToken(dto.Passcode, dto.LoginTypeId);
-                //if (info.Email != dto.Email) { throw new NotAuthenticatedException(); }
-                throw new NotImplementedException();
+                OAuthUser? oAuthUser = await _oAuthService.GetUserByToken(dto.password, dto.login_type);
+                if (oAuthUser == null || oAuthUser.Email != dto.email) { throw new NotAuthenticatedException(); }
             }
             else
             {

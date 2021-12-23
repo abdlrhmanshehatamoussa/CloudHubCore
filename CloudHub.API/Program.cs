@@ -4,6 +4,7 @@ using CloudHub.API.Middlewares;
 using CloudHub.Domain.Repositories;
 using CloudHub.Domain.Services;
 using CloudHub.Infra.Data;
+using CloudHub.Infra.Services;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -18,6 +19,8 @@ APISettings settings = new APISettings(envName, buildId, isProduction, connectio
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSingleton<APISettings>((_) => settings);
+builder.Services.AddScoped<IOAuthService,OAuthService>();
 builder.Services.AddDbContext<MyDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProductionModeProvider>((_) => settings);
@@ -28,7 +31,6 @@ builder.Services.AddScoped<ReleaseService>();
 builder.Services.AddScoped<FeatureService>();
 builder.Services.AddScoped<UserActionService>();
 builder.Services.AddScoped<PurchaseService>();
-builder.Services.AddSingleton<APISettings>((_) => settings);
 builder.Services.AddControllers(options => options.Filters.Add<ConsumerCredentialsFilter>());
 
 //Swagger

@@ -56,7 +56,6 @@ namespace CloudHub.API.Middlewares
                         else
                         {
                             response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                            message = "Unhandled Error";
                         }
                         break;
                 }

@@ -20,10 +20,13 @@ namespace CloudHub.Tests
             DbContextOptionsBuilder<MyDbContext> builder = new DbContextOptionsBuilder<MyDbContext>();
             //TODO: Replace database connection with test stubs
             builder.UseNpgsql(Constants.PSQL_HOST);
+
             IUnitOfWork unitOfWork = new UnitOfWork(new MyDbContext(builder.Options));
             Mock<IProductionModeProvider> mock = new Mock<IProductionModeProvider>();
             mock.Setup(x => x.IsProductionModeEnabled).Returns(false);
-            service = new UserService(unitOfWork, mock.Object);
+
+            //TODO: 
+            //service = new UserService(unitOfWork, mock.Object);
         }
 
         [Test]
