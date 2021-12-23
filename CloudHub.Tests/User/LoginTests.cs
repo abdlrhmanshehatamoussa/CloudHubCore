@@ -1,10 +1,9 @@
-using CloudHub.Data;
-using CloudHub.Data.Repositories;
 using CloudHub.Domain.DTO;
 using CloudHub.Domain.Entities;
 using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Repositories;
 using CloudHub.Domain.Services;
+using CloudHub.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using NUnit.Framework;

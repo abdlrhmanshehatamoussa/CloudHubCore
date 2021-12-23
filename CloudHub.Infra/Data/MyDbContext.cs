@@ -1,7 +1,7 @@
 ﻿using CloudHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CloudHub.Data
+namespace CloudHub.Infra.Data
 {
     public partial class MyDbContext : DbContext
     {

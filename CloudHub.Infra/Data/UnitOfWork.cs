@@ -1,7 +1,7 @@
 ﻿using CloudHub.Domain.Entities;
 using CloudHub.Domain.Repositories;
 
-namespace CloudHub.Data.Repositories
+namespace CloudHub.Infra.Data
 {
     public class UnitOfWork : IUnitOfWork
     {

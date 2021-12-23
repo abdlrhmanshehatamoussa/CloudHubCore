@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CloudHub.Data\CloudHub.Data.csproj" />
     <ProjectReference Include="..\CloudHub.Domain\CloudHub.Domain.csproj" />
+    <ProjectReference Include="..\CloudHub.Infra\CloudHub.Infra.csproj" />
   </ItemGroup>
 
 </Project>
