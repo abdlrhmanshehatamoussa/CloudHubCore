@@ -27,7 +27,10 @@ builder.Services.AddScoped<APIConfigurations>((_) => settings);
 builder.Services.AddScoped<IGoogleServicesConfigurations>((_) => settings);
 builder.Services.AddScoped<GoogleOAuthExtractor>();
 builder.Services.AddScoped<IOAuthService, OAuthService>();
-builder.Services.AddDbContext<MyDbContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddDbContext<MyDbContext>(options =>
+{
+    options.UseNpgsql(connectionString);
+});
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IServiceConfigurations>((_) => settings);
 builder.Services.AddScoped<BaseService>();
