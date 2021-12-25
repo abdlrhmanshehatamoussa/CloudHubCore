@@ -7,16 +7,16 @@ using CloudHub.Infra.Data;
 using CloudHub.Infra.Services;
 using Microsoft.EntityFrameworkCore;
 
+string GetEnvVar(string var)
+{
+    return Environment.GetEnvironmentVariable(var) ?? throw new MissingEnvironmentVariableException(var);
+}
 
-var configurationBuilder = new ConfigurationBuilder().SetBasePath(AppContext.BaseDirectory).AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-IConfiguration configuration = configurationBuilder.Build();
-
-string buildId = configuration.GetValue<string>("build_id");
-string envName = configuration.GetValue<string>("env");
-string connectionString = configuration.GetValue<string>("api_database");
-bool isProduction = configuration.GetValue<bool>("production_mode");
-string googleTokenInfoApiUrl = configuration.GetValue<string>("google_token_info_api_url");
-
+string buildId = GetEnvVar("BUILD_ID");
+string envName = GetEnvVar("ASPNETCORE_ENVIRONMENT");
+string connectionString = GetEnvVar("API_DATABASE");
+bool isProduction = bool.Parse(GetEnvVar("PRODUCTION_MODE"));
+string googleTokenInfoApiUrl = GetEnvVar("GOOGLE_TOKEN_INFO_API_URL");
 APIConfigurations settings = new(envName, buildId, isProduction, connectionString, googleTokenInfoApiUrl);
 
 
