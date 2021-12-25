@@ -5,9 +5,9 @@ namespace CloudHub.Infra.Data
 {
     public partial class MyDbContext : DbContext
     {
-        public MyDbContext(DbContextOptions<MyDbContext> options)
-            : base(options)
+        public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
         {
+            Database.Migrate();
         }
 
         public virtual DbSet<UserAction> Actions { get; set; } = null!;
@@ -28,7 +28,7 @@ namespace CloudHub.Infra.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
