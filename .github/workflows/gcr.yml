@@ -19,14 +19,16 @@ jobs:
           echo "::set-output name=build_id::${build_id}"
           echo Build Environment=${build_env}
           echo Build Id=${build_id}
-      
+         
       - name: Preparing Secret Keys
         id: secretkeys
         run: |
           env=${{steps.gitinfo.outputs.build_env}}
           env=${env^^}
-          echo $env
-          echo ${{steps.gitinfo.outputs.build_id}}
+          echo "::set-output name=SSH_HOST_KEY::${env}_SSH_HOST"
+          echo "::set-output name=SSH_USER_KEY::${env}_SSH_USER"
+          echo "::set-output name=SSH_PASSWORD_KEY::${env}_SSH_PASSWORD"
+          echo "::set-output name=SSH_DEPLOYMENT_DIR_KEY::${env}_SSH_DEPLOYMENT_DIR"
 
       - name: Setup gcloud
         uses: 'google-github-actions/setup-gcloud@v0'
@@ -43,3 +45,16 @@ jobs:
 
       - name: Push to Google Container Registry
         run:  docker push gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/cloudhub_api:${{steps.gitinfo.outputs.build_env}}
+
+      - name: Restarting docker compose
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets[steps.gitsecrets.outputs.SSH_HOST_KEY]}}
+          username: ${{secrets[steps.gitsecrets.outputs.SSH_USER_KEY]}}
+          password: ${{secrets[steps.gitsecrets.outputs.SSH_PASSWORD_KEY]}}
+          script: |
+            dir=${{secrets[steps.gitsecrets.outputs.SSH_DEPLOYMENT_DIR_KEY]}}
+            cd dir
+            docker-compose stop
+            docker-compose rm -f
+            BUILD_ID=${{steps.gitinfo.outputs.build_id}} docker-compose -f docker-compose.yml up -d
