@@ -54,7 +54,9 @@ jobs:
           password: ${{secrets[steps.secretkeys.outputs.SSH_PASSWORD_KEY]}}
           script: |
             dir=${{secrets[steps.secretkeys.outputs.SSH_DEPLOYMENT_DIR_KEY]}}
-            cd dir
+            cd $dir
             docker-compose stop
             docker-compose rm -f
             BUILD_ID=${{steps.gitinfo.outputs.build_id}} docker-compose -f docker-compose.yml up -d
+            docker images
+            docker container ps
