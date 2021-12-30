@@ -8,6 +8,8 @@ jobs:
   build-and-push-to-gcr:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
       - name: Extracting Build Environment and Build Id
         id: gitinfo
         run: |
