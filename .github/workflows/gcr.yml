@@ -57,7 +57,7 @@ jobs:
             cd $dir
             docker-compose stop
             docker-compose rm -f
-            docker-compose pull
+            BUILD_ID=${{steps.gitinfo.outputs.build_id}} docker-compose pull
             BUILD_ID=${{steps.gitinfo.outputs.build_id}} docker-compose -f docker-compose.yml up -d
             docker images
             docker container ps
