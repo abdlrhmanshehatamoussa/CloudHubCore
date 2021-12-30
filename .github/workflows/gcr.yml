@@ -49,11 +49,11 @@ jobs:
       - name: Restarting docker compose
         uses: appleboy/ssh-action@master
         with:
-          host: ${{secrets[steps.gitsecrets.outputs.SSH_HOST_KEY]}}
-          username: ${{secrets[steps.gitsecrets.outputs.SSH_USER_KEY]}}
-          password: ${{secrets[steps.gitsecrets.outputs.SSH_PASSWORD_KEY]}}
+          host: ${{secrets[steps.secretkeys.outputs.SSH_HOST_KEY]}}
+          username: ${{secrets[steps.secretkeys.outputs.SSH_USER_KEY]}}
+          password: ${{secrets[steps.secretkeys.outputs.SSH_PASSWORD_KEY]}}
           script: |
-            dir=${{secrets[steps.gitsecrets.outputs.SSH_DEPLOYMENT_DIR_KEY]}}
+            dir=${{secrets[steps.secretkeys.outputs.SSH_DEPLOYMENT_DIR_KEY]}}
             cd dir
             docker-compose stop
             docker-compose rm -f
