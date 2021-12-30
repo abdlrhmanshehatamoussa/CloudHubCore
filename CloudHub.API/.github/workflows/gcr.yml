@@ -1,0 +1,45 @@
+name: Push to GCR GitHub Action
+on:
+  push:
+    tags:
+        - "test@*"
+        - "prod@*"
+jobs:
+  build-and-push-to-gcr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extracting Build Environment and Build Id
+        id: gitinfo
+        run: |
+          tag_name=${GITHUB_REF##*/}
+          tag_name_splitted=(${tag_name//@/ })
+          git_last_commit=$(git rev-parse --short HEAD)
+          build_env=${tag_name_splitted[0]}
+          build_ver=${tag_name_splitted[1]}
+          build_id=${git_last_commit}_${build_ver}
+          echo "::set-output name=build_env::${build_env}"
+          echo "::set-output name=build_id::${build_id}"
+          echo Build Environment=${build_env}
+          echo Build Id=${build_id}
+      
+      - name: Preparing Secret Keys
+        id: secretkeys
+        run: |
+          env=${{steps.gitinfo.outputs.build_env}}
+          env=${env^^}
+          echo $env
+          echo ${{steps.gitinfo.outputs.build_id}}
+
+      #- uses: actions/checkout@v2
+      #- uses: google-github-actions/setup-gcloud@master
+      #- name: Get the version
+      #  id: get_tag_name
+      #  run: echo ::set-output name=GIT_TAG_NAME::${GITHUB_REF/refs\/tags\//}
+      #- uses: RafikFarhad/push-to-gcr-github-action@v4
+      #  with:
+      #    gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
+      #    registry: gcr.io
+      #    project_id: my-awesome-project
+      #    image_name: server-end
+      #    image_tag: ${{ steps.get_tag_name.outputs.GIT_TAG_NAME}}
+      #    dockerfile: ./build/Dockerfile
