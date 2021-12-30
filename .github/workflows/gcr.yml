@@ -38,8 +38,11 @@ jobs:
       - name: Configure docker for GCP
         run: gcloud auth configure-docker
 
-      # - name: Build docker image
-      #   run:  docker build -t gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/cloudhub_api:${{steps.gitinfo.outputs.build_env}} .
+      - name: Build docker image
+        run:  |
+          cd CloudHub.API
+          pwd
+          docker build -t gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/cloudhub_api:${{steps.gitinfo.outputs.build_env}} .
 
-      # - name: Push to Google Container Registry
-      #   run:  docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/cloudhub_api:${{steps.gitinfo.outputs.build_env}}
+      - name: Push to Google Container Registry
+        run:  docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/cloudhub_api:${{steps.gitinfo.outputs.build_env}}
