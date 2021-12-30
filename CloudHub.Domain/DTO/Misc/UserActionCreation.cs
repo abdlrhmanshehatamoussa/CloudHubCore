@@ -6,9 +6,7 @@ namespace CloudHub.Domain.DTO
     {
         public UserActionCreation(string category, string description, int? app_version, string created_on, string payload)
         {
-            ValidationUtils.Mandatory(description, nameof(description));
             ValidationUtils.Mandatory(category, nameof(category));
-            ValidationUtils.Mandatory(payload, nameof(payload));
 
             this.category = category;
             this.description = description;
