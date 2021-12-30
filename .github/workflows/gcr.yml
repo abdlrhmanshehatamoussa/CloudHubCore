@@ -57,7 +57,9 @@ jobs:
             cd $dir
             docker-compose stop
             docker-compose rm -f
-            BUILD_ID=${{steps.gitinfo.outputs.build_id}} docker-compose pull
-            BUILD_ID=${{steps.gitinfo.outputs.build_id}} docker-compose -f docker-compose.yml up -d
+            export LD_LIBRARY_PATH=/usr/local/lib
+            build_id=${{steps.gitinfo.outputs.build_id}}
+            BUILD_ID=${build_id} docker-compose pull
+            BUILD_ID=${build_id} docker-compose -f docker-compose.yml up -d
             docker images
             docker container ps
