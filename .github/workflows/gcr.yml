@@ -32,21 +32,20 @@ jobs:
 
       - name: Setup gcloud
         uses: 'google-github-actions/setup-gcloud@v0'
+        if: ${{ steps.gitinfo.outputs.build_env == 'test' }}
         with:
           version: '290.0.1'
           service_account_key: ${{ secrets.GCLOUD_SERVICE_KEY }} 
           project_id: ${{ secrets.GCLOUD_PROJECT_ID }} 
 
-      - name: Configure docker for GCP
-        run: gcloud auth configure-docker
+      - name: Build/Push docker image
+        if: ${{ steps.gitinfo.outputs.build_env == 'test' }}
+        run: |
+            gcloud auth configure-docker
+            docker build -t gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/cloudhub_api:${{steps.gitinfo.outputs.build_id}} .
+            docker push gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/cloudhub_api:${{steps.gitinfo.outputs.build_id}}
 
-      - name: Build docker image
-        run: docker build -t gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/cloudhub_api:${{steps.gitinfo.outputs.build_id}} .
-
-      - name: Push to Google Container Registry
-        run:  docker push gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/cloudhub_api:${{steps.gitinfo.outputs.build_id}}
-
-      - name: Restarting docker compose
+      - name: Deploying docker image
         uses: appleboy/ssh-action@master
         with:
           host: ${{secrets[steps.secretkeys.outputs.SSH_HOST_KEY]}}
