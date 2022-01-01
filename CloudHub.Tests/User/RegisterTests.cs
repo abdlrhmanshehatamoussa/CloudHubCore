@@ -35,7 +35,6 @@ namespace CloudHub.Tests.User
             {
                 ConsumerCredentials credentials = new()
                 {
-                    ApplicationGuid = "12910e89-564c-42c8-ad0b-8529d4cd5e04",
                     ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e"
                 };
                 Nonce nonce = await nonceService.GenereateNonce(credentials);

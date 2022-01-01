@@ -33,7 +33,6 @@ namespace CloudHub.Tests.User
             {
                 ConsumerCredentials credentials = new()
                 {
-                    ApplicationGuid = "12910e89-564c-42c8-ad0b-8529d4cd5e04",
                     ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e",
                     UserToken = "f139e8d9-1acb-444b-9903-62df96913e26e8d270e7-1aa9-41b4-8de8-ca0b00798a04"
                 };

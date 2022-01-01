@@ -34,7 +34,6 @@ namespace CloudHub.Tests.User
         {
             ConsumerCredentials credentials = new()
             {
-                ApplicationGuid = "asdasd",
                 ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e"
             };
             LoginRequest dto = new("abdlrhmanshehata@gmail.com", "123456789", LoginTypeValues.LOGIN_TYPE_BASIC);
@@ -76,7 +75,6 @@ namespace CloudHub.Tests.User
             {
                 ConsumerCredentials credentials = new()
                 {
-                    ApplicationGuid = "12910e89-564c-42c8-ad0b-8529d4cd5e04",
                     ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e",
                     Nonce = "66fd8c4e-7612-455d-bdf2-0bcc6b8baf7df8e15778-b20a-4fe3-a46a-460010fcf9924def0e64-ce76-4513-aa3f-9d0405d78b8c"
                 };
@@ -93,7 +91,6 @@ namespace CloudHub.Tests.User
             {
                 ConsumerCredentials credentials = new()
                 {
-                    ApplicationGuid = "12910e89-564c-42c8-ad0b-8529d4cd5e04",
                     ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e",
                     Nonce = "66fd8c4e-7612-455d-bdf2-0bcc6b8baf7df8e15778-b20a-4fe3-a46a-460010fcf9924def0e64-ce76-4513-aa3f-9d0405d78b8c"
                 };
