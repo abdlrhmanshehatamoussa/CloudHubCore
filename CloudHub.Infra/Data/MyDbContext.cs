@@ -349,6 +349,26 @@ namespace CloudHub.Infra.Data
             });
 
             OnModelCreatingPartial(modelBuilder);
+            Seed(modelBuilder);
+        }
+
+        private void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ClientType>().HasData(
+                new ClientType() { Active = true, Name = "Admin", Id = ClientTypeValues.ADMIN },
+                new ClientType() { Active = true, Name = "Application", Id = ClientTypeValues.APP },
+                new ClientType() { Active = true, Name = "Dashboard", Id = ClientTypeValues.DASHBOARD }
+            );
+            modelBuilder.Entity<LoginType>().HasData(
+                new LoginType() { Active = true, Name = "Google", Id = LoginTypeValues.LOGIN_TYPE_GOOGLE },
+                new LoginType() { Active = true, Name = "Basic", Id = LoginTypeValues.LOGIN_TYPE_BASIC },
+                new LoginType() { Active = true, Name = "Facebook", Id = LoginTypeValues.LOGIN_TYPE_FACEBOOK },
+                new LoginType() { Active = true, Name = "Linked In", Id = LoginTypeValues.LOGIN_TYPE_LINKEDIN }
+            );
+            modelBuilder.Entity<PaymentGateway>().HasData(
+                new PaymentGateway() { Active = true, Name = "Google Play Billing", Id = PaymentGatewayValues.GOOGLE_PLAY_BILLING },
+                new PaymentGateway() { Active = true, Name = "Paypal", Id = PaymentGatewayValues.PAYPAL }
+            );
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
