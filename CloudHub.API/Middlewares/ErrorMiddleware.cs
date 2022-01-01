@@ -35,6 +35,10 @@ namespace CloudHub.API.Middlewares
                     case InvalidNonceException:
                         response.StatusCode = 497;
                         break;
+                    case InvalidCollectionException:
+                        response.StatusCode = 480;
+                        break;
+
                     case UserExistsException:
                         response.StatusCode = 494;
                         break;
