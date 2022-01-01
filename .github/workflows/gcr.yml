@@ -1,9 +1,9 @@
 name: Push to GCR GitHub Action
 on:
   push:
-    branches:
-        - "test"
-        - "master"
+    tags:
+        - "v*.*.*"
+        - "V*.*.*"
 jobs:
   build-and-push-to-gcr:
     runs-on: ubuntu-latest
@@ -13,52 +13,18 @@ jobs:
       - name: Extracting Build Environment and Build Id
         id: gitinfo
         run: |
-          build_env=${GITHUB_REF#refs/heads/}
-          build_id=$(git rev-parse --short HEAD)
-          echo "::set-output name=build_env::${build_env}"
-          echo "::set-output name=build_id::${build_id}"
-          echo Build Environment=${build_env}
-          echo Build Id=${build_id}
-         
-      - name: Preparing Secret Keys
-        id: secretkeys
-        run: |
-          env=${{steps.gitinfo.outputs.build_env}}
-          env=${env^^}
-          echo "::set-output name=SSH_HOST_KEY::${env}_SSH_HOST"
-          echo "::set-output name=SSH_USER_KEY::${env}_SSH_USER"
-          echo "::set-output name=SSH_PASSWORD_KEY::${env}_SSH_PASSWORD"
-          echo "::set-output name=SSH_DEPLOYMENT_DIR_KEY::${env}_SSH_DEPLOYMENT_DIR"
+          tag_name=${GITHUB_REF##*/}
+          echo "::set-output name=tag_name::${tag_name}"
 
       - name: Setup gcloud
         uses: 'google-github-actions/setup-gcloud@v0'
-        if: ${{ steps.gitinfo.outputs.build_env == 'test' }}
         with:
           version: '290.0.1'
           service_account_key: ${{ secrets.GCLOUD_SERVICE_KEY }} 
           project_id: ${{ secrets.GCLOUD_PROJECT_ID }} 
 
       - name: Build/Push docker image
-        if: ${{ steps.gitinfo.outputs.build_env == 'test' }}
         run: |
             gcloud auth configure-docker
-            docker build -t gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/cloudhub_api:${{steps.gitinfo.outputs.build_id}} .
-            docker push gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/cloudhub_api:${{steps.gitinfo.outputs.build_id}}
-
-      - name: Deploying docker image
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{secrets[steps.secretkeys.outputs.SSH_HOST_KEY]}}
-          username: ${{secrets[steps.secretkeys.outputs.SSH_USER_KEY]}}
-          password: ${{secrets[steps.secretkeys.outputs.SSH_PASSWORD_KEY]}}
-          script: |
-            dir=${{secrets[steps.secretkeys.outputs.SSH_DEPLOYMENT_DIR_KEY]}}
-            cd $dir
-            docker-compose stop
-            docker-compose rm -f
-            export LD_LIBRARY_PATH=/usr/local/lib
-            build_id=${{steps.gitinfo.outputs.build_id}}
-            BUILD_ID=${build_id} docker-compose pull
-            BUILD_ID=${build_id} docker-compose -f docker-compose.yml up -d
-            docker images
-            docker container ps
+            docker build -t gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/cloudhub_api:${{steps.gitinfo.outputs.tag_name}} .
+            docker push gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/cloudhub_api:${{steps.gitinfo.outputs.tag_name}}

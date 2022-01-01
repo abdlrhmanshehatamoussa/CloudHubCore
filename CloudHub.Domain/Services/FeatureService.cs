@@ -14,10 +14,9 @@ namespace CloudHub.Domain.Services
         public async Task<List<Feature>> Fetch(ConsumerCredentials consumerCredentials)
         {
             ConsumerInfo info = await GetConsumerInfo(consumerCredentials);
-            int applicationId = info.ClientApplication.ApplicationId;
             int nonceId = info.Nonce?.Id ?? throw new InvalidNonceException(nameof(info.Nonce));
 
-            List<Feature> features = await _unitOfWork.FeaturesRepository.Where(f => f.ApplicationId == applicationId);
+            List<Feature> features = await _unitOfWork.FeaturesRepository.GetAll();
 
             await ConsumeNonce(nonceId);
             await _unitOfWork.Save();

@@ -10,19 +10,14 @@ namespace CloudHub.Infra.Data
             Database.Migrate();
         }
 
-        public virtual DbSet<UserAction> Actions { get; set; } = null!;
-        public virtual DbSet<Application> Applications { get; set; } = null!;
-        public virtual DbSet<ApplicationSecret> ApplicationSecrets { get; set; } = null!;
         public virtual DbSet<Client> Clients { get; set; } = null!;
         public virtual DbSet<ClientType> ClientTypes { get; set; } = null!;
-        public virtual DbSet<ClientApplicationRelation> ClientApplicationRelations { get; set; } = null!;
         public virtual DbSet<Feature> Features { get; set; } = null!;
         public virtual DbSet<Login> Logins { get; set; } = null!;
         public virtual DbSet<LoginType> LoginTypes { get; set; } = null!;
         public virtual DbSet<Nonce> Nonces { get; set; } = null!;
         public virtual DbSet<PaymentGateway> PaymentGateways { get; set; } = null!;
         public virtual DbSet<Purchase> Purchases { get; set; } = null!;
-        public virtual DbSet<Release> Releases { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
 
@@ -33,100 +28,6 @@ namespace CloudHub.Infra.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserAction>(entity =>
-            {
-                entity.ToTable("actions");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.AppVersion).HasColumnName("app_version");
-
-                entity.Property(e => e.ApplicationId).HasColumnName("application_id");
-
-                entity.Property(e => e.Category)
-                    .HasMaxLength(255)
-                    .HasColumnName("category");
-
-                entity.Property(e => e.CreatedOn)
-                    .HasColumnName("created_on")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(255)
-                    .HasColumnName("description");
-
-                entity.Property(e => e.Payload)
-                    .HasMaxLength(255)
-                    .HasColumnName("payload");
-
-                entity.HasOne(d => d.Application)
-                    .WithMany(p => p.Actions)
-                    .HasForeignKey(d => d.ApplicationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("actions_application_id_foreign");
-            });
-
-            modelBuilder.Entity<Application>(entity =>
-            {
-                entity.ToTable("applications");
-
-                entity.HasIndex(e => e.Guid, "applications_guid_unique")
-                    .IsUnique();
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Active)
-                    .IsRequired()
-                    .HasColumnName("active")
-                    .HasDefaultValueSql("true");
-
-                entity.Property(e => e.CreatedOn)
-                    .HasColumnName("created_on")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.Guid).HasColumnName("guid");
-
-                entity.Property(e => e.ModifiedOn)
-                    .HasColumnName("modified_on")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(255)
-                    .HasColumnName("name");
-            });
-
-            modelBuilder.Entity<ApplicationSecret>(entity =>
-            {
-                entity.ToTable("application_secrets");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Active)
-                    .IsRequired()
-                    .HasColumnName("active")
-                    .HasDefaultValueSql("true");
-
-                entity.Property(e => e.ApplicationId).HasColumnName("application_id");
-
-                entity.Property(e => e.CreatedOn)
-                    .HasColumnName("created_on")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.ModifiedOn)
-                    .HasColumnName("modified_on")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.SecretKey).HasColumnName("secret_key");
-
-                entity.Property(e => e.SecretValue).HasColumnName("secret_value");
-
-                entity.HasOne(d => d.Application)
-                    .WithMany(p => p.ApplicationSecrets)
-                    .HasForeignKey(d => d.ApplicationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("application_secrets_application_id_foreign");
-            });
-
             modelBuilder.Entity<Client>(entity =>
             {
                 entity.ToTable("clients");
@@ -199,49 +100,16 @@ namespace CloudHub.Infra.Data
                     .HasColumnName("name");
             });
 
-            modelBuilder.Entity<ClientApplicationRelation>(entity =>
-            {
-                entity.ToTable("clients_applications");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Active)
-                    .IsRequired()
-                    .HasColumnName("active")
-                    .HasDefaultValueSql("true");
-
-                entity.Property(e => e.ApplicationId).HasColumnName("application_id");
-
-                entity.Property(e => e.ClientId).HasColumnName("client_id");
-
-                entity.HasOne(d => d.Application)
-                    .WithMany(p => p.ClientsApplications)
-                    .HasForeignKey(d => d.ApplicationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("clients_applications_application_id_foreign");
-
-                entity.HasOne(d => d.Client)
-                    .WithMany(p => p.ClientsApplications)
-                    .HasForeignKey(d => d.ClientId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("clients_applications_client_id_foreign");
-            });
-
             modelBuilder.Entity<Feature>(entity =>
             {
                 entity.ToTable("features");
 
-                entity.HasIndex(e => new { e.ApplicationId, e.GlobalId }, "features_global_id_unique")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Active)
                     .IsRequired()
                     .HasColumnName("active")
                     .HasDefaultValueSql("true");
-
-                entity.Property(e => e.ApplicationId).HasColumnName("application_id");
 
                 entity.Property(e => e.CreatedOn)
                     .HasColumnName("created_on")
@@ -260,12 +128,6 @@ namespace CloudHub.Infra.Data
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .HasColumnName("name");
-
-                entity.HasOne(d => d.Application)
-                    .WithMany(p => p.Features)
-                    .HasForeignKey(d => d.ApplicationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("features_app_id_foreign");
             });
 
             modelBuilder.Entity<Login>(entity =>
@@ -325,8 +187,6 @@ namespace CloudHub.Infra.Data
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.ApplicationId).HasColumnName("application_id");
-
                 entity.Property(e => e.ClientId).HasColumnName("client_id");
 
                 entity.Property(e => e.ConsumedOn).HasColumnName("consumed_on");
@@ -338,12 +198,6 @@ namespace CloudHub.Infra.Data
                 entity.Property(e => e.Token)
                     .HasMaxLength(255)
                     .HasColumnName("token");
-
-                entity.HasOne(d => d.Application)
-                    .WithMany(p => p.Nonces)
-                    .HasForeignKey(d => d.ApplicationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("nonces_application_id_foreign");
 
                 entity.HasOne(d => d.Client)
                     .WithMany(p => p.Nonces)
@@ -420,42 +274,9 @@ namespace CloudHub.Infra.Data
                     .HasConstraintName("purchases_user_id_foreign");
             });
 
-            modelBuilder.Entity<Release>(entity =>
-            {
-                entity.ToTable("releases");
-
-                entity.HasIndex(e => new { e.ApplicationId, e.ReleaseName }, "releases_name_unique")
-                    .IsUnique();
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.ApplicationId).HasColumnName("application_id");
-
-                entity.Property(e => e.Notes)
-                    .HasMaxLength(255)
-                    .HasColumnName("notes");
-
-                entity.Property(e => e.ReleaseDate)
-                    .HasColumnName("release_date")
-                    .HasDefaultValueSql("now()");
-
-                entity.Property(e => e.ReleaseName)
-                    .HasMaxLength(255)
-                    .HasColumnName("release_name");
-
-                entity.HasOne(d => d.Application)
-                    .WithMany(p => p.Releases)
-                    .HasForeignKey(d => d.ApplicationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("releases_app_id_foreign");
-            });
-
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("users");
-
-                entity.HasIndex(e => new { e.Email, e.ApplicationId }, "users_email_unique")
-                    .IsUnique();
 
                 entity.HasIndex(e => e.GlobalId, "users_global_id_unique")
                     .IsUnique();
@@ -466,8 +287,6 @@ namespace CloudHub.Infra.Data
                     .IsRequired()
                     .HasColumnName("active")
                     .HasDefaultValueSql("true");
-
-                entity.Property(e => e.ApplicationId).HasColumnName("application_id");
 
                 entity.Property(e => e.CreatedOn)
                     .HasColumnName("created_on")
@@ -492,12 +311,6 @@ namespace CloudHub.Infra.Data
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .HasColumnName("name");
-
-                entity.HasOne(d => d.Application)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.ApplicationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("users_application_id_foreign");
             });
 
             modelBuilder.Entity<UserToken>(entity =>

@@ -4,7 +4,7 @@ namespace CloudHub.Domain.Entities
 {
     public class UserToken
     {
-        public static int TOKEN_EXPIRES_AFTER_DAYS = 30;
+        public const int TOKEN_EXPIRES_AFTER_DAYS = 30;
 
         public int Id { get; set; }
         public string Token { get; set; } = null!;
@@ -40,7 +40,7 @@ namespace CloudHub.Domain.Entities
 
         public void GenerateNewToken()
         {
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new ();
             for (int i = 0; i < 2; i++)
             {
                 builder.AppendJoin("-", Guid.NewGuid());

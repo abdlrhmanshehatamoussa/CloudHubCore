@@ -13,9 +13,8 @@ namespace CloudHub.Domain.Services
         public async Task<Nonce> GenereateNonce(ConsumerCredentials credentials)
         {
             ConsumerInfo consumerInfo = await GetConsumerInfo(credentials);
-            Nonce nonce = new Nonce();
-            nonce.ClientId = consumerInfo.ClientApplication.ClientId;
-            nonce.ApplicationId = consumerInfo.ClientApplication.ApplicationId;
+            Nonce nonce = new ();
+            nonce.ClientId = consumerInfo.Client.Id;
             nonce.GenerateToken();
             nonce = await _unitOfWork.NoncesRepository.Add(nonce);
             await _unitOfWork.Save();

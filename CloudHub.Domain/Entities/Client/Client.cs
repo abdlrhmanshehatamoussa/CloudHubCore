@@ -4,7 +4,6 @@
     {
         public Client()
         {
-            ClientsApplications = new HashSet<ClientApplicationRelation>();
             Nonces = new HashSet<Nonce>();
         }
 
@@ -18,7 +17,6 @@
         public bool? Active { get; set; }
 
         public virtual ClientType ClientType { get; set; } = null!;
-        public virtual ICollection<ClientApplicationRelation> ClientsApplications { get; set; }
         public virtual ICollection<Nonce> Nonces { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace CloudHub.API.Filters
 
             if (string.IsNullOrWhiteSpace(clientKey) || string.IsNullOrWhiteSpace(applicationGuid)) { throw new NotAuthenticatedException(); }
 
-            ConsumerCredentials credentials = new ConsumerCredentials()
+            ConsumerCredentials credentials = new ()
             {
                 ApplicationGuid = applicationGuid,
                 ClientKey = clientKey,

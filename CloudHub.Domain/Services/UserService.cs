@@ -47,7 +47,7 @@ namespace CloudHub.Domain.Services
             int nonceId = consumerInfo.Nonce?.Id ?? throw new InvalidNonceException();
 
             //Fetch user from database
-            User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.email && u.ApplicationId == consumerInfo.ClientApplication.ApplicationId);
+            User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.email);
 
             //Check user
             if (user != null) { throw new UserExistsException(); }
@@ -57,11 +57,10 @@ namespace CloudHub.Domain.Services
             {
                 Email = dto.email,
                 Name = dto.name,
-                ImageUrl = dto.image_url,
-                ApplicationId = consumerInfo.ClientApplication.ApplicationId
+                ImageUrl = dto.image_url
             };
             double timeStamp = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
-            user.GlobalId = Utils.Hash256(String.Format("{0}{1}{2}", dto.email, consumerInfo.ClientApplication.ApplicationId, timeStamp));
+            user.GlobalId = Utils.Hash256(String.Format("{0}{1}", dto.email, timeStamp));
 
             user = await _unitOfWork.UsersRepository.Add(user);
 
@@ -110,8 +109,7 @@ namespace CloudHub.Domain.Services
 
             //Fetch user from database
             User? user = await _unitOfWork.UsersRepository.FirstWhere(
-                (User u) => u.Email == dto.email && u.ApplicationId == consumerInfo.ClientApplication.ApplicationId,
-                u => u.Application,
+                (User u) => u.Email == dto.email,
                 u => u.UserTokens,
                 u => u.Login,
                 u => u.Login.LoginType

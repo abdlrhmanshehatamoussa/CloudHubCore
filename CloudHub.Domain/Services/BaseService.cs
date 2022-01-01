@@ -21,20 +21,13 @@ namespace CloudHub.Domain.Services
 
         public async Task<ConsumerInfo> GetConsumerInfo(ConsumerCredentials credentials)
         {
-            Client? client = await _unitOfWork.ClientsRepository.FirstWhere(c => c.ClientKey == credentials.ClientKey, c => c.ClientsApplications);
+            Client? client = await _unitOfWork.ClientsRepository.FirstWhere(c => c.ClientKey == credentials.ClientKey);
             if (client == null) { throw new NotAuthenticatedException(); }
-
-            Application? app = await _unitOfWork.ApplicationsRepository.FirstWhere(a => a.Guid.ToString() == credentials.ApplicationGuid);
-            if (app == null) { throw new NotAuthenticatedException(); }
-
-            bool appAvailable = client.ClientsApplications.Any(ca => ca.ApplicationId == app.Id);
-            if (appAvailable == false) { throw new NotAuthenticatedException(); }
-            ClientApplicationRelation clientApplication = client.ClientsApplications.First(ca => ca.ApplicationId == app.Id);
 
             Nonce? nonce = null;
             if (credentials.Nonce != null)
             {
-                nonce = await _unitOfWork.NoncesRepository.FirstWhere(n => n.Token == credentials.Nonce && n.ApplicationId == app.Id);
+                nonce = await _unitOfWork.NoncesRepository.FirstWhere(n => n.Token == credentials.Nonce);
                 if (nonce == null) { throw new InvalidNonceException(); }
                 if (nonce.ConsumedOn.HasValue) { throw new ConsumedNonceException(); }
             }
@@ -44,14 +37,13 @@ namespace CloudHub.Domain.Services
             {
                 userToken = await _unitOfWork.UserTokensRepository.FirstWhere(t => t.Token == credentials.UserToken, t => t.User, t => t.User.Login, t => t.User.Login.LoginType);
                 if (userToken == null) { throw new NotAuthenticatedException(); }
-                if (userToken.User.ApplicationId != app.Id) { throw new NotAuthenticatedException(); }
                 if (userToken.Active != true || userToken.RemainingSeconds <= 30) { throw new ExpiredTokenException(); }
 
             }
 
             return new ConsumerInfo()
             {
-                ClientApplication = clientApplication,
+                Client = client,
                 UserToken = userToken,
                 Nonce = nonce
             };

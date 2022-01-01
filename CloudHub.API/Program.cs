@@ -7,7 +7,7 @@ using CloudHub.Infra.Data;
 using CloudHub.Infra.Services;
 using Microsoft.EntityFrameworkCore;
 
-string GetEnvVar(string var)
+static string GetEnvVar(string var)
 {
     return Environment.GetEnvironmentVariable(var) ?? throw new MissingEnvironmentVariableException(var);
 }
@@ -36,9 +36,7 @@ builder.Services.AddScoped<IServiceConfigurations>((_) => settings);
 builder.Services.AddScoped<BaseService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<NonceService>();
-builder.Services.AddScoped<ReleaseService>();
 builder.Services.AddScoped<FeatureService>();
-builder.Services.AddScoped<UserActionService>();
 builder.Services.AddScoped<PurchaseService>();
 builder.Services.AddControllers(options => options.Filters.Add<ConsumerCredentialsFilter>());
 
