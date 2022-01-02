@@ -1,6 +1,6 @@
 ﻿namespace CloudHub.Domain.Entities
 {
-    public class Login
+    public class Login : IBaseEntity
     {
         public int Id { get; set; }
         public int UserId { get; set; }

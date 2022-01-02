@@ -37,7 +37,7 @@ namespace CloudHub.Domain.Services
             {
                 userToken = await _unitOfWork.UserTokensRepository.FirstWhere(t => t.Token == credentials.UserToken, t => t.User, t => t.User.Login, t => t.User.Login.LoginType);
                 if (userToken == null) { throw new NotAuthenticatedException(); }
-                if (userToken.Active != true || userToken.RemainingSeconds <= 30) { throw new ExpiredTokenException(); }
+                if (userToken.RemainingSeconds <= 30) { throw new ExpiredTokenException(); }
 
             }
 

@@ -1,24 +1,18 @@
 ﻿namespace CloudHub.Domain.Entities
 {
-    public class User
+    public class User : IBaseEntity, ITrackableEntity
     {
-        public User()
-        {
-            Purchases = new HashSet<Purchase>();
-            UserTokens = new HashSet<UserToken>();
-        }
-
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public string? ImageUrl { get; set; }
         public string Email { get; set; } = null!;
         public string GlobalId { get; set; } = null!;
-        public DateTime ModifiedOn { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public bool? Active { get; set; }
 
         public virtual Login Login { get; set; } = null!;
-        public virtual ICollection<Purchase> Purchases { get; set; }
-        public virtual ICollection<UserToken> UserTokens { get; set; }
+        public virtual ICollection<Purchase> Purchases { get; set; } = new HashSet<Purchase>();
+        public virtual ICollection<UserToken> UserTokens { get; set; } = new HashSet<UserToken>();
+        public bool Active { get; set; } = false;
+        public DateTime ModifiedOn { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     }
 }

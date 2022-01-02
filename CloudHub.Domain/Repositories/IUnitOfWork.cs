@@ -14,7 +14,7 @@ namespace CloudHub.Domain.Repositories
         IRepository<Nonce> NoncesRepository { get; }
         IRepository<PaymentGateway> PaymentGatewaysRepository { get; }
         IRepository<Purchase> PurchasesRepository { get; }
-        IRepository<Collection> CollectionsRepository { get; set; }
+        IRepository<Collection> CollectionsRepository { get; }
         Task Save();
     }
 }

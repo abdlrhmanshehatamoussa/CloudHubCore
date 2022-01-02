@@ -2,7 +2,7 @@
 
 namespace CloudHub.Domain.Entities
 {
-    public class UserToken
+    public class UserToken: IBaseEntity
     {
         public const int TOKEN_EXPIRES_AFTER_DAYS = 30;
 
@@ -11,10 +11,8 @@ namespace CloudHub.Domain.Entities
         public int UserId { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
         public DateTime ExpiryDate { get; set; } = DateTime.UtcNow.AddDays(TOKEN_EXPIRES_AFTER_DAYS);
-        public bool Active { get; set; } = true;
-
+        
         public virtual User User { get; set; } = null!;
-
 
         public int RemainingSeconds
         {

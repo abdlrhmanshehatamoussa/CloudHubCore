@@ -1,6 +1,6 @@
 ﻿namespace CloudHub.Domain.Entities
 {
-    public class Nonce
+    public class Nonce: IBaseEntity
     {
         public int Id { get; set; }
         public string Token { get; set; } = null!;

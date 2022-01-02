@@ -20,7 +20,7 @@ namespace CloudHub.Infra.Data
         public IRepository<Nonce> NoncesRepository => new Repository<Nonce>(_dbContext);
         public IRepository<PaymentGateway> PaymentGatewaysRepository => new Repository<PaymentGateway>(_dbContext);
         public IRepository<Purchase> PurchasesRepository => new Repository<Purchase>(_dbContext);
-
+        public IRepository<Collection> CollectionsRepository => new Repository<Collection>(_dbContext);
 
         public async Task Save()
         {

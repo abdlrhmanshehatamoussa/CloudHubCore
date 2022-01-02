@@ -1,20 +1,15 @@
 ﻿namespace CloudHub.Domain.Entities
 {
-    public class Feature
+    public class Feature : IBaseTrackableEntity
     {
-        public Feature()
-        {
-            Purchases = new HashSet<Purchase>();
-        }
-
         public int Id { get; set; }
-        public string GlobalId { get; set; } = null!;
+        public Guid GlobalId { get; set; } = Guid.NewGuid();
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public DateTime ModifiedOn { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public bool? Active { get; set; }
+        public bool Active { get; set; } = false;
+        public DateTime ModifiedOn { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
-        public virtual ICollection<Purchase> Purchases { get; set; }
+        public virtual ICollection<Purchase> Purchases { get; set; } = new HashSet<Purchase>();
     }
 }
