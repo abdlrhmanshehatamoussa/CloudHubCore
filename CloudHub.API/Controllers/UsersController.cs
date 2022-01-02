@@ -10,7 +10,7 @@ namespace CloudHub.API.Controllers
     {
         public UsersController(UserService userService) => _userService = userService;
 
-        private UserService _userService;
+        private readonly UserService _userService;
 
 
         [HttpGet]

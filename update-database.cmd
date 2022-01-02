@@ -1,7 +1,3 @@
 @echo off
-set GOOGLE_TOKEN_INFO_API_URL=0
-set ASPNETCORE_ENVIRONMENT=L
-set BUILD_ID=0
-set API_DATABASE=Host=127.0.0.1;Database=cloudhub-api-core-local;Username=postgres;Password=123456
 set PRODUCTION_MODE=false
-dotnet ef database update remove --project "CloudHub.Infra" --startup-project "CloudHub.API"
+dotnet ef database update --project "CloudHub.Infra" --startup-project "CloudHub.API"

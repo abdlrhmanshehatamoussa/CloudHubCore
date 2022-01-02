@@ -7,16 +7,19 @@ using CloudHub.Infra.Data;
 using CloudHub.Infra.Services;
 using Microsoft.EntityFrameworkCore;
 
-static string GetEnvVar(string var)
+static string GetEnvVar(string var, string? defaultValue = null)
 {
-    return Environment.GetEnvironmentVariable(var) ?? throw new MissingEnvironmentVariableException(var);
+    string? value = Environment.GetEnvironmentVariable(var);
+    if (value != null) { return value; }
+    if (defaultValue != null) { return defaultValue; }
+    throw new MissingEnvironmentVariableException(var);
 }
 
-string buildId = GetEnvVar("BUILD_ID");
-string envName = GetEnvVar("ASPNETCORE_ENVIRONMENT");
-string connectionString = GetEnvVar("API_DATABASE");
 bool isProduction = bool.Parse(GetEnvVar("PRODUCTION_MODE"));
-string googleTokenInfoApiUrl = GetEnvVar("GOOGLE_TOKEN_INFO_API_URL");
+string buildId = GetEnvVar("BUILD_ID", "0.0.0");
+string envName = GetEnvVar("ASPNETCORE_ENVIRONMENT", "Local");
+string connectionString = GetEnvVar("API_DATABASE", isProduction ? null : "Host=127.0.0.1;Database=cloudhub-api-core-local;Username=postgres;Password=123456");
+string googleTokenInfoApiUrl = GetEnvVar("GOOGLE_TOKEN_INFO_API_URL", "");
 APIConfigurations settings = new(envName, buildId, isProduction, connectionString, googleTokenInfoApiUrl);
 
 
@@ -38,6 +41,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<NonceService>();
 builder.Services.AddScoped<FeatureService>();
 builder.Services.AddScoped<PurchaseService>();
+builder.Services.AddScoped<PublicDataService>();
 builder.Services.AddControllers(options => options.Filters.Add<ConsumerCredentialsFilter>());
 
 //Swagger
