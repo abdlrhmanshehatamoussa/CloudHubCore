@@ -2,6 +2,6 @@
 {
     public interface IGoogleServicesConfigurations
     {
-        public string GoogleTokenInfoApiUrl { get; set; }
+        public string GoogleTokenInfoApiUrl { get; }
     }
 }

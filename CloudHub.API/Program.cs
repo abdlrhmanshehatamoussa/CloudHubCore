@@ -14,16 +14,15 @@ var builder = WebApplication.CreateBuilder(args);
  * Configure App Builder
  */
 APIConfigurations settings = APIConfigurations.Load();
-builder.Services.AddScoped<IGoogleServicesConfigurations>((_) => settings);
-builder.Services.AddScoped<IEnvironmentSettings>((_) => settings);
+builder.Services.AddScoped<IGoogleServicesConfigurations>(_ => settings);
+builder.Services.AddScoped<IEnvironmentSettings>(_ => settings);
 //OAuth
 builder.Services.AddScoped<GoogleOAuthExtractor>();
 builder.Services.AddScoped<IOAuthService, OAuthService>();
 //Databases
 builder.Services.AddDbContext<PostgreDatabase>(options => { options.UseNpgsql(settings.ConnectionString); });
-builder.Services.AddScoped<IDocumentDatabaseConfigurations, MongoDatabase>();
+builder.Services.AddScoped<IMongoConfigurations>(_ => settings);
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 //Services
 builder.Services.AddScoped<BaseService>();
 builder.Services.AddScoped<UserService>();
@@ -31,6 +30,7 @@ builder.Services.AddScoped<NonceService>();
 builder.Services.AddScoped<FeatureService>();
 builder.Services.AddScoped<PurchaseService>();
 builder.Services.AddScoped<PublicDataService>();
+builder.Services.AddScoped<PrivateDataService>();
 //Filters
 builder.Services.AddControllers(options => options.Filters.Add<ConsumerCredentialsFilter>());
 //Swagger

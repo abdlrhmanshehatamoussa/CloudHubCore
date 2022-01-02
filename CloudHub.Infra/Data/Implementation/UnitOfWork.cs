@@ -10,17 +10,17 @@ namespace CloudHub.Infra.Data
         public UnitOfWork(PostgreDatabase context) => _dbContext = context;
 
 
-        public ISQLRepository<User> UsersRepository => new SQLRepository<User>(_dbContext);
-        public ISQLRepository<Client> ClientsRepository => new SQLRepository<Client>(_dbContext);
-        public ISQLRepository<ClientType> ClientTypesRepository => new SQLRepository<ClientType>(_dbContext);
-        public ISQLRepository<UserToken> UserTokensRepository => new SQLRepository<UserToken>(_dbContext);
-        public ISQLRepository<Login> LoginsRepository => new SQLRepository<Login>(_dbContext);
-        public ISQLRepository<LoginType> LoginTypesRepository => new SQLRepository<LoginType>(_dbContext);
-        public ISQLRepository<Feature> FeaturesRepository => new SQLRepository<Feature>(_dbContext);
-        public ISQLRepository<Nonce> NoncesRepository => new SQLRepository<Nonce>(_dbContext);
-        public ISQLRepository<PaymentGateway> PaymentGatewaysRepository => new SQLRepository<PaymentGateway>(_dbContext);
-        public ISQLRepository<Purchase> PurchasesRepository => new SQLRepository<Purchase>(_dbContext);
-        public ISQLRepository<Collection> CollectionsRepository => new SQLRepository<Collection>(_dbContext);
+        public IRepository<User> UsersRepository => new SQLRepository<User>(_dbContext);
+        public IRepository<Client> ClientsRepository => new SQLRepository<Client>(_dbContext);
+        public IRepository<ClientType> ClientTypesRepository => new SQLRepository<ClientType>(_dbContext);
+        public IRepository<UserToken> UserTokensRepository => new SQLRepository<UserToken>(_dbContext);
+        public IRepository<Login> LoginsRepository => new SQLRepository<Login>(_dbContext);
+        public IRepository<LoginType> LoginTypesRepository => new SQLRepository<LoginType>(_dbContext);
+        public IRepository<Feature> FeaturesRepository => new SQLRepository<Feature>(_dbContext);
+        public IRepository<Nonce> NoncesRepository => new SQLRepository<Nonce>(_dbContext);
+        public IRepository<PaymentGateway> PaymentGatewaysRepository => new SQLRepository<PaymentGateway>(_dbContext);
+        public IRepository<Purchase> PurchasesRepository => new SQLRepository<Purchase>(_dbContext);
+        public IRepository<Collection> CollectionsRepository => new SQLRepository<Collection>(_dbContext);
 
         public async Task Save()
         {
