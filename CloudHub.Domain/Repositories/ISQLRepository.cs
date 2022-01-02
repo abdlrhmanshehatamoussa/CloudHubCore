@@ -2,7 +2,7 @@
 
 namespace CloudHub.Domain.Repositories
 {
-    public interface IRepository<T> where T : class
+    public interface ISQLRepository<T> where T : class
     {
         Task<List<T>> GetAll();
         Task<T?> GetByPk(object id);

@@ -1,7 +1,9 @@
 ﻿namespace CloudHub.Domain.Services
 {
-    public interface IServiceConfigurations
+    public interface IEnvironmentSettings
     {
-        bool IsProductionModeEnabled { get; }
+        public bool IsProductionModeEnabled { get; }
+        public string EnvironmentName { get; }
+        public string BuildId { get; }
     }
 }

@@ -6,7 +6,7 @@ namespace CloudHub.Domain.Services
 {
     public class NonceService : BaseService
     {
-        public NonceService(IUnitOfWork unitOfWork, IServiceConfigurations productionModeProvider) : base(unitOfWork, productionModeProvider)
+        public NonceService(IUnitOfWork unitOfWork, IEnvironmentSettings productionModeProvider) : base(unitOfWork, productionModeProvider)
         {
         }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CloudHub.Domain.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers
 {
@@ -6,12 +7,12 @@ namespace CloudHub.API.Controllers
     [Route("ping")]
     public class PingController : BasicController
     {
-        public PingController(APIConfigurations apiSettings)
+        public PingController(IEnvironmentSettings envSettings)
         {
-            this.apiSettings = apiSettings;
+            this.envSettings = envSettings;
         }
 
-        private readonly APIConfigurations apiSettings;
+        private readonly IEnvironmentSettings envSettings;
 
 
         [HttpGet]
@@ -20,8 +21,9 @@ namespace CloudHub.API.Controllers
             return new
             {
                 timestamp = DateTime.Now,
-                build_id = apiSettings.BuildId,
-                environment = apiSettings.Environment
+                build_id = envSettings.BuildId,
+                production_mode=envSettings.IsProductionModeEnabled,
+                environment = envSettings.EnvironmentName
             };
         }
     }

@@ -8,7 +8,7 @@ namespace CloudHub.Domain.Services
 {
     public class UserService : BaseService
     {
-        public UserService(IUnitOfWork unitOfWork, IServiceConfigurations productionModeProvider, IOAuthService oAuthService) : base(unitOfWork, productionModeProvider)
+        public UserService(IUnitOfWork unitOfWork, IEnvironmentSettings productionModeProvider, IOAuthService oAuthService) : base(unitOfWork, productionModeProvider)
         {
             _oAuthService = oAuthService;
         }

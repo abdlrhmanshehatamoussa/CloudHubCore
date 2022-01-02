@@ -17,10 +17,10 @@ namespace CloudHub.Tests.User
         [SetUp]
         public void Setup()
         {
-            DbContextOptionsBuilder<MyDbContext> builder = new();
+            DbContextOptionsBuilder<PostgreDatabase> builder = new();
             builder.UseNpgsql(Constants.PSQL_HOST);
-            IUnitOfWork unitOfWork = new UnitOfWork(new MyDbContext(builder.Options));
-            Mock<IServiceConfigurations> mock = new();
+            IUnitOfWork unitOfWork = new UnitOfWork(new PostgreDatabase(builder.Options));
+            Mock<IEnvironmentSettings> mock = new();
             mock.Setup(x => x.IsProductionModeEnabled).Returns(false);
             //userService = new UserService(unitOfWork, mock.Object);
             nonceService = new NonceService(unitOfWork, mock.Object);

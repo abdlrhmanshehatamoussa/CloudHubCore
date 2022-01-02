@@ -5,10 +5,9 @@ using CloudHub.Domain.Repositories;
 
 namespace CloudHub.Domain.Services
 {
-
     public class BaseService
     {
-        public BaseService(IUnitOfWork unitOfWork, IServiceConfigurations productionModeProvider)
+        public BaseService(IUnitOfWork unitOfWork, IEnvironmentSettings productionModeProvider)
         {
             _unitOfWork = unitOfWork;
             this.productionModeProvider = productionModeProvider;
@@ -16,7 +15,7 @@ namespace CloudHub.Domain.Services
         
         
         protected readonly IUnitOfWork _unitOfWork;
-        protected readonly IServiceConfigurations productionModeProvider;
+        protected readonly IEnvironmentSettings productionModeProvider;
 
 
         public async Task<ConsumerInfo> GetConsumerInfo(ConsumerCredentials credentials)

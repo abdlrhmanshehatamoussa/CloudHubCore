@@ -4,17 +4,17 @@ namespace CloudHub.Domain.Repositories
 {
     public interface IUnitOfWork
     {
-        IRepository<User> UsersRepository { get; }
-        IRepository<Client> ClientsRepository { get; }
-        IRepository<ClientType> ClientTypesRepository { get; }
-        IRepository<UserToken> UserTokensRepository { get; }
-        IRepository<Login> LoginsRepository { get; }
-        IRepository<LoginType> LoginTypesRepository { get; }
-        IRepository<Feature> FeaturesRepository { get; }
-        IRepository<Nonce> NoncesRepository { get; }
-        IRepository<PaymentGateway> PaymentGatewaysRepository { get; }
-        IRepository<Purchase> PurchasesRepository { get; }
-        IRepository<Collection> CollectionsRepository { get; }
+        ISQLRepository<User> UsersRepository { get; }
+        ISQLRepository<Client> ClientsRepository { get; }
+        ISQLRepository<ClientType> ClientTypesRepository { get; }
+        ISQLRepository<UserToken> UserTokensRepository { get; }
+        ISQLRepository<Login> LoginsRepository { get; }
+        ISQLRepository<LoginType> LoginTypesRepository { get; }
+        ISQLRepository<Feature> FeaturesRepository { get; }
+        ISQLRepository<Nonce> NoncesRepository { get; }
+        ISQLRepository<PaymentGateway> PaymentGatewaysRepository { get; }
+        ISQLRepository<Purchase> PurchasesRepository { get; }
+        ISQLRepository<Collection> CollectionsRepository { get; }
         Task Save();
     }
 }

@@ -5,9 +5,9 @@ using CloudHub.Domain.Repositories;
 
 namespace CloudHub.Domain.Services
 {
-    public class PublicDataService : BaseService
+    public class PublicDataService : DocumentService
     {
-        public PublicDataService(IUnitOfWork unitOfWork, IServiceConfigurations productionModeProvider) : base(unitOfWork, productionModeProvider)
+        public PublicDataService(IUnitOfWork unitOfWork, IDocumentRepository documentRepository, IEnvironmentSettings productionModeProvider) : base(unitOfWork, documentRepository, productionModeProvider)
         {
         }
 
@@ -17,9 +17,10 @@ namespace CloudHub.Domain.Services
             Nonce nonce = consumerInfo.Nonce ?? throw new InvalidNonceException();
             Collection? collection = await _unitOfWork.CollectionsRepository.FirstWhere(c => c.Name == collectionName && c.CollectionTypeId == CollectionTypeValues.PUBLIC);
             if (collection == null) { throw new InvalidCollectionException(); }
-
+            var results = await _documentRepository.FetchAll(collectionName);
             await ConsumeNonce(nonce.Id);
-            return new { };
+            await _unitOfWork.Save();
+            return results;
         }
     }
 }

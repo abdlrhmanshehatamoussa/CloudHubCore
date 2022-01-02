@@ -7,7 +7,7 @@ namespace CloudHub.Domain.Services
 {
     public class PurchaseService : BaseService
     {
-        public PurchaseService(IUnitOfWork unitOfWork, IServiceConfigurations productionModeProvider) : base(unitOfWork, productionModeProvider)
+        public PurchaseService(IUnitOfWork unitOfWork, IEnvironmentSettings productionModeProvider) : base(unitOfWork, productionModeProvider)
         {
         }
 

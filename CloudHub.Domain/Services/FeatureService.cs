@@ -7,7 +7,7 @@ namespace CloudHub.Domain.Services
 {
     public class FeatureService : BaseService
     {
-        public FeatureService(IUnitOfWork unitOfWork, IServiceConfigurations productionModeProvider) : base(unitOfWork, productionModeProvider)
+        public FeatureService(IUnitOfWork unitOfWork, IEnvironmentSettings productionModeProvider) : base(unitOfWork, productionModeProvider)
         {
         }
 

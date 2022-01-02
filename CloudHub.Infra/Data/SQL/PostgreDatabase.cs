@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CloudHub.Infra.Data
 {
-    public partial class MyDbContext : DbContext
+    public partial class PostgreDatabase : DbContext
     {
-        public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
+        public PostgreDatabase(DbContextOptions<PostgreDatabase> options) : base(options) { }
 
         public virtual DbSet<Client> Clients { get; set; } = null!;
         public virtual DbSet<ClientType> ClientTypes { get; set; } = null!;
