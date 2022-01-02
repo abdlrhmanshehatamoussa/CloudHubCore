@@ -20,24 +20,44 @@ namespace CloudHub.API
         public bool IsProductionModeEnabled { get; set; }
         public string GoogleTokenInfoApiUrl { get; set; }
 
-
-        public static APIConfigurations FromEnvironment()
+        private const string KEY_CONNECTION_STRING = "API_DATABASE";
+        private const string KEY_BUILD_ID = "BUILD_ID";
+        private const string KEY_PROD_MODE = "PRODUCTION_MODE";
+        private const string KEY_ENV_NAME = "ASPNETCORE_ENVIRONMENT";
+        private const string KEY_GOOGLE_TOKEN_URL = "GOOGLE_TOKEN_INFO_API_URL";
+        
+        public static APIConfigurations Load()
         {
-            bool isProduction = bool.Parse(GetEnvVar("PRODUCTION_MODE"));
-            string buildId = GetEnvVar("BUILD_ID");
-            string envName = GetEnvVar("ASPNETCORE_ENVIRONMENT");
-            string connectionString = GetEnvVar("API_DATABASE");
-            string googleTokenInfoApiUrl = GetEnvVar("GOOGLE_TOKEN_INFO_API_URL");
+            try
+            {
+                return FromEnvironment();
+            }
+            catch
+            {
+                return FromJson();
+            }
+        }
+
+        private static APIConfigurations FromEnvironment()
+        {
+            bool isProduction = bool.Parse(GetEnvVar(KEY_PROD_MODE));
+            string buildId = GetEnvVar(KEY_BUILD_ID);
+            string envName = GetEnvVar(KEY_ENV_NAME);
+            string connectionString = GetEnvVar(KEY_CONNECTION_STRING);
+            string googleTokenInfoApiUrl = GetEnvVar(KEY_GOOGLE_TOKEN_URL);
             return new(envName, buildId, isProduction, connectionString, googleTokenInfoApiUrl);
         }
 
-        public static APIConfigurations Local()
+        private static APIConfigurations FromJson()
         {
-            bool isProduction = false;
-            string buildId = "0.0.0";
-            string envName = "Local";
-            string connectionString = "Host=127.0.0.1;Database=cloudhub-api-core-local;Username=postgres;Password=123456";
-            string googleTokenInfoApiUrl = "";
+            var builder = new ConfigurationBuilder();
+            builder.AddJsonFile("appsettings.json");
+            IConfigurationRoot configuration = builder.Build();
+            bool isProduction = configuration.GetValue<bool>(KEY_PROD_MODE);
+            string buildId = configuration.GetValue<string>(KEY_BUILD_ID);
+            string envName = configuration.GetValue<string>(KEY_ENV_NAME);
+            string connectionString = configuration.GetValue<string>(KEY_CONNECTION_STRING);
+            string googleTokenInfoApiUrl = configuration.GetValue<string>(KEY_GOOGLE_TOKEN_URL);
             return new(envName, buildId, isProduction, connectionString, googleTokenInfoApiUrl);
         }
 

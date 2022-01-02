@@ -7,5 +7,4 @@ set /P migration_name=Migration Name:
 if "%migration_dir%" == "" (
 set /P migration_dir=Migration Output Directory:
 )
-set PRODUCTION_MODE=false
 dotnet ef migrations add %migration_name% --project "CloudHub.Infra" --startup-project "CloudHub.API" -o %migration_dir%

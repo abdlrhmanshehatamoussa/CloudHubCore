@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 /*
  * Configure App Builder
  */
-APIConfigurations settings = APIConfigurations.FromEnvironment();
+APIConfigurations settings = APIConfigurations.Load();
 builder.Services.AddScoped<IGoogleServicesConfigurations>((_) => settings);
 builder.Services.AddScoped<IEnvironmentSettings>((_) => settings);
 //OAuth
