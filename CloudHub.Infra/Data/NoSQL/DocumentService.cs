@@ -1,5 +1,9 @@
 ﻿using CloudHub.Domain.Services;
+using MongoDB.Bson;
+using MongoDB.Bson.IO;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using System.Text.Json;
 
 namespace CloudHub.Infra.Data
 {
@@ -31,6 +35,14 @@ namespace CloudHub.Infra.Data
             }
             List<dynamic> results = await collection.Find(myFilter).ToListAsync();
             return results;
+        }
+
+        public async Task Add(string collectionName, dynamic document)
+        {
+            IMongoCollection<BsonDocument> collection = database.GetCollection<BsonDocument>(collectionName);
+            string documentJsonStr = JsonSerializer.Serialize(document);
+            BsonDocument toInsert = BsonSerializer.Deserialize<BsonDocument>(documentJsonStr);
+            await collection.InsertOneAsync(toInsert);
         }
     }
 }

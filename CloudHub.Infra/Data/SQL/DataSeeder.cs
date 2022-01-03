@@ -7,7 +7,7 @@ namespace CloudHub.Infra.Data
     {
         public static void Seed(ModelBuilder modelBuilder)
         {
-            DateTime stamp = new DateTime(2022, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
+            DateTime stamp = new (2022, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
             modelBuilder.Entity<ClientType>().HasData(
                 new ClientType() { Active = true, Name = "Admin", Id = ClientTypeValues.ADMIN, CreatedOn = stamp, ModifiedOn = stamp },
                 new ClientType() { Active = true, Name = "Application", Id = ClientTypeValues.APP, CreatedOn = stamp, ModifiedOn = stamp },

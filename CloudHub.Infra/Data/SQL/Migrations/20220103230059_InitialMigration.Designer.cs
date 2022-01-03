@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CloudHub.Infra.Data.SQL.Migrations
 {
     [DbContext(typeof(PostgreDatabase))]
-    [Migration("20220103170045_InitialMigration")]
+    [Migration("20220103230059_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -174,10 +174,11 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                         .HasColumnName("created_on")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<string>("IdentityField")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("identity_field");
+                    b.Property<bool>("IsPrivate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_private");
 
                     b.Property<DateTime>("ModifiedOn")
                         .ValueGeneratedOnAdd()

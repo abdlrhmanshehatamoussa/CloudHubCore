@@ -172,10 +172,11 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                         .HasColumnName("created_on")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<string>("IdentityField")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("identity_field");
+                    b.Property<bool>("IsPrivate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_private");
 
                     b.Property<DateTime>("ModifiedOn")
                         .ValueGeneratedOnAdd()

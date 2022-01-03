@@ -23,9 +23,10 @@ namespace CloudHub.Infra.Data
                 .IsRequired()
                 .HasColumnName("name");
 
-            entityBuilder.Property(c => c.IdentityField)
-                .HasMaxLength(255)
-                .HasColumnName("identity_field");
+            entityBuilder.Property(c => c.IsPrivate)
+                .IsRequired()
+                .HasDefaultValue(true)
+                .HasColumnName("is_private");
 
             MappingUtils.MapTrackingAttributes(entityBuilder);
         }

@@ -32,7 +32,7 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    identity_field = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    is_private = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     active = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "true"),
                     modified_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
                     created_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")

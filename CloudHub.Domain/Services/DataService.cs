@@ -2,6 +2,7 @@
 using CloudHub.Domain.Entities;
 using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Repositories;
+using System.Dynamic;
 
 namespace CloudHub.Domain.Services
 {
@@ -17,24 +18,48 @@ namespace CloudHub.Domain.Services
 
         public async Task<List<dynamic>> FetchAll(ConsumerCredentials credentials, string collectionName)
         {
+            if (string.IsNullOrWhiteSpace(collectionName)) { throw new MissingParameterException("collection"); }
             ConsumerInfo consumerInfo = await GetConsumerInfo(credentials);
             Nonce nonce = consumerInfo.Nonce ?? throw new InvalidNonceException();
             Collection? collection = await _unitOfWork.CollectionsRepository.FirstWhere(c => c.Name == collectionName && c.Active == true);
             if (collection == null) { throw new InvalidCollectionException(); }
 
-            Dictionary<string,string> filter = null!;
-            if (string.IsNullOrWhiteSpace(collection.IdentityField) == false)
+            Dictionary<string, string> filter = new();
+            if (collection.IsPrivate)
             {
                 UserToken token = consumerInfo.UserToken ?? throw new NotAuthenticatedException();
                 User user = token.User;
-                filter = new Dictionary<string, string>();
-                filter[collection.IdentityField] = user.GlobalId;
+                filter["user_id"] = user.GlobalId;
             }
 
-            dynamic results = await _documentsService.FetchAll(collectionName, filter);
+            List<dynamic> results = await _documentsService.FetchAll(collectionName, filter);
             await ConsumeNonce(nonce.Id);
             await _unitOfWork.Save();
             return results;
+        }
+
+        public async Task Add(ConsumerCredentials credentials, string collectionName, dynamic data)
+        {
+            if (string.IsNullOrWhiteSpace(collectionName)) { throw new MissingParameterException("collection"); }
+            ConsumerInfo consumerInfo = await GetConsumerInfo(credentials);
+            Nonce nonce = consumerInfo.Nonce ?? throw new InvalidNonceException();
+            Collection? collection = await _unitOfWork.CollectionsRepository.FirstWhere(c => c.Name == collectionName && c.Active == true);
+            if (collection == null) { throw new InvalidCollectionException(); }
+
+            dynamic toAdd;
+            if (collection.IsPrivate)
+            {
+                UserToken token = consumerInfo.UserToken ?? throw new NotAuthenticatedException();
+                User user = token.User;
+                toAdd = new { body = data, user_id = user.GlobalId };
+            }
+            else
+            {
+                toAdd = new { body = data };
+            }
+            await _documentsService.Add(collectionName, toAdd);
+            await ConsumeNonce(nonce.Id);
+            await _unitOfWork.Save();
         }
     }
 }

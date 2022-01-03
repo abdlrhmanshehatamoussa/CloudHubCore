@@ -21,5 +21,14 @@ namespace CloudHub.API.Controllers
             var results = await _dataService.FetchAll(ConsumerCredentials, collection);
             return results;
         }
+
+        [HttpPost]
+        [Route("{collection}")]
+        public async Task<dynamic> Add(string collection, [FromBody] dynamic data)
+        {
+            if (string.IsNullOrWhiteSpace(collection)) { throw new MissingParameterException("collection"); }
+            await _dataService.Add(ConsumerCredentials, collection, data);
+            throw new EmptyResponseException();
+        }
     }
 }
