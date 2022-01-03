@@ -13,10 +13,6 @@ namespace CloudHub.Infra.Data
                 new ClientType() { Active = true, Name = "Application", Id = ClientTypeValues.APP, CreatedOn = stamp, ModifiedOn = stamp },
                 new ClientType() { Active = true, Name = "Dashboard", Id = ClientTypeValues.DASHBOARD, CreatedOn = stamp, ModifiedOn = stamp }
             );
-            modelBuilder.Entity<CollectionType>().HasData(
-               new CollectionType() { Active = true, Name = "Private", Id = CollectionTypeValues.PRIVATE, CreatedOn = stamp, ModifiedOn = stamp },
-               new CollectionType() { Active = true, Name = "Public", Id = CollectionTypeValues.PUBLIC, CreatedOn = stamp, ModifiedOn = stamp }
-            );
             modelBuilder.Entity<LoginType>().HasData(
                 new LoginType() { Active = true, Name = "Google", Id = LoginTypeValues.LOGIN_TYPE_GOOGLE, CreatedOn = stamp, ModifiedOn = stamp },
                 new LoginType() { Active = true, Name = "Basic", Id = LoginTypeValues.LOGIN_TYPE_BASIC, CreatedOn = stamp, ModifiedOn = stamp },

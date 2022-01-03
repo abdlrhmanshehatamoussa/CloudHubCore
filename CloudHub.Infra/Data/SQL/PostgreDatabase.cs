@@ -18,7 +18,6 @@ namespace CloudHub.Infra.Data
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
         public virtual DbSet<Collection> Collections { get; set; } = null!;
-        public virtual DbSet<CollectionType> CollectionTypes { get; set; } = null!;
 
         private readonly List<IBaseMapper> ModelBuilders = new()
         {
@@ -33,7 +32,6 @@ namespace CloudHub.Infra.Data
             new UserMapper(),
             new UserTokenMapper(),
             new CollectionsMapper(),
-            new CollectionTypesMapper(),
         };
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }

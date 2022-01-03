@@ -21,6 +21,7 @@ builder.Services.AddScoped<GoogleOAuthExtractor>();
 builder.Services.AddScoped<IOAuthService, OAuthService>();
 //Databases
 builder.Services.AddDbContext<PostgreDatabase>(options => { options.UseNpgsql(settings.ConnectionString); });
+builder.Services.AddScoped<IDocumentsService,DocumentService>();
 builder.Services.AddScoped<IMongoConfigurations>(_ => settings);
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //Services
@@ -29,8 +30,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<NonceService>();
 builder.Services.AddScoped<FeatureService>();
 builder.Services.AddScoped<PurchaseService>();
-builder.Services.AddScoped<PublicDataService>();
-builder.Services.AddScoped<PrivateDataService>();
+builder.Services.AddScoped<DataService>();
 //Filters
 builder.Services.AddControllers(options => options.Filters.Add<ConsumerCredentialsFilter>());
 //Swagger

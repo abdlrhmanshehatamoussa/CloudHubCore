@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace CloudHub.API.Controllers
 {
     [ApiController]
-    [Route("data/private")]
-    public class PrivateDataController : BasicController
+    [Route("data")]
+    public class DataController : BasicController
     {
-        public PrivateDataController(PrivateDataService privateDataService) => _privateDataService = privateDataService;
+        public DataController(DataService privateDataService) => _dataService = privateDataService;
 
-        private readonly PrivateDataService _privateDataService;
+        private readonly DataService _dataService;
 
 
         [HttpGet]
@@ -18,7 +18,7 @@ namespace CloudHub.API.Controllers
         public async Task<dynamic> FetchAll(string collection)
         {
             if (collection == null) { throw new MissingParameterException("collection"); }
-            var results = await _privateDataService.FetchAll(ConsumerCredentials, collection);
+            var results = await _dataService.FetchAll(ConsumerCredentials, collection);
             return results;
         }
     }

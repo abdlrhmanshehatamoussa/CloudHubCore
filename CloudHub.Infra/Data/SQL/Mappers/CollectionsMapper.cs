@@ -23,9 +23,9 @@ namespace CloudHub.Infra.Data
                 .IsRequired()
                 .HasColumnName("name");
 
-            entityBuilder.Property(c => c.CollectionTypeId)
-                .IsRequired()
-                .HasColumnName("collection_type_id");
+            entityBuilder.Property(c => c.IdentityField)
+                .HasMaxLength(255)
+                .HasColumnName("identity_field");
 
             MappingUtils.MapTrackingAttributes(entityBuilder);
         }
@@ -34,12 +34,6 @@ namespace CloudHub.Infra.Data
         {
             entityBuilder.HasIndex(c => c.Name)
                 .IsUnique();
-
-            entityBuilder.HasOne(c => c.CollectionType)
-                .WithMany(ct => ct.Collections)
-                .HasForeignKey(c => c.CollectionTypeId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("collections_collection_type_id_foreign");
         }
     }
 }

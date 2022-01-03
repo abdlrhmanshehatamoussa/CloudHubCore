@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 namespace CloudHub.Infra.Data
 {
 
-    public class SQLRepository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
-        public SQLRepository(DbContext context) => _context = context;
+        public Repository(DbContext context) => _context = context;
 
 
         private readonly DbContext _context;

@@ -1,5 +1,5 @@
-﻿using CloudHub.Domain.Entities;
-using CloudHub.Domain.Services;
+﻿using CloudHub.Domain.DTO;
+using CloudHub.Domain.Entities;
 using CloudHub.Infra.Services;
 using Moq;
 using NUnit.Framework;

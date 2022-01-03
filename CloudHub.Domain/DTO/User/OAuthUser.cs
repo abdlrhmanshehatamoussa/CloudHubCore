@@ -1,6 +1,6 @@
 ﻿using CloudHub.Domain.Exceptions;
 
-namespace CloudHub.Domain.Services
+namespace CloudHub.Domain.DTO
 {
     public class OAuthUser
     {

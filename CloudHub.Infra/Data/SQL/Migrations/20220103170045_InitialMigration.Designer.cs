@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace CloudHub.Infra.Data.EF.Migrations
+namespace CloudHub.Infra.Data.SQL.Migrations
 {
     [DbContext(typeof(PostgreDatabase))]
-    [Migration("20220102194327_InitialMigration")]
+    [Migration("20220103170045_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -168,15 +168,16 @@ namespace CloudHub.Infra.Data.EF.Migrations
                         .HasColumnName("active")
                         .HasDefaultValueSql("true");
 
-                    b.Property<int>("CollectionTypeId")
-                        .HasColumnType("integer")
-                        .HasColumnName("collection_type_id");
-
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_on")
                         .HasDefaultValueSql("now()");
+
+                    b.Property<string>("IdentityField")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("identity_field");
 
                     b.Property<DateTime>("ModifiedOn")
                         .ValueGeneratedOnAdd()
@@ -191,69 +192,11 @@ namespace CloudHub.Infra.Data.EF.Migrations
                         .HasColumnName("name");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CollectionTypeId");
 
                     b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("collections", (string)null);
-                });
-
-            modelBuilder.Entity("CloudHub.Domain.Entities.CollectionType", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasColumnName("active")
-                        .HasDefaultValueSql("true");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_on")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_on")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex(new[] { "Name" }, "collection_types_name_unique")
-                        .IsUnique();
-
-                    b.ToTable("collection_types", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 54643908,
-                            Active = true,
-                            CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ModifiedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Private"
-                        },
-                        new
-                        {
-                            Id = 33261982,
-                            Active = true,
-                            CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ModifiedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Public"
-                        });
                 });
 
             modelBuilder.Entity("CloudHub.Domain.Entities.Feature", b =>
@@ -670,18 +613,6 @@ namespace CloudHub.Infra.Data.EF.Migrations
                     b.Navigation("ClientType");
                 });
 
-            modelBuilder.Entity("CloudHub.Domain.Entities.Collection", b =>
-                {
-                    b.HasOne("CloudHub.Domain.Entities.CollectionType", "CollectionType")
-                        .WithMany("Collections")
-                        .HasForeignKey("CollectionTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("collections_collection_type_id_foreign");
-
-                    b.Navigation("CollectionType");
-                });
-
             modelBuilder.Entity("CloudHub.Domain.Entities.Login", b =>
                 {
                     b.HasOne("CloudHub.Domain.Entities.LoginType", "LoginType")
@@ -758,11 +689,6 @@ namespace CloudHub.Infra.Data.EF.Migrations
             modelBuilder.Entity("CloudHub.Domain.Entities.ClientType", b =>
                 {
                     b.Navigation("Clients");
-                });
-
-            modelBuilder.Entity("CloudHub.Domain.Entities.CollectionType", b =>
-                {
-                    b.Navigation("Collections");
                 });
 
             modelBuilder.Entity("CloudHub.Domain.Entities.Feature", b =>
