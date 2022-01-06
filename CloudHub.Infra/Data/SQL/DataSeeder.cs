@@ -9,9 +9,8 @@ namespace CloudHub.Infra.Data
         {
             DateTime stamp = new (2022, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
             modelBuilder.Entity<ClientType>().HasData(
-                new ClientType() { Active = true, Name = "Admin", Id = EClientTypes.ADMIN, CreatedOn = stamp, ModifiedOn = stamp },
-                new ClientType() { Active = true, Name = "Application", Id = EClientTypes.APP, CreatedOn = stamp, ModifiedOn = stamp },
-                new ClientType() { Active = true, Name = "Dashboard", Id = EClientTypes.DASHBOARD, CreatedOn = stamp, ModifiedOn = stamp }
+                new ClientType() { Active = true, Name = "Application", Id = EClientTypes.Application, CreatedOn = stamp, ModifiedOn = stamp },
+                new ClientType() { Active = true, Name = "Dashboard", Id = EClientTypes.Dashboard, CreatedOn = stamp, ModifiedOn = stamp }
             );
             modelBuilder.Entity<LoginType>().HasData(
                 new LoginType() { Active = true, Name = "Google", Id = ELoginTypes.LOGIN_TYPE_GOOGLE, CreatedOn = stamp, ModifiedOn = stamp },

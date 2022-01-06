@@ -288,7 +288,6 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                 columns: new[] { "id", "active", "created_on", "modified_on", "name" },
                 values: new object[,]
                 {
-                    { 7061601, true, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Admin" },
                     { 38359937, true, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Application" },
                     { 41596505, true, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Dashboard" }
                 });

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CloudHub.Infra.Data.SQL.Migrations
 {
     [DbContext(typeof(PostgreDatabase))]
-    [Migration("20220106214543_InitialMigration")]
+    [Migration("20220106221905_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -244,14 +244,6 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                     b.ToTable("client_types", (string)null);
 
                     b.HasData(
-                        new
-                        {
-                            Id = 7061601,
-                            Active = true,
-                            CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ModifiedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Admin"
-                        },
                         new
                         {
                             Id = 38359937,

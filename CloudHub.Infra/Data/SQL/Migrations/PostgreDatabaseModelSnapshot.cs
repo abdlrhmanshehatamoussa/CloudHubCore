@@ -244,14 +244,6 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 7061601,
-                            Active = true,
-                            CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ModifiedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Admin"
-                        },
-                        new
-                        {
                             Id = 38359937,
                             Active = true,
                             CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),

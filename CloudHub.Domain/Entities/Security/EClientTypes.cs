@@ -2,8 +2,7 @@
 {
     public enum EClientTypes
     {
-        ADMIN = 7061601,
-        DASHBOARD = 41596505,
-        APP = 38359937,
+        Dashboard = 41596505,
+        Application = 38359937,
     }
 }
