@@ -1,8 +1,8 @@
 ﻿namespace CloudHub.Domain.Entities
 {
-    public class LoginType : ILookupEntity<LoginTypeValues>
+    public class LoginType : ILookupEntity<ELoginTypes>
     {
-        public LoginTypeValues Id { get; set; }
+        public ELoginTypes Id { get; set; }
         public string Name { get; set; } = null!;
         public bool Active { get; set; } = false;
         public DateTime ModifiedOn { get; set; } = DateTime.UtcNow;

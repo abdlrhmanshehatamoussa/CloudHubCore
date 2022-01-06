@@ -12,8 +12,8 @@ namespace CloudHub.Domain.Services
             _unitOfWork = unitOfWork;
             this.productionModeProvider = productionModeProvider;
         }
-        
-        
+
+
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IEnvironmentSettings productionModeProvider;
 
@@ -40,11 +40,21 @@ namespace CloudHub.Domain.Services
 
             }
 
+            Admin? admin = null;
+            if (credentials.AdminCredentials != null)
+            {
+                admin = await _unitOfWork.AdminsRepository.FirstWhere(a => a.Active == true
+                && a.UserName == credentials.AdminCredentials.Value.UserName
+                && a.Password == credentials.AdminCredentials.Value.Password);
+                if (admin == null) { throw new NotAuthenticatedException(); }
+            }
+
             return new ConsumerInfo()
             {
                 Client = client,
                 UserToken = userToken,
-                Nonce = nonce
+                Nonce = nonce,
+                Admin = admin
             };
         }
 

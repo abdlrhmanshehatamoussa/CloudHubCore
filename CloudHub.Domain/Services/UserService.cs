@@ -69,7 +69,7 @@ namespace CloudHub.Domain.Services
             login.LoginTypeId = dto.login_type;
             login.User = user;
             string passcode;
-            if (dto.login_type == LoginTypeValues.LOGIN_TYPE_BASIC)
+            if (dto.login_type == ELoginTypes.LOGIN_TYPE_BASIC)
             {
                 passcode = dto.password;
             }
@@ -121,7 +121,7 @@ namespace CloudHub.Domain.Services
             //Check user credentials
             if (user.Login.LoginTypeId != dto.login_type) { throw new NotAuthenticatedException(); }
 
-            if (dto.login_type != LoginTypeValues.LOGIN_TYPE_BASIC)
+            if (dto.login_type != ELoginTypes.LOGIN_TYPE_BASIC)
             {
                 OAuthUser? oAuthUser = await _oAuthService.GetUserByToken(dto.password, dto.login_type);
                 if (oAuthUser == null || oAuthUser.Email != dto.email) { throw new NotAuthenticatedException(); }

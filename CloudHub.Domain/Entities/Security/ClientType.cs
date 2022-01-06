@@ -1,8 +1,8 @@
 ﻿namespace CloudHub.Domain.Entities
 {
-    public class ClientType : ILookupEntity<ClientTypeValues>
+    public class ClientType : ILookupEntity<EClientTypes>
     {
-        public ClientTypeValues Id { get; set; }
+        public EClientTypes Id { get; set; }
         public string Name { get; set; } = null!;
         public bool Active { get; set; } = false;
         public DateTime ModifiedOn { get; set; } = DateTime.UtcNow;

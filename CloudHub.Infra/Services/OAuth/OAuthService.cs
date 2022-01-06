@@ -10,12 +10,12 @@ namespace CloudHub.Infra.Services
     {
         public OAuthService(GoogleOAuthExtractor googleOAuthExtractor)
         {
-            this.Extractors.Add(LoginTypeValues.LOGIN_TYPE_GOOGLE, googleOAuthExtractor);
+            this.Extractors.Add(ELoginTypes.LOGIN_TYPE_GOOGLE, googleOAuthExtractor);
         }
 
-        private readonly Dictionary<LoginTypeValues, IOAuthExtractor> Extractors = new();
+        private readonly Dictionary<ELoginTypes, IOAuthExtractor> Extractors = new();
 
-        public async Task<OAuthUser?> GetUserByToken(string token, LoginTypeValues loginType)
+        public async Task<OAuthUser?> GetUserByToken(string token, ELoginTypes loginType)
         {
             if (string.IsNullOrWhiteSpace(token)) { return null; }
             IOAuthExtractor extractor = GetExtractor(loginType);
@@ -30,7 +30,7 @@ namespace CloudHub.Infra.Services
             return extractor.ExtractUser(body);
         }
 
-        private IOAuthExtractor GetExtractor(LoginTypeValues loginType)
+        private IOAuthExtractor GetExtractor(ELoginTypes loginType)
         {
             if (Extractors.ContainsKey(loginType) == false) { throw new Exception(string.Format("Cannot find OAuth extractor for Login type [{0}]", loginType.ToString())); }
             return this.Extractors[loginType];

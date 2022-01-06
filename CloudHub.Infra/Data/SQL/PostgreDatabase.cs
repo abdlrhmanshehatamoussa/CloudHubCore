@@ -7,6 +7,8 @@ namespace CloudHub.Infra.Data
     {
         public PostgreDatabase(DbContextOptions<PostgreDatabase> options) : base(options) { }
 
+        public virtual DbSet<Admin> Admins { get; set; } = null!;
+        public virtual DbSet<AdminType> AdminTypes { get; set; } = null!;
         public virtual DbSet<Client> Clients { get; set; } = null!;
         public virtual DbSet<ClientType> ClientTypes { get; set; } = null!;
         public virtual DbSet<Feature> Features { get; set; } = null!;
@@ -32,6 +34,8 @@ namespace CloudHub.Infra.Data
             new UserMapper(),
             new UserTokenMapper(),
             new CollectionsMapper(),
+            new AdminMapper(),
+            new AdminTypesMapper(),
         };
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }

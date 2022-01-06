@@ -6,7 +6,7 @@
         public string Name { get; set; } = null!;
         public string ClientKey { get; set; } = null!;
         public string ClientSecret { get; set; } = null!;
-        public ClientTypeValues ClientTypeId { get; set; }
+        public EClientTypes ClientTypeId { get; set; }
         public bool Active { get ; set ; } = false;
         public DateTime ModifiedOn { get; set; } = DateTime.UtcNow;
         public DateTime CreatedOn { get ; set ; } = DateTime.UtcNow;

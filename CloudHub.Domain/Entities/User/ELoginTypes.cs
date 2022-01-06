@@ -1,6 +1,6 @@
 ﻿namespace CloudHub.Domain.Entities
 {
-    public enum LoginTypeValues
+    public enum ELoginTypes
     {
         LOGIN_TYPE_BASIC = 5671293,
         LOGIN_TYPE_GOOGLE = 1932278,

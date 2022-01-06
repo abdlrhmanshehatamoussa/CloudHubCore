@@ -20,7 +20,7 @@ namespace CloudHub.Tests
         {
             Assert.DoesNotThrow(() =>
             {
-                RegisterRequest request = new(name: "asdasd", email:"egeg.com", password: "12345678", null, Domain.Entities.LoginTypeValues.LOGIN_TYPE_GOOGLE);
+                RegisterRequest request = new(name: "asdasd", email:"egeg.com", password: "12345678", null, Domain.Entities.ELoginTypes.LOGIN_TYPE_GOOGLE);
             });
         }
     }

@@ -4,11 +4,11 @@ namespace CloudHub.Domain.DTO
 {
     public class LoginRequest
     {
-        public LoginRequest(string email, string password, LoginTypeValues login_type)
+        public LoginRequest(string email, string password, ELoginTypes login_type)
         {
             ValidationUtils.Mandatory(email, nameof(email));
             ValidationUtils.Mandatory(password, nameof(password));
-            ValidationUtils.ValidEnumValue<LoginTypeValues>(login_type, nameof(login_type));
+            ValidationUtils.ValidEnumValue<ELoginTypes>(login_type, nameof(login_type));
 
             this.email = email;
             this.password = password;
@@ -17,6 +17,6 @@ namespace CloudHub.Domain.DTO
 
         public string email { get; set; }
         public string password { get; set; }
-        public LoginTypeValues login_type { get; set; }
+        public ELoginTypes login_type { get; set; }
     }
 }

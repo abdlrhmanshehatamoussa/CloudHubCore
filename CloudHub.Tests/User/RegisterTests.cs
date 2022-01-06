@@ -47,7 +47,7 @@ namespace CloudHub.Tests.User
                      "123456789",
                      random,
                      "",
-                     LoginTypeValues.LOGIN_TYPE_BASIC
+                     ELoginTypes.LOGIN_TYPE_BASIC
                  ));
                 Assert.That(response.Email == email);
                 Assert.IsNotNull(response.GlobalId);

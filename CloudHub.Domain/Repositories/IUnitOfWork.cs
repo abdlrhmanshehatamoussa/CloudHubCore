@@ -6,15 +6,15 @@ namespace CloudHub.Domain.Repositories
     {
         IRepository<User> UsersRepository { get; }
         IRepository<Client> ClientsRepository { get; }
-        IRepository<ClientType> ClientTypesRepository { get; }
         IRepository<UserToken> UserTokensRepository { get; }
         IRepository<Login> LoginsRepository { get; }
-        IRepository<LoginType> LoginTypesRepository { get; }
         IRepository<Feature> FeaturesRepository { get; }
         IRepository<Nonce> NoncesRepository { get; }
         IRepository<PaymentGateway> PaymentGatewaysRepository { get; }
         IRepository<Purchase> PurchasesRepository { get; }
         IRepository<Collection> CollectionsRepository { get; }
+        IRepository<Admin> AdminsRepository { get; }
+
         Task Save();
     }
 }

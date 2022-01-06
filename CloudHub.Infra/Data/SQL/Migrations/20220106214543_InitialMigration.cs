@@ -11,6 +11,21 @@ namespace CloudHub.Infra.Data.SQL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "admin_types",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false),
+                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    active = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "true"),
+                    modified_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                    created_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_admin_types", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "client_types",
                 columns: table => new
                 {
@@ -107,6 +122,30 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_users", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "admins",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    username = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    password = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    admin_type_id = table.Column<int>(type: "integer", nullable: false),
+                    active = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "true"),
+                    modified_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                    created_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_admins", x => x.id);
+                    table.ForeignKey(
+                        name: "admins_admin_type_id_foreign",
+                        column: x => x.admin_type_id,
+                        principalTable: "admin_types",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -235,6 +274,16 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "admin_types",
+                columns: new[] { "id", "active", "created_on", "modified_on", "name" },
+                values: new object[,]
+                {
+                    { 1657891, true, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Admin" },
+                    { 6435912, true, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Support" },
+                    { 7745892, true, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Super Admin" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "client_types",
                 columns: new[] { "id", "active", "created_on", "modified_on", "name" },
                 values: new object[,]
@@ -263,6 +312,23 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                     { 1593267, true, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Google Play Billing" },
                     { 4863519, true, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Paypal" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "admin_types_name_unique",
+                table: "admin_types",
+                column: "name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "admins_username_unique",
+                table: "admins",
+                column: "username",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_admins_admin_type_id",
+                table: "admins",
+                column: "admin_type_id");
 
             migrationBuilder.CreateIndex(
                 name: "client_types_name_unique",
@@ -382,6 +448,9 @@ namespace CloudHub.Infra.Data.SQL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "admins");
+
+            migrationBuilder.DropTable(
                 name: "collections");
 
             migrationBuilder.DropTable(
@@ -395,6 +464,9 @@ namespace CloudHub.Infra.Data.SQL.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_tokens");
+
+            migrationBuilder.DropTable(
+                name: "admin_types");
 
             migrationBuilder.DropTable(
                 name: "login_types");
