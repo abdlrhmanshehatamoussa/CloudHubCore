@@ -20,6 +20,11 @@ namespace CloudHub.Infra.Data
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
         public virtual DbSet<Collection> Collections { get; set; } = null!;
+        public virtual DbSet<PublicCollection> PublicCollections { get; set; } = null!;
+        public virtual DbSet<PublicDocument> PublicDocuments { get; set; } = null!;
+        public virtual DbSet<PrivateCollection> PrivateCollections { get; set; } = null!;
+        public virtual DbSet<PrivateDocument> PrivateDocuments { get; set; } = null!;
+
 
         private readonly List<IBaseMapper> ModelBuilders = new()
         {
@@ -36,6 +41,10 @@ namespace CloudHub.Infra.Data
             new CollectionsMapper(),
             new AdminMapper(),
             new AdminTypesMapper(),
+            new PublicCollectionMapper(),
+            new PublicDocumentMapper(),
+            new PrivateCollectionMapper(),
+            new PrivateDocumentMapper(),
         };
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }

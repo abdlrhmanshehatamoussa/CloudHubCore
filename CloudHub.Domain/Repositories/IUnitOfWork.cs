@@ -14,6 +14,10 @@ namespace CloudHub.Domain.Repositories
         IRepository<Purchase> PurchasesRepository { get; }
         IRepository<Collection> CollectionsRepository { get; }
         IRepository<Admin> AdminsRepository { get; }
+        IRepository<PublicDocument> PublicDocumentsRepository { get; }
+        IRepository<PublicCollection> PublicCollectionsRepository { get; }
+        IRepository<PrivateDocument> PrivateDocumentsRepository { get; }
+        IRepository<PrivateCollection> PrivateCollectionsRepository { get; }
 
         Task Save();
     }
