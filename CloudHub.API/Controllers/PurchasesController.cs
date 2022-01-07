@@ -25,19 +25,16 @@ namespace CloudHub.API.Controllers
             });
         }
 
+        //TODO: Implement
         [HttpPost]
         public Task<dynamic> Purchase()
         {
-            //TODO: Implement
             throw new NotImplementedException();
         }
-
-
         [HttpPost]
         [Route("validate")]
         public Task<dynamic> Validate()
         {
-            //TODO: Implement
             throw new NotImplementedException();
         }
     }

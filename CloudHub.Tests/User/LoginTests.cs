@@ -24,8 +24,6 @@ namespace CloudHub.Tests.User
             IUnitOfWork unitOfWork = new UnitOfWork(new PostgreDatabase(builder.Options));
             Mock<IEnvironmentSettings> mock = new();
             mock.Setup(x => x.IsProductionModeEnabled).Returns(false);
-
-            //TODO: 
             //service = new UserService(unitOfWork, mock.Object);
         }
 
