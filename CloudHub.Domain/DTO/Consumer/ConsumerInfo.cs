@@ -2,7 +2,7 @@
 
 namespace CloudHub.Domain.Services
 {
-    public struct ConsumerInfo
+    internal struct ConsumerInfo
     {
         public Client Client { get; set; }
         public Nonce? Nonce { get; set; }

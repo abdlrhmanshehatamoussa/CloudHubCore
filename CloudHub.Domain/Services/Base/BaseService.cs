@@ -18,7 +18,7 @@ namespace CloudHub.Domain.Services
         protected readonly IEnvironmentSettings productionModeProvider;
 
 
-        public async Task<ConsumerInfo> GetConsumerInfo(ConsumerCredentials credentials)
+        internal async Task<ConsumerInfo> GetConsumerInfo(ConsumerCredentials credentials)
         {
             Client? client = await _unitOfWork.ClientsRepository.FirstWhere(c => c.ClientKey == credentials.ClientKey);
             if (client == null) { throw new NotAuthenticatedException(); }

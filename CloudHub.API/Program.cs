@@ -28,6 +28,8 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<NonceService>();
 builder.Services.AddScoped<FeatureService>();
 builder.Services.AddScoped<PurchaseService>();
+builder.Services.AddScoped<PublicDataService>();
+builder.Services.AddScoped<PrivateDataService>();
 //Filters
 builder.Services.AddControllers(options => options.Filters.Add<ConsumerCredentialsFilter>());
 //Swagger

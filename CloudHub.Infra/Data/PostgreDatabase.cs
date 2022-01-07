@@ -19,7 +19,6 @@ namespace CloudHub.Infra.Data
         public virtual DbSet<Purchase> Purchases { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
-        public virtual DbSet<Collection> Collections { get; set; } = null!;
         public virtual DbSet<PublicCollection> PublicCollections { get; set; } = null!;
         public virtual DbSet<PublicDocument> PublicDocuments { get; set; } = null!;
         public virtual DbSet<PrivateCollection> PrivateCollections { get; set; } = null!;
@@ -38,7 +37,6 @@ namespace CloudHub.Infra.Data
             new PurchaseMapper(),
             new UserMapper(),
             new UserTokenMapper(),
-            new CollectionsMapper(),
             new AdminMapper(),
             new AdminTypesMapper(),
             new PublicCollectionMapper(),
