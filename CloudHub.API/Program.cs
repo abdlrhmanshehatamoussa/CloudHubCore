@@ -1,4 +1,4 @@
-using CloudHub.API;
+using CloudHub.API.Common;
 using CloudHub.API.Filters;
 using CloudHub.API.Middlewares;
 using CloudHub.Domain.Repositories;

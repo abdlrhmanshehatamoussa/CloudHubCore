@@ -1,5 +1,4 @@
-﻿using CloudHub.Domain.DTO;
-using CloudHub.Crosscutting;
+﻿using CloudHub.Crosscutting;
 using CloudHub.Domain.Entities;
 using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Repositories;
@@ -17,14 +16,12 @@ namespace CloudHub.Domain.Services
 
         public async Task<LoginResponse> FetchUser(ConsumerCredentials consumerCredentials)
         {
-            ConsumerInfo consumerInfo = await GetConsumerInfo(consumerCredentials);
-            Nonce nonce = consumerInfo.Nonce ?? throw new InvalidNonceException();
-            UserToken token = consumerInfo.UserToken ?? throw new NotAuthenticatedException();
+            Consumer consumer = await GetConsumer(consumerCredentials);
+            UserToken token = consumer.UserToken ?? throw new NotAuthenticatedException();
             User user = token.User;
 
-
             //Consume Nonce
-            await ConsumeNonce(nonce.Id);
+            await ConsumeNonceOrThrow(consumer.Nonce.Id);
             await _unitOfWork.Save();
 
             //Return the result
@@ -34,6 +31,7 @@ namespace CloudHub.Domain.Services
                 TokenBody = token.Token,
                 GlobalId = user.GlobalId,
                 ImageURL = user.ImageUrl,
+                RoleName = user.Role.Name,
                 LoginTypeName = user.Login.LoginType.Name,
                 Name = user.Name,
                 TokenRemainingSeconds = token.RemainingSeconds,
@@ -41,10 +39,9 @@ namespace CloudHub.Domain.Services
             };
         }
 
-        public async Task<RegisterResponse> RegisterNewUser(ConsumerCredentials credentials, RegisterRequest dto)
+        public async Task<RegisterResponse> RegisterNewEndUser(ConsumerCredentials credentials, RegisterRequest dto)
         {
-            ConsumerInfo consumerInfo = await GetConsumerInfo(credentials);
-            int nonceId = consumerInfo.Nonce?.Id ?? throw new InvalidNonceException();
+            Consumer consumer = await GetConsumer(credentials);
 
             //Fetch user from database
             User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.email);
@@ -57,7 +54,8 @@ namespace CloudHub.Domain.Services
             {
                 Email = dto.email,
                 Name = dto.name,
-                ImageUrl = dto.image_url
+                ImageUrl = dto.image_url,
+                RoleId = ERoles.EndUser
             };
             double timeStamp = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
             user.GlobalId = Utils.Hash256(String.Format("{0}{1}", dto.email, timeStamp));
@@ -79,7 +77,7 @@ namespace CloudHub.Domain.Services
                 if (oAuthUser == null || oAuthUser.Email != dto.email) { throw new NotAuthenticatedException(); }
                 passcode = oAuthUser.OpenId;
             }
-            
+
             /*
             //TODO: Encrypt password before saving it, using client secret
             string clientSecret = consumerInfo.ClientApplication.Client.ClientSecret;
@@ -91,7 +89,7 @@ namespace CloudHub.Domain.Services
             login = await _unitOfWork.LoginsRepository.Add(login);
 
             //Consume Nonce
-            await ConsumeNonce(nonceId);
+            await ConsumeNonceOrThrow(consumer.Nonce.Id);
 
             //Save
             await _unitOfWork.Save();
@@ -104,15 +102,15 @@ namespace CloudHub.Domain.Services
 
         public async Task<LoginResponse> Login(ConsumerCredentials clientCredentials, LoginRequest dto)
         {
-            ConsumerInfo consumerInfo = await GetConsumerInfo(clientCredentials);
-            int nonceId = consumerInfo.Nonce?.Id ?? throw new InvalidNonceException();
+            Consumer consumer = await GetConsumer(clientCredentials);
 
             //Fetch user from database
             User? user = await _unitOfWork.UsersRepository.FirstWhere(
                 (User u) => u.Email == dto.email,
                 u => u.UserTokens,
                 u => u.Login,
-                u => u.Login.LoginType
+                u => u.Login.LoginType,
+                u => u.Role
             );
 
             //Check user
@@ -142,7 +140,7 @@ namespace CloudHub.Domain.Services
             token = await _unitOfWork.UserTokensRepository.Add(token);
 
             //Consume Nonce
-            await ConsumeNonce(nonceId);
+            await ConsumeNonceOrThrow(consumer.Nonce.Id);
 
             //Save
             await _unitOfWork.Save();
@@ -157,6 +155,7 @@ namespace CloudHub.Domain.Services
                 TokenBody = token.Token,
                 GlobalId = user.GlobalId,
                 ImageURL = user.ImageUrl,
+                RoleName = user.Role.Name,
                 LoginTypeName = user.Login.LoginType.Name,
                 Name = user.Name,
                 TokenRemainingSeconds = token.RemainingSeconds,

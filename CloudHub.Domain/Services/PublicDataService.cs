@@ -1,5 +1,4 @@
-﻿using CloudHub.Domain.DTO;
-using CloudHub.Domain.Entities;
+﻿using CloudHub.Domain.Entities;
 using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Repositories;
 
@@ -14,14 +13,13 @@ namespace CloudHub.Domain.Services
         public async Task<List<PublicDocument>> FetchAll(ConsumerCredentials credentials, string collectionName)
         {
             if (string.IsNullOrWhiteSpace(collectionName)) { throw new InvalidCollectionException(); }
-            ConsumerInfo consumerInfo = await GetConsumerInfo(credentials);
-            Nonce nonce = consumerInfo.Nonce ?? throw new InvalidNonceException();
+            Consumer consumer = await GetConsumer(credentials);
 
             PublicCollection? collection = await _unitOfWork.PublicCollectionsRepository.FirstWhere(c => c.Name == collectionName);
             if (collection == null) { throw new InvalidCollectionException(); }
             List<PublicDocument> documents = await _unitOfWork.PublicDocumentsRepository.Where(d => d.PublicCollectionId == collection.Id);
 
-            await ConsumeNonce(nonce.Id);
+            await ConsumeNonceOrThrow(consumer.Nonce.Id);
             await _unitOfWork.Save();
 
             return documents;

@@ -1,4 +1,4 @@
-﻿namespace CloudHub.API
+﻿namespace CloudHub.API.Exceptions
 {
     public class MissingEnvironmentVariableException : Exception
     {

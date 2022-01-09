@@ -1,8 +1,8 @@
-﻿using CloudHub.Domain.Services;
-using CloudHub.Infra.Data;
+﻿using CloudHub.API.Exceptions;
+using CloudHub.Domain.Services;
 using CloudHub.Infra.Services;
 
-namespace CloudHub.API
+namespace CloudHub.API.Common
 {
     public class APIConfigurations : IEnvironmentSettings, IGoogleServicesConfigurations
     {

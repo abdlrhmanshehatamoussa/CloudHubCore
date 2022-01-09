@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace CloudHub.Infra.Data.SQL.Migrations
+namespace CloudHub.Infra.Data.Migrations
 {
     [DbContext(typeof(PostgreDatabase))]
     partial class PostgreDatabaseModelSnapshot : ModelSnapshot
@@ -22,123 +22,6 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("CloudHub.Domain.Entities.Admin", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasColumnName("active")
-                        .HasDefaultValueSql("true");
-
-                    b.Property<int>("AdminTypeId")
-                        .HasColumnType("integer")
-                        .HasColumnName("admin_type_id");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_on")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_on")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("password");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("username");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdminTypeId");
-
-                    b.HasIndex(new[] { "UserName" }, "admins_username_unique")
-                        .IsUnique();
-
-                    b.ToTable("admins", (string)null);
-                });
-
-            modelBuilder.Entity("CloudHub.Domain.Entities.AdminType", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasColumnName("active")
-                        .HasDefaultValueSql("true");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_on")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_on")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex(new[] { "Name" }, "admin_types_name_unique")
-                        .IsUnique();
-
-                    b.ToTable("admin_types", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1657891,
-                            Active = true,
-                            CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ModifiedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Admin"
-                        },
-                        new
-                        {
-                            Id = 7745892,
-                            Active = true,
-                            CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ModifiedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Super Admin"
-                        },
-                        new
-                        {
-                            Id = 6435912,
-                            Active = true,
-                            CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ModifiedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Support"
-                        });
-                });
 
             modelBuilder.Entity("CloudHub.Domain.Entities.Client", b =>
                 {
@@ -167,10 +50,6 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                         .HasColumnType("character varying(255)")
                         .HasColumnName("client_secret");
 
-                    b.Property<int>("ClientTypeId")
-                        .HasColumnType("integer")
-                        .HasColumnName("client_type_id");
-
                     b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -190,8 +69,6 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                         .HasColumnName("name");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientTypeId");
 
                     b.HasIndex(new[] { "ClientKey" }, "clients_client_key_unique")
                         .IsUnique();
@@ -203,109 +80,6 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                         .IsUnique();
 
                     b.ToTable("clients", (string)null);
-                });
-
-            modelBuilder.Entity("CloudHub.Domain.Entities.ClientType", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasColumnName("active")
-                        .HasDefaultValueSql("true");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_on")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_on")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex(new[] { "Name" }, "client_types_name_unique")
-                        .IsUnique();
-
-                    b.ToTable("client_types", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 38359937,
-                            Active = true,
-                            CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ModifiedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Application"
-                        },
-                        new
-                        {
-                            Id = 41596505,
-                            Active = true,
-                            CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ModifiedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Dashboard"
-                        });
-                });
-
-            modelBuilder.Entity("CloudHub.Domain.Entities.Collection", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasColumnName("active")
-                        .HasDefaultValueSql("true");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_on")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<bool>("IsPrivate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_private");
-
-                    b.Property<DateTime>("ModifiedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_on")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("collections", (string)null);
                 });
 
             modelBuilder.Entity("CloudHub.Domain.Entities.Feature", b =>
@@ -768,6 +542,78 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                     b.ToTable("purchases", (string)null);
                 });
 
+            modelBuilder.Entity("CloudHub.Domain.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("Active")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasColumnName("active")
+                        .HasDefaultValueSql("true");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modified_on")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "Name" }, "user_roles_name_unique")
+                        .IsUnique();
+
+                    b.ToTable("user_roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2664895,
+                            Active = true,
+                            CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ModifiedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "End User"
+                        },
+                        new
+                        {
+                            Id = 1657891,
+                            Active = true,
+                            CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ModifiedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 7745892,
+                            Active = true,
+                            CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ModifiedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Developer"
+                        },
+                        new
+                        {
+                            Id = 6435912,
+                            Active = true,
+                            CreatedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ModifiedOn = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Support"
+                        });
+                });
+
             modelBuilder.Entity("CloudHub.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -818,7 +664,13 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                         .HasColumnType("character varying(255)")
                         .HasColumnName("name");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("role_id");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.HasIndex(new[] { "Email" }, "users_email_unique")
                         .IsUnique();
@@ -870,41 +722,19 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                     b.ToTable("user_tokens", (string)null);
                 });
 
-            modelBuilder.Entity("CloudHub.Domain.Entities.Admin", b =>
-                {
-                    b.HasOne("CloudHub.Domain.Entities.AdminType", "AdminType")
-                        .WithMany("Admins")
-                        .HasForeignKey("AdminTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("admins_admin_type_id_foreign");
-
-                    b.Navigation("AdminType");
-                });
-
-            modelBuilder.Entity("CloudHub.Domain.Entities.Client", b =>
-                {
-                    b.HasOne("CloudHub.Domain.Entities.ClientType", "ClientType")
-                        .WithMany("Clients")
-                        .HasForeignKey("ClientTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("clients_client_type_id_foreign");
-
-                    b.Navigation("ClientType");
-                });
-
             modelBuilder.Entity("CloudHub.Domain.Entities.Login", b =>
                 {
                     b.HasOne("CloudHub.Domain.Entities.LoginType", "LoginType")
                         .WithMany("Logins")
                         .HasForeignKey("LoginTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("logins_login_type_id_foreign");
 
                     b.HasOne("CloudHub.Domain.Entities.User", "User")
                         .WithOne("Login")
                         .HasForeignKey("CloudHub.Domain.Entities.Login", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("logins_user_id_foreign");
 
@@ -984,6 +814,18 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("CloudHub.Domain.Entities.User", b =>
+                {
+                    b.HasOne("CloudHub.Domain.Entities.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("users_role_id_foreign");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("CloudHub.Domain.Entities.UserToken", b =>
                 {
                     b.HasOne("CloudHub.Domain.Entities.User", "User")
@@ -995,19 +837,9 @@ namespace CloudHub.Infra.Data.SQL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CloudHub.Domain.Entities.AdminType", b =>
-                {
-                    b.Navigation("Admins");
-                });
-
             modelBuilder.Entity("CloudHub.Domain.Entities.Client", b =>
                 {
                     b.Navigation("Nonces");
-                });
-
-            modelBuilder.Entity("CloudHub.Domain.Entities.ClientType", b =>
-                {
-                    b.Navigation("Clients");
                 });
 
             modelBuilder.Entity("CloudHub.Domain.Entities.Feature", b =>
@@ -1033,6 +865,11 @@ namespace CloudHub.Infra.Data.SQL.Migrations
             modelBuilder.Entity("CloudHub.Domain.Entities.PublicCollection", b =>
                 {
                     b.Navigation("PublicDocuments");
+                });
+
+            modelBuilder.Entity("CloudHub.Domain.Entities.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("CloudHub.Domain.Entities.User", b =>

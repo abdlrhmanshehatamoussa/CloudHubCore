@@ -1,10 +1,11 @@
-﻿namespace CloudHub.Domain.DTO
+﻿namespace CloudHub.Domain.Services
 {
     public struct LoginResponse
     {
         public string Email { get; set; }
         public string Name { get; set; }
         public string LoginTypeName { get; set; }
+        public string RoleName { get; set; }
         public string? ImageURL { get; set; }
         public string TokenBody { get; set; }
         public int TokenRemainingSeconds { get; set; }

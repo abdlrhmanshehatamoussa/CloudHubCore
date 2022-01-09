@@ -1,4 +1,3 @@
-using CloudHub.Domain.DTO;
 using CloudHub.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,7 +53,7 @@ namespace CloudHub.API.Controllers
         [HttpPost]
         public async Task<dynamic> Register([FromBody] RegisterRequest request)
         {
-            RegisterResponse response = await _userService.RegisterNewUser(ConsumerCredentials, request);
+            RegisterResponse response = await _userService.RegisterNewEndUser(ConsumerCredentials, request);
 
             return new
             {

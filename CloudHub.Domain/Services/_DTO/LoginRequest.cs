@@ -1,6 +1,7 @@
-﻿using CloudHub.Domain.Entities;
+﻿using CloudHub.Domain.Commons;
+using CloudHub.Domain.Entities;
 
-namespace CloudHub.Domain.DTO
+namespace CloudHub.Domain.Services
 {
     public class LoginRequest
     {

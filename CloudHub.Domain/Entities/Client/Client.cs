@@ -6,12 +6,10 @@
         public string Name { get; set; } = null!;
         public string ClientKey { get; set; } = null!;
         public string ClientSecret { get; set; } = null!;
-        public EClientTypes ClientTypeId { get; set; }
         public bool Active { get ; set ; } = false;
         public DateTime ModifiedOn { get; set; } = DateTime.UtcNow;
         public DateTime CreatedOn { get ; set ; } = DateTime.UtcNow;
 
-        public virtual ClientType ClientType { get; set; } = null!;
         public virtual ICollection<Nonce> Nonces { get; set; } = new HashSet<Nonce>();
     }
 }

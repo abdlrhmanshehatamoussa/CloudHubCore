@@ -7,10 +7,8 @@ namespace CloudHub.Infra.Data
     {
         public PostgreDatabase(DbContextOptions<PostgreDatabase> options) : base(options) { }
 
-        public virtual DbSet<Admin> Admins { get; set; } = null!;
-        public virtual DbSet<AdminType> AdminTypes { get; set; } = null!;
+        public virtual DbSet<Role> UserTypes { get; set; } = null!;
         public virtual DbSet<Client> Clients { get; set; } = null!;
-        public virtual DbSet<ClientType> ClientTypes { get; set; } = null!;
         public virtual DbSet<Feature> Features { get; set; } = null!;
         public virtual DbSet<Login> Logins { get; set; } = null!;
         public virtual DbSet<LoginType> LoginTypes { get; set; } = null!;
@@ -28,7 +26,6 @@ namespace CloudHub.Infra.Data
         private readonly List<IBaseMapper> ModelBuilders = new()
         {
             new ClientMapper(),
-            new ClientTypeMapper(),
             new FeatureMapper(),
             new LoginMapper(),
             new LoginTypeMapper(),
@@ -37,8 +34,7 @@ namespace CloudHub.Infra.Data
             new PurchaseMapper(),
             new UserMapper(),
             new UserTokenMapper(),
-            new AdminMapper(),
-            new AdminTypesMapper(),
+            new RoleMapper(),
             new PublicCollectionMapper(),
             new PublicDocumentMapper(),
             new PrivateCollectionMapper(),

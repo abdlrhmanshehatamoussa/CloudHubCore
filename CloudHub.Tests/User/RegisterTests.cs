@@ -1,5 +1,4 @@
-﻿using CloudHub.Domain.DTO;
-using CloudHub.Domain.Entities;
+﻿using CloudHub.Domain.Entities;
 using CloudHub.Domain.Repositories;
 using CloudHub.Domain.Services;
 using CloudHub.Infra.Data;
@@ -41,7 +40,7 @@ namespace CloudHub.Tests.User
                 credentials.Nonce = nonce.Token;
                 string random = RandomString(8);
                 string email = random + "@gmail.com";
-                RegisterResponse response = await userService.RegisterNewUser(credentials, new RegisterRequest
+                RegisterResponse response = await userService.RegisterNewEndUser(credentials, new RegisterRequest
                  (
                      email,
                      "123456789",

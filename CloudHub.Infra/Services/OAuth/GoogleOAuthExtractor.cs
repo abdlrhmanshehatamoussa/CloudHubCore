@@ -1,4 +1,4 @@
-﻿using CloudHub.Domain.DTO;
+﻿using CloudHub.Domain.Services;
 using System.Text.Json;
 
 namespace CloudHub.Infra.Services
@@ -24,7 +24,6 @@ namespace CloudHub.Infra.Services
             string url = string.Format("{0}{1}", googleServicesConfigurations.GoogleTokenInfoApiUrl, token);
             return url;
         }
-
 
         private struct GoogleOAuthUser
         {

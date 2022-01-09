@@ -1,9 +1,10 @@
 ﻿namespace CloudHub.Domain.Entities
 {
-    public enum EAdminTypes
+    public enum ERoles
     {
+        EndUser = 2664895,
         Admin = 1657891,
-        SuperAdmin = 7745892,
+        Developer = 7745892,
         Support = 6435912
     }
 }

@@ -1,5 +1,4 @@
-﻿using CloudHub.Domain.DTO;
-using CloudHub.Domain.Entities;
+﻿using CloudHub.Domain.Entities;
 using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Repositories;
 
@@ -13,13 +12,13 @@ namespace CloudHub.Domain.Services
 
         public async Task<List<Purchase>> FetchAll(ConsumerCredentials consumerCredentials)
         {
-            ConsumerInfo info = await GetConsumerInfo(consumerCredentials);
-            int userId = info.UserToken?.UserId ?? throw new NotAuthenticatedException();
-            int nonceId = info.Nonce?.Id ?? throw new InvalidNonceException();
+            Consumer info = await GetConsumer(consumerCredentials);
+            int userId = info.UserToken?.User.Id ?? throw new NotAuthenticatedException();
+            int nonceId = info.Nonce.Id;
 
             List<Purchase> purchases = await _unitOfWork.PurchasesRepository.Where(p => p.UserId == userId, p => p.User, p => p.Feature);
 
-            await ConsumeNonce(nonceId);
+            await ConsumeNonceOrThrow(nonceId);
             await _unitOfWork.Save();
 
             return purchases;

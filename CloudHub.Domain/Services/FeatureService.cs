@@ -1,6 +1,4 @@
-﻿using CloudHub.Domain.DTO;
-using CloudHub.Domain.Entities;
-using CloudHub.Domain.Exceptions;
+﻿using CloudHub.Domain.Entities;
 using CloudHub.Domain.Repositories;
 
 namespace CloudHub.Domain.Services
@@ -13,12 +11,11 @@ namespace CloudHub.Domain.Services
 
         public async Task<List<Feature>> Fetch(ConsumerCredentials consumerCredentials)
         {
-            ConsumerInfo info = await GetConsumerInfo(consumerCredentials);
-            int nonceId = info.Nonce?.Id ?? throw new InvalidNonceException(nameof(info.Nonce));
+            Consumer consumer = await GetConsumer(consumerCredentials);
 
             List<Feature> features = await _unitOfWork.FeaturesRepository.GetAll();
 
-            await ConsumeNonce(nonceId);
+            await ConsumeNonceOrThrow(consumer.Nonce.Id);
             await _unitOfWork.Save();
 
             return features;

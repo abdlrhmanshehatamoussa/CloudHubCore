@@ -39,13 +39,13 @@ namespace CloudHub.Infra.Data
             entityBuilder.HasOne(d => d.LoginType)
                 .WithMany(p => p.Logins)
                 .HasForeignKey(d => d.LoginTypeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("logins_login_type_id_foreign");
 
             entityBuilder.HasOne(d => d.User)
                 .WithOne(p => p.Login)
                 .HasForeignKey<Login>(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("logins_user_id_foreign");
         }
     }

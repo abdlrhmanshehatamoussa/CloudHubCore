@@ -7,10 +7,12 @@ namespace CloudHub.Infra.Data
     {
         public static void Seed(ModelBuilder modelBuilder)
         {
-            DateTime stamp = new (2022, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
-            modelBuilder.Entity<ClientType>().HasData(
-                new ClientType() { Active = true, Name = "Application", Id = EClientTypes.Application, CreatedOn = stamp, ModifiedOn = stamp },
-                new ClientType() { Active = true, Name = "Dashboard", Id = EClientTypes.Dashboard, CreatedOn = stamp, ModifiedOn = stamp }
+            DateTime stamp = new(2022, 01, 01, 0, 0, 0, 0, DateTimeKind.Utc);
+            modelBuilder.Entity<Role>().HasData(
+                new Role() { Active = true, Name = "End User", Id = ERoles.EndUser, CreatedOn = stamp, ModifiedOn = stamp },
+                new Role() { Active = true, Name = "Admin", Id = ERoles.Admin, CreatedOn = stamp, ModifiedOn = stamp },
+                new Role() { Active = true, Name = "Developer", Id = ERoles.Developer, CreatedOn = stamp, ModifiedOn = stamp },
+                new Role() { Active = true, Name = "Support", Id = ERoles.Support, CreatedOn = stamp, ModifiedOn = stamp }
             );
             modelBuilder.Entity<LoginType>().HasData(
                 new LoginType() { Active = true, Name = "Google", Id = ELoginTypes.LOGIN_TYPE_GOOGLE, CreatedOn = stamp, ModifiedOn = stamp },
@@ -22,11 +24,6 @@ namespace CloudHub.Infra.Data
                 new PaymentGateway() { Active = true, Name = "Google Play Billing", Id = PaymentGatewayValues.GOOGLE_PLAY_BILLING, CreatedOn = stamp, ModifiedOn = stamp },
                 new PaymentGateway() { Active = true, Name = "Paypal", Id = PaymentGatewayValues.PAYPAL, CreatedOn = stamp, ModifiedOn = stamp }
             );
-            modelBuilder.Entity<AdminType>().HasData(
-               new AdminType() { Active = true, Name = "Admin", Id = EAdminTypes.Admin, CreatedOn = stamp, ModifiedOn = stamp },
-               new AdminType() { Active = true, Name = "Super Admin", Id = EAdminTypes.SuperAdmin, CreatedOn = stamp, ModifiedOn = stamp },
-               new AdminType() { Active = true, Name = "Support", Id = EAdminTypes.Support, CreatedOn = stamp, ModifiedOn = stamp }
-           );
         }
     }
 }

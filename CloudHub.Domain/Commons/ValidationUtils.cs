@@ -1,7 +1,7 @@
 ﻿using CloudHub.Domain.Exceptions;
 using System.Net.Mail;
 
-namespace CloudHub.Domain.DTO
+namespace CloudHub.Domain.Commons
 {
     internal class ValidationUtils
     {

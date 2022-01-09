@@ -1,5 +1,4 @@
-﻿using CloudHub.Domain.DTO;
-using CloudHub.Domain.Entities;
+﻿using CloudHub.Domain.Entities;
 using CloudHub.Domain.Repositories;
 using CloudHub.Domain.Services;
 using CloudHub.Infra.Data;

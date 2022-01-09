@@ -1,5 +1,5 @@
 ﻿using CloudHub.Crosscutting;
-using CloudHub.Domain.DTO;
+using CloudHub.Domain.Services;
 using NUnit.Framework;
 
 namespace CloudHub.Tests

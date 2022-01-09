@@ -33,6 +33,10 @@ namespace CloudHub.Infra.Data
                 .IsRequired()
                 .HasColumnName("global_id");
 
+            entity.Property(e => e.RoleId)
+                .IsRequired()
+                .HasColumnName("role_id");
+
             entity.Property(e => e.ImageUrl)
                 .HasMaxLength(255)
                 .HasColumnName("image_url");
@@ -47,6 +51,12 @@ namespace CloudHub.Infra.Data
 
             entity.HasIndex(e => e.Email, "users_email_unique")
               .IsUnique();
+
+            entity.HasOne(u => u.Role)
+            .WithMany(r => r.Users)
+            .HasForeignKey(d => d.RoleId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .HasConstraintName("users_role_id_foreign");
         }
 
     }
