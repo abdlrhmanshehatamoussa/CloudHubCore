@@ -38,7 +38,9 @@ namespace CloudHub.API.Middlewares
                     case InvalidCollectionException:
                         response.StatusCode = 480;
                         break;
-
+                    case InvalidTenantException:
+                        response.StatusCode = 470;
+                        break;
                     case UserExistsException:
                         response.StatusCode = 494;
                         break;

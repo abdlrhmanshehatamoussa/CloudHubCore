@@ -1,8 +1,8 @@
-﻿namespace CloudHub.API.Tenant
+﻿namespace CloudHub.Domain.Entities
 {
     public class Tenant
     {
-        public Guid Identifier { get; set; } = Guid.NewGuid();
+        public string Id { get; set; } = null!;
         public string Name { get; set; } = null!;
         public string ConnectionString { get; set; } = null!;
     }

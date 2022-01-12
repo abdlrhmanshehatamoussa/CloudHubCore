@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CloudHub.Infra.Data.Migrations
 {
-    [DbContext(typeof(PostgreDatabase))]
+    [DbContext(typeof(PostgreContext))]
     [Migration("20220109183049_InitialMigration")]
     partial class InitialMigration
     {

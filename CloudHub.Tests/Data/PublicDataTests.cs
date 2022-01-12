@@ -2,7 +2,7 @@
 using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Services;
 using CloudHub.Infra.Data;
-using Microsoft.EntityFrameworkCore;
+using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -17,9 +17,9 @@ namespace CloudHub.Tests.Data
         [SetUp]
         public void Setup()
         {
-            DbContextOptionsBuilder<PostgreDatabase> builder = new();
-            builder.UseNpgsql(Constants.PSQL_HOST);
-            UnitOfWork uow = new(new PostgreDatabase(builder.Options));
+            Mock<ITenantsService> mock = new Mock<ITenantsService>();
+            mock.Setup(x => x.CurrentTenant).Returns(new Tenant() { ConnectionString = Constants.PSQL_HOST, Id = "1", Name = "" });
+            UnitOfWork uow = new(new PostgreContext(mock.Object));
             publicDataService = new PublicDataService(uow, new TestSettings());
         }
 

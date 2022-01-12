@@ -1,11 +1,15 @@
 ﻿using CloudHub.Domain.Entities;
+using CloudHub.Domain.Exceptions;
+using CloudHub.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace CloudHub.Infra.Data
 {
-    public partial class PostgreDatabase : DbContext
+    public partial class PostgreContext : DbContext
     {
-        public PostgreDatabase(DbContextOptions<PostgreDatabase> options) : base(options) { }
+        public PostgreContext(ITenantsService tenantsService) => _tenantsService = tenantsService;
+
+        private readonly ITenantsService _tenantsService;
 
         public virtual DbSet<Role> UserTypes { get; set; } = null!;
         public virtual DbSet<Client> Clients { get; set; } = null!;
@@ -41,9 +45,11 @@ namespace CloudHub.Infra.Data
             new PrivateDocumentMapper(),
         };
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (_tenantsService.CurrentTenant == null) { throw new InvalidTenantException(); }
+            optionsBuilder.UseNpgsql(_tenantsService.CurrentTenant.ConnectionString);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -51,8 +57,6 @@ namespace CloudHub.Infra.Data
             {
                 builder.Map(modelBuilder);
             }
-
-            OnModelCreatingPartial(modelBuilder);
 
             DataSeeder.Seed(modelBuilder);
         }

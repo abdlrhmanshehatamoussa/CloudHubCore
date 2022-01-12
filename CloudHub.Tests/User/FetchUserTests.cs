@@ -1,8 +1,6 @@
 ﻿using CloudHub.Domain.Entities;
-using CloudHub.Domain.Repositories;
 using CloudHub.Domain.Services;
 using CloudHub.Infra.Data;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using NUnit.Framework;
 
@@ -16,13 +14,12 @@ namespace CloudHub.Tests.User
         [SetUp]
         public void Setup()
         {
-            DbContextOptionsBuilder<PostgreDatabase> builder = new();
-            builder.UseNpgsql(Constants.PSQL_HOST);
-            IUnitOfWork unitOfWork = new UnitOfWork(new PostgreDatabase(builder.Options));
-            Mock<IEnvironmentSettings> mock = new();
-            mock.Setup(x => x.IsProductionModeEnabled).Returns(false);
-            //userService = new UserService(unitOfWork, mock.Object);
-            nonceService = new NonceService(unitOfWork, mock.Object);
+            Mock<ITenantsService> mock = new Mock<ITenantsService>();
+            mock.Setup(x => x.CurrentTenant).Returns(new Tenant() { ConnectionString = Constants.PSQL_HOST, Id = "1", Name = "" });
+            UnitOfWork uow = new(new PostgreContext(mock.Object));
+            Mock<IEnvironmentSettings> mock2 = new();
+            mock2.Setup(x => x.IsProductionModeEnabled).Returns(false);
+            nonceService = new NonceService(uow, mock2.Object);
         }
 
         [Test]

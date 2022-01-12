@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CloudHub.Infra.Data.Migrations
 {
-    [DbContext(typeof(PostgreDatabase))]
+    [DbContext(typeof(PostgreContext))]
     partial class PostgreDatabaseModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

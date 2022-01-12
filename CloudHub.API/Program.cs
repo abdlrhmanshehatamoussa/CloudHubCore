@@ -1,26 +1,30 @@
-using CloudHub.API.Common;
+using CloudHub.API.Commons;
 using CloudHub.API.Filters;
 using CloudHub.API.Middlewares;
+using CloudHub.Domain.Entities;
 using CloudHub.Domain.Repositories;
 using CloudHub.Domain.Services;
 using CloudHub.Infra.Data;
 using CloudHub.Infra.Services;
 using Microsoft.EntityFrameworkCore;
 
-
-var builder = WebApplication.CreateBuilder(args);
+const string APP_SETTINGS_FILE = "appsettings.json";
+const string TENANTS_FILE = "tenants.json";
 
 /*
  * Configure App Builder
  */
-APIConfigurations settings = APIConfigurations.Load();
+var builder = WebApplication.CreateBuilder(args);
+APIConfigurations settings = APIConfigurations.Load(APP_SETTINGS_FILE);
 builder.Services.AddScoped<IGoogleServicesConfigurations>(_ => settings);
 builder.Services.AddScoped<IEnvironmentSettings>(_ => settings);
 //OAuth
 builder.Services.AddScoped<GoogleOAuthExtractor>();
 builder.Services.AddScoped<IOAuthService, OAuthService>();
 //Databases
-builder.Services.AddDbContext<PostgreDatabase>(options => { options.UseNpgsql(settings.ConnectionString); });
+List<Tenant> tenants = TenantsService.LoadTenants(TENANTS_FILE);
+builder.Services.AddScoped<ITenantsService>(_ => new TenantsService(tenants));
+builder.Services.AddDbContext<DbContext, PostgreContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //Services
 builder.Services.AddScoped<BaseService>();
@@ -32,6 +36,7 @@ builder.Services.AddScoped<PublicDataService>();
 builder.Services.AddScoped<PrivateDataService>();
 //Filters
 builder.Services.AddControllers(options => options.Filters.Add<ConsumerCredentialsFilter>());
+builder.Services.AddControllers(options => options.Filters.Add<TenantFilter>());
 //Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

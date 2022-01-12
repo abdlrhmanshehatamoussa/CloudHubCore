@@ -1,13 +1,14 @@
 ﻿using CloudHub.Domain.Entities;
 using CloudHub.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace CloudHub.Infra.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly PostgreDatabase _dbContext;
+        private readonly DbContext _dbContext;
 
-        public UnitOfWork(PostgreDatabase context) => _dbContext = context;
+        public UnitOfWork(DbContext context) => _dbContext = context;
 
 
         public IRepository<User> UsersRepository => new Repository<User>(_dbContext);
