@@ -18,7 +18,7 @@ namespace CloudHub.Tests.Data
         [SetUp]
         public void Setup()
         {
-            Mock<ITenantsService> mock = new Mock<ITenantsService>();
+            Mock<ITenantsService> mock = new();
             mock.Setup(x => x.CurrentTenant).Returns(new Tenant() { ConnectionString = Constants.PSQL_HOST, Id = "1", Name = "" });
             UnitOfWork uow = new(new PostgreContext(mock.Object));
             publicDataService = new PrivateDataService(uow, new TestSettings());

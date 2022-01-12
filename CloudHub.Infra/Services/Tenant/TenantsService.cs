@@ -22,7 +22,7 @@ namespace CloudHub.Infra.Services
         public static List<Tenant> LoadTenants(string jsonFile)
         {
             string json = File.ReadAllText(jsonFile);
-            List<Tenant> tenants = new List<Tenant>()
+            List<Tenant> tenants = new ()
             {
                 new Tenant(){ Id = "5097",ConnectionString = "Host=127.0.0.1;Database=cloudhub-api-core-local;Username=postgres;Password=123456" },
                 new Tenant(){ Id = "5098",ConnectionString = "Host=127.0.0.1;Database=cloudhub-api-core-local2;Username=postgres;Password=123456" }
