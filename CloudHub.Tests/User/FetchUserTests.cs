@@ -1,6 +1,5 @@
 ﻿using CloudHub.Domain.Entities;
 using CloudHub.Domain.Services;
-using CloudHub.Infra.Data;
 using Moq;
 using NUnit.Framework;
 
@@ -14,12 +13,9 @@ namespace CloudHub.Tests.User
         [SetUp]
         public void Setup()
         {
-            Mock<ITenantsService> mock = new();
-            mock.Setup(x => x.CurrentTenant).Returns(new Tenant() { ConnectionString = Constants.PSQL_HOST, Id = "1", Name = "" });
-            UnitOfWork uow = new(new PostgreContext(mock.Object));
             Mock<IEnvironmentSettings> mock2 = new();
             mock2.Setup(x => x.IsProductionModeEnabled).Returns(false);
-            nonceService = new NonceService(uow, mock2.Object);
+            nonceService = new NonceService(Constants.UnitOfWork, mock2.Object);
         }
 
         [Test]

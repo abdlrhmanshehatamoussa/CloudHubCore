@@ -8,6 +8,7 @@ namespace CloudHub.API.Commons
     {
         public string EnvironmentName { get; private set; } = null!;
         public string BuildId { get; private set; } = null!;
+        public string MainConnectionString { get; private set; } = null!;
         public bool IsProductionModeEnabled { get; private set; } = false;
         public string GoogleTokenInfoApiUrl { get; private set; } = null!;
 
@@ -16,6 +17,7 @@ namespace CloudHub.API.Commons
         private const string KEY_PROD_MODE = "PRODUCTION_MODE";
         private const string KEY_ENV_NAME = "ASPNETCORE_ENVIRONMENT";
         private const string KEY_GOOGLE_TOKEN_URL = "GOOGLE_TOKEN_INFO_API_URL";
+        private const string KEY_MAIN_CONN_STR = "MAIN_CONNECTION_STRING";
 
 
         public static APIConfigurations Load(string jsonFile)
@@ -36,12 +38,14 @@ namespace CloudHub.API.Commons
             string buildId = GetEnvVar(KEY_BUILD_ID);
             string envName = GetEnvVar(KEY_ENV_NAME);
             string googleTokenInfoApiUrl = GetEnvVar(KEY_GOOGLE_TOKEN_URL);
+            string connectionString = GetEnvVar(KEY_MAIN_CONN_STR);
             return new()
             {
                 BuildId = buildId,
                 IsProductionModeEnabled = isProduction,
                 EnvironmentName = envName,
-                GoogleTokenInfoApiUrl = googleTokenInfoApiUrl
+                GoogleTokenInfoApiUrl = googleTokenInfoApiUrl,
+                MainConnectionString = connectionString
             };
         }
 
@@ -54,12 +58,14 @@ namespace CloudHub.API.Commons
             string buildId = configuration.GetValue<string>(KEY_BUILD_ID);
             string envName = configuration.GetValue<string>(KEY_ENV_NAME);
             string googleTokenInfoApiUrl = configuration.GetValue<string>(KEY_GOOGLE_TOKEN_URL);
+            string mainConnectionString = configuration.GetValue<string>(KEY_MAIN_CONN_STR);
             return new()
             {
                 BuildId = buildId,
                 IsProductionModeEnabled = isProduction,
                 EnvironmentName = envName,
-                GoogleTokenInfoApiUrl = googleTokenInfoApiUrl
+                GoogleTokenInfoApiUrl = googleTokenInfoApiUrl,
+                MainConnectionString = mainConnectionString
             };
         }
 

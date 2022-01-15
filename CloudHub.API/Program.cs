@@ -1,7 +1,6 @@
 using CloudHub.API.Commons;
 using CloudHub.API.Filters;
 using CloudHub.API.Middlewares;
-using CloudHub.Domain.Entities;
 using CloudHub.Domain.Repositories;
 using CloudHub.Domain.Services;
 using CloudHub.Infra.Data;
@@ -9,7 +8,6 @@ using CloudHub.Infra.Services;
 using Microsoft.EntityFrameworkCore;
 
 const string APP_SETTINGS_FILE = "appsettings.json";
-const string TENANTS_FILE = "tenants.json";
 
 /*
  * Configure App Builder
@@ -22,9 +20,11 @@ builder.Services.AddScoped<IEnvironmentSettings>(_ => settings);
 builder.Services.AddScoped<GoogleOAuthExtractor>();
 builder.Services.AddScoped<IOAuthService, OAuthService>();
 //Databases
-List<Tenant> tenants = TenantsService.LoadTenants(TENANTS_FILE);
-builder.Services.AddScoped<ITenantsService>(_ => new TenantsService(tenants));
-builder.Services.AddDbContext<DbContext, PostgreContext>();
+DbContextOptionsBuilder dbBuilder = new();
+dbBuilder.UseNpgsql(settings.MainConnectionString);
+PostgreContext context = new(dbBuilder.Options);
+if (context.Database.GetPendingMigrations().ToList().Count > 0) { context.Database.Migrate(); }
+builder.Services.AddDbContext<DbContext,PostgreContext>(options => options.UseNpgsql(settings.MainConnectionString));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //Services
 builder.Services.AddScoped<BaseService>();
@@ -36,7 +36,6 @@ builder.Services.AddScoped<PublicDataService>();
 builder.Services.AddScoped<PrivateDataService>();
 //Filters
 builder.Services.AddControllers(options => options.Filters.Add<ConsumerCredentialsFilter>());
-builder.Services.AddControllers(options => options.Filters.Add<TenantFilter>());
 //Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

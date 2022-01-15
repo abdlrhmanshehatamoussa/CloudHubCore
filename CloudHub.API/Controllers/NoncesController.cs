@@ -15,7 +15,7 @@ namespace CloudHub.API.Controllers
         [HttpPost]
         public async Task<dynamic> Post()
         {
-            Nonce nonce = await _nonceService.GenereateNonce(ConsumerCredentials);
+                Nonce nonce = await _nonceService.GenereateNonce(ConsumerCredentials);
             return new { 
                 token = nonce.Token,
                 created_on = nonce.CreatedOn.ToString()
