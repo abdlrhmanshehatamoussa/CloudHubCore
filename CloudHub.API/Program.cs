@@ -20,11 +20,8 @@ builder.Services.AddScoped<IEnvironmentSettings>(_ => settings);
 builder.Services.AddScoped<GoogleOAuthExtractor>();
 builder.Services.AddScoped<IOAuthService, OAuthService>();
 //Databases
-DbContextOptionsBuilder dbBuilder = new();
-dbBuilder.UseNpgsql(settings.MainConnectionString);
-PostgreContext context = new(dbBuilder.Options);
-if (context.Database.GetPendingMigrations().ToList().Count > 0) { context.Database.Migrate(); }
-builder.Services.AddDbContext<DbContext,PostgreContext>(options => options.UseNpgsql(settings.MainConnectionString));
+ApplyPendingMigrations(settings.MainConnectionString);
+builder.Services.AddDbContext<DbContext, PostgreContext>(options => options.UseNpgsql(settings.MainConnectionString));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //Services
 builder.Services.AddScoped<BaseService>();
@@ -48,3 +45,12 @@ if (settings.IsProductionModeEnabled == false) { app.UseSwagger(); app.UseSwagge
 app.UseMiddleware<ErrorMiddleware>();
 app.MapControllers();
 app.Run();
+
+
+void ApplyPendingMigrations(string connectionString)
+{
+    DbContextOptionsBuilder dbBuilder = new();
+    dbBuilder.UseNpgsql(connectionString);
+    PostgreContext context = new(dbBuilder.Options);
+    if (context.Database.GetPendingMigrations().ToList().Count > 0) { context.Database.Migrate(); }
+}
