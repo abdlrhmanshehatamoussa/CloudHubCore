@@ -114,7 +114,7 @@ namespace CloudHub.Domain.Services
             );
 
             //Check user
-            if (user == null) { throw new NotAuthenticatedException(); }
+            if (user == null) { throw new UserNotExistsException(); }
 
             //Check user credentials
             if (user.Login.LoginTypeId != dto.login_type) { throw new NotAuthenticatedException(); }
