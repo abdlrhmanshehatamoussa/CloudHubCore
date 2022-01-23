@@ -3,7 +3,7 @@ using System.Text;
 
 namespace CloudHub.Crosscutting
 {
-    public class Utils
+    public class SecurityHelper
     {
         public static string Hash256(string password)
         {
@@ -17,6 +17,11 @@ namespace CloudHub.Crosscutting
                 }
                 return builder.ToString();
             }
+        }
+
+        public static string DecryptAES(string text, string encryptionKey)
+        {
+            return text;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CloudHub.Domain.Entities;
+﻿using CloudHub.Crosscutting;
+using CloudHub.Domain.Entities;
 using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Repositories;
 
@@ -21,12 +22,9 @@ namespace CloudHub.Domain.Services
             if (string.IsNullOrWhiteSpace(credentials.ClientKey) || string.IsNullOrWhiteSpace(credentials.ClientClaim)) { throw new MissingParameterException("client"); }
             Client? client = await _unitOfWork.ClientsRepository.FirstWhere(c => c.ClientKey == credentials.ClientKey);
             if (client == null) { throw new NotAuthenticatedException(); }
-            /*
-             TODO: 
-            string decryptedClientClaim = Decrypt(request.ClientClaim, client.ClientSecret);
-             */
-            string decryptedClientClaim = credentials.ClientKey;
-            if (decryptedClientClaim != credentials.ClientClaim) { throw new NotAuthenticatedException(); }
+
+            string decryptedClientClaim = SecurityHelper.DecryptAES(credentials.ClientClaim, client.ClientSecret);
+            if (decryptedClientClaim != credentials.ClientKey) { throw new NotAuthenticatedException(); }
             Nonce nonce = new();
             nonce.ClientId = client.Id;
             nonce.GenerateToken();

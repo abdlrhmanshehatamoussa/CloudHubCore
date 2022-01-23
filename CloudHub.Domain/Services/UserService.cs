@@ -58,7 +58,7 @@ namespace CloudHub.Domain.Services
                 RoleId = ERoles.EndUser
             };
             double timeStamp = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
-            user.GlobalId = Utils.Hash256(String.Format("{0}{1}", dto.email, timeStamp));
+            user.GlobalId = SecurityHelper.Hash256(String.Format("{0}{1}", dto.email, timeStamp));
 
             user = await _unitOfWork.UsersRepository.Add(user);
 

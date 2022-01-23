@@ -10,7 +10,7 @@ namespace CloudHub.Tests
         public void TestHash()
         {
             string input = "abdlrhmanshehata@gmail.com212345679798";
-            string hash = Utils.Hash256(input);
+            string hash = SecurityHelper.Hash256(input);
             System.Console.WriteLine(hash);
             Assert.IsNotNull(hash);
         }

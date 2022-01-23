@@ -1,4 +1,5 @@
-﻿using CloudHub.Domain.Entities;
+﻿using CloudHub.Crosscutting;
+using CloudHub.Domain.Entities;
 using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Repositories;
 
@@ -23,11 +24,8 @@ namespace CloudHub.Domain.Services
 
             Client? client = await _unitOfWork.ClientsRepository.FirstWhere(c => c.ClientKey == credentials.ClientKey);
             if (client == null) { throw new NotAuthenticatedException(); }
-            /*
-             TODO:
-            string decryptedNonce = Decrypt(credentials.Nonce,client.ClientSecret);
-             */
-            string decryptedNonce = credentials.Nonce;
+
+            string decryptedNonce = SecurityHelper.DecryptAES(credentials.Nonce, client.ClientSecret);
             Nonce? nonce = await _unitOfWork.NoncesRepository.FirstWhere(n => n.Token == decryptedNonce && n.ClientId == client.Id, n => n.Client);
             if (nonce == null) { throw new InvalidNonceException(); }
             if (nonce.ConsumedOn.HasValue) { throw new ConsumedNonceException(); }
