@@ -47,7 +47,7 @@ app.MapControllers();
 app.Run();
 
 
-void ApplyPendingMigrations(string connectionString)
+static void ApplyPendingMigrations(string connectionString)
 {
     DbContextOptionsBuilder dbBuilder = new();
     dbBuilder.UseNpgsql(connectionString);

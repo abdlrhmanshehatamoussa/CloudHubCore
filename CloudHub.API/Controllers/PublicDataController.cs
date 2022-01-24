@@ -23,12 +23,22 @@ namespace CloudHub.API.Controllers
             return results.Select(r => r.Body.RootElement).ToList();
         }
 
-        [HttpPost]
+        [HttpPatch]
         [Route("{collection}")]
-        public Task<dynamic> Add(string collection, [FromBody] dynamic data)
+        public async Task<dynamic> AddBulk(string collection, [FromBody] List<dynamic> data)
         {
             if (string.IsNullOrWhiteSpace(collection)) { throw new MissingParameterException("collection"); }
-            throw new NotImplementedException();
+            await service.AddBulk(ConsumerCredentials, collection, data);
+            throw new EmptyResponseException();
+        }
+
+        [HttpPost]
+        [Route("{collection}")]
+        public async Task<dynamic> Add(string collection, [FromBody] dynamic data)
+        {
+            if (string.IsNullOrWhiteSpace(collection)) { throw new MissingParameterException("collection"); }
+            await service.Add(ConsumerCredentials, collection, data);
+            throw new EmptyResponseException();
         }
     }
 }
