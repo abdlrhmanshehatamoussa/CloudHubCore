@@ -27,15 +27,15 @@ namespace CloudHub.Tests.UserTests
                 Client client = new()
                 {
                     Name = "testclient",
-                    ClientKey = "asdasdasdjkhagsduiasd",
-                    ClientSecret = "asdaiu8q73g1urif1y3biy1fb87bf173fb",
+                    ClientKey = Guid.NewGuid().ToString(),
+                    ClientSecret = Guid.NewGuid().ToString(),
                 };
                 await unitOfWork.ClientsRepository.Add(client);
                 await unitOfWork.Save();
 
                 Nonce nonce = new()
                 {
-                    Token = "asdasd1q23e1u2y4e78gwdiqugiyfg",
+                    Token = Guid.NewGuid().ToString(),
                     ClientId = client.Id,
                     CreatedOn = DateTime.Now
                 };
@@ -49,6 +49,7 @@ namespace CloudHub.Tests.UserTests
                     Nonce = nonce.Token
                 };
                 string random = Constants.RandomString(8);
+                string password = Constants.RandomString(10);
                 string email = string.Format("{0}@domain.com", random);
 
                 //Act
@@ -56,7 +57,7 @@ namespace CloudHub.Tests.UserTests
                  (
                     "Test User",
                      email,
-                     "123456789",
+                     password,
                      "",
                      ELoginTypes.LOGIN_TYPE_BASIC
                  ));
