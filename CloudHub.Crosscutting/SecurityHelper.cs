@@ -21,5 +21,10 @@ namespace CloudHub.Crosscutting
         {
             return text;
         }
+
+        public static string EncryptAES(string text, string encryptionKey)
+        {
+            return text;
+        }
     }
 }

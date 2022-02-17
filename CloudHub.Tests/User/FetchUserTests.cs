@@ -1,5 +1,6 @@
 ﻿using CloudHub.Domain.Entities;
 using CloudHub.Domain.Services;
+using CloudHub.Infra.Data;
 using Moq;
 using NUnit.Framework;
 
@@ -9,13 +10,14 @@ namespace CloudHub.Tests.User
     {
         private readonly UserService userService = null!;
         private NonceService nonceService = null!;
+        private UnitOfWork unitOfWork = Constants.UnitOfWork();
 
         [SetUp]
         public void Setup()
         {
             Mock<IEnvironmentSettings> mock2 = new();
             mock2.Setup(x => x.IsProductionModeEnabled).Returns(false);
-            nonceService = new NonceService(Constants.UnitOfWork, mock2.Object);
+            nonceService = new NonceService(unitOfWork, mock2.Object);
         }
 
         [Test]

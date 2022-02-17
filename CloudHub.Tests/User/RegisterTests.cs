@@ -1,24 +1,21 @@
-﻿using CloudHub.Domain.Entities;
+﻿using CloudHub.Crosscutting;
+using CloudHub.Domain.Entities;
 using CloudHub.Domain.Services;
 using CloudHub.Infra.Data;
-using Moq;
 using NUnit.Framework;
 using System;
-using System.Linq;
 
 namespace CloudHub.Tests.User
 {
     public class RegisterTests
     {
-        private readonly UserService userService = null!;
-        private NonceService nonceService = null!;
+        private UserService userService = null!;
+        private UnitOfWork unitOfWork = Constants.UnitOfWork();
 
         [SetUp]
         public void Setup()
         {
-            Mock<IEnvironmentSettings> mock2 = new();
-            mock2.Setup(x => x.IsProductionModeEnabled).Returns(false);
-            nonceService = new NonceService(Constants.UnitOfWork, mock2.Object);
+            userService = new UserService(unitOfWork, Constants.EnvironmentSettings, Constants.AuthenticationService);
         }
 
         [Test]
@@ -26,14 +23,35 @@ namespace CloudHub.Tests.User
         {
             Assert.DoesNotThrowAsync(async () =>
             {
+                //Arrange
+                Client client = new()
+                {
+                    Name = "testclient",
+                    ClientKey = "asdasdasdjkhagsduiasd",
+                    ClientSecret = "asdaiu8q73g1urif1y3biy1fb87bf173fb",
+                };
+                await unitOfWork.ClientsRepository.Add(client);
+                await unitOfWork.Save();
+
+                Nonce nonce = new()
+                {
+                    Token = "asdasd1q23e1u2y4e78gwdiqugiyfg",
+                    ClientId = client.Id,
+                    CreatedOn = DateTime.Now
+                };
+                await unitOfWork.NoncesRepository.Add(nonce);
+                await unitOfWork.Save();
+
                 ConsumerCredentials credentials = new()
                 {
-                    ClientKey = "f7ebe638-3f34-4dbe-b0c7-65104794ce9e"
+                    ClientKey = client.ClientKey,
+                    ClientClaim = SecurityHelper.EncryptAES(client.ClientKey, client.ClientSecret),
+                    Nonce = nonce.Token
                 };
-                Nonce nonce = await nonceService.GenereateNonce(credentials);
-                credentials.Nonce = nonce.Token;
-                string random = RandomString(8);
+                string random = Constants.RandomString(8);
                 string email = random + "@gmail.com";
+
+                //Act
                 RegisterResponse response = await userService.RegisterNewEndUser(credentials, new RegisterRequest
                  (
                      email,
@@ -42,17 +60,12 @@ namespace CloudHub.Tests.User
                      "",
                      ELoginTypes.LOGIN_TYPE_BASIC
                  ));
+
+                //Assert
                 Assert.That(response.Email == email);
                 Assert.IsNotNull(response.GlobalId);
             });
         }
 
-        private static readonly Random random = new();
-        public static string RandomString(int length)
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
     }
 }
