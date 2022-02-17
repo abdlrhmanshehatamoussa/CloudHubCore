@@ -10,13 +10,13 @@ namespace CloudHub.Tests
 {
     internal static class Constants
     {
-        private const string PSQL_HOST = "Host=127.0.0.1;Database=cloudhub-api-core-local;Username=postgres;Password=123456";
         private const string GOOGLE_TOKEN_INFO_API_URL = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=";
 
         public static UnitOfWork UnitOfWork()
         {
             DbContextOptionsBuilder builder = new();
-            builder.UseInMemoryDatabase("test");
+            string dbName = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
+            builder.UseInMemoryDatabase(dbName);
             UnitOfWork uow = new(new PostgreContext(builder.Options));
             return uow;
         }
@@ -25,9 +25,7 @@ namespace CloudHub.Tests
         {
             get
             {
-                Mock<IEnvironmentSettings> envMock = new();
-                envMock.Setup(x => x.IsProductionModeEnabled).Returns(false);
-                return envMock.Object;
+                return new TestSettings();
             }
         }
 
@@ -51,5 +49,17 @@ namespace CloudHub.Tests
             return new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
+    }
+
+
+
+
+    internal class TestSettings : IEnvironmentSettings
+    {
+        public bool IsProductionModeEnabled => false;
+
+        public string EnvironmentName => "Local-Test";
+
+        public string BuildId => "0.0.0";
     }
 }

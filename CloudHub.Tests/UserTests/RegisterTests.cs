@@ -5,12 +5,12 @@ using CloudHub.Infra.Data;
 using NUnit.Framework;
 using System;
 
-namespace CloudHub.Tests.User
+namespace CloudHub.Tests.UserTests
 {
     public class RegisterTests
     {
+        private readonly UnitOfWork unitOfWork = Constants.UnitOfWork();
         private UserService userService = null!;
-        private UnitOfWork unitOfWork = Constants.UnitOfWork();
 
         [SetUp]
         public void Setup()
@@ -49,14 +49,14 @@ namespace CloudHub.Tests.User
                     Nonce = nonce.Token
                 };
                 string random = Constants.RandomString(8);
-                string email = random + "@gmail.com";
+                string email = string.Format("{0}@domain.com", random);
 
                 //Act
                 RegisterResponse response = await userService.RegisterNewEndUser(credentials, new RegisterRequest
                  (
+                    "Test User",
                      email,
                      "123456789",
-                     random,
                      "",
                      ELoginTypes.LOGIN_TYPE_BASIC
                  ));

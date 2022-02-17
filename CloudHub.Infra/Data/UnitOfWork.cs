@@ -19,10 +19,6 @@ namespace CloudHub.Infra.Data
         public IRepository<Nonce> NoncesRepository => new Repository<Nonce>(_dbContext);
         public IRepository<PaymentGateway> PaymentGatewaysRepository => new Repository<PaymentGateway>(_dbContext);
         public IRepository<Purchase> PurchasesRepository => new Repository<Purchase>(_dbContext);
-        public IRepository<PublicDocument> PublicDocumentsRepository => new Repository<PublicDocument>(_dbContext);
-        public IRepository<PublicCollection> PublicCollectionsRepository => new Repository<PublicCollection>(_dbContext);
-        public IRepository<PrivateDocument> PrivateDocumentsRepository => new Repository<PrivateDocument>(_dbContext);
-        public IRepository<PrivateCollection> PrivateCollectionsRepository => new Repository<PrivateCollection>(_dbContext);
 
         public async Task Save()
         {
