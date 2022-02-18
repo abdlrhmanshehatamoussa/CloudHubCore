@@ -13,7 +13,7 @@ namespace CloudHub.Domain.Services
         {
             Consumer consumer = await GetConsumer(consumerCredentials);
 
-            List<Feature> features = await _unitOfWork.FeaturesRepository.GetAll();
+            List<Feature> features = await _unitOfWork.FeaturesRepository.Where(f => f.TenantId == consumer.Client.TenantId);
 
             await ConsumeNonceOrThrow(consumer.Nonce.Id);
             await _unitOfWork.Save();

@@ -17,6 +17,7 @@ namespace CloudHub.Infra.Data
         public virtual DbSet<Purchase> Purchases { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
+        public virtual DbSet<Tenant> Tenants { get; set; } = null!;
 
 
         private readonly List<IBaseMapper> ModelBuilders = new()
@@ -30,7 +31,8 @@ namespace CloudHub.Infra.Data
             new PurchaseMapper(),
             new UserMapper(),
             new UserTokenMapper(),
-            new RoleMapper()
+            new RoleMapper(),
+            new TenantMapper()
         };
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }

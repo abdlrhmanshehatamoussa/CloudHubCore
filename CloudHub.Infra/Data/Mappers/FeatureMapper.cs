@@ -27,9 +27,14 @@ namespace CloudHub.Infra.Data
                 .IsRequired()
                 .HasColumnName("description");
 
+
             entity.Property(e => e.GlobalId)
                 .IsRequired()
                 .HasColumnName("global_id");
+
+            entity.Property(e => e.TenantId)
+                    .IsRequired()
+                    .HasColumnName("tenant_id");
 
             MappingUtils.MapTrackingAttributes(entity);
         }
@@ -38,6 +43,12 @@ namespace CloudHub.Infra.Data
         {
             entityBuilder.HasIndex(x => x.GlobalId, "features_global_id_unique")
                 .IsUnique();
+
+            entityBuilder.HasOne(f => f.Tenant)
+            .WithMany(t => t.Features)
+            .HasForeignKey(f => f.TenantId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .HasConstraintName("features_tenant_id_foreign");
         }
     }
 }

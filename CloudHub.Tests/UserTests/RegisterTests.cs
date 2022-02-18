@@ -5,7 +5,7 @@ using CloudHub.Infra.Data;
 using NUnit.Framework;
 using System;
 
-namespace CloudHub.Tests.UserTests
+namespace CloudHub.Tests
 {
     public class RegisterTests
     {
@@ -29,6 +29,8 @@ namespace CloudHub.Tests.UserTests
                     Name = "testclient",
                     ClientKey = Guid.NewGuid().ToString(),
                     ClientSecret = Guid.NewGuid().ToString(),
+                    Tenant = new() { Id = 1, Name = "Tenant 1" },
+                    TenantId = 1
                 };
                 await unitOfWork.ClientsRepository.Add(client);
                 await unitOfWork.Save();

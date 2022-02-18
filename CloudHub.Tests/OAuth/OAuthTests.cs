@@ -5,7 +5,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 
-namespace CloudHub.Tests.OAuth
+namespace CloudHub.Tests
 {
     public class OAuthTests
     {
@@ -31,16 +31,16 @@ namespace CloudHub.Tests.OAuth
             Assert.That(ex?.Message.Contains("LOGIN_TYPE_FACEBOOK") == true);
         }
 
-        [Test]
-        public void HappyScenarioGoogle()
-        {
-            Assert.DoesNotThrowAsync(async () =>
-            {
-                string testToken = "ya29.a0ARrdaM-xXIC9l7CsL6u0Lxby__Ez8qSbZ7WOjauKphP0Fbz8OwBsuT9wRDdPQ9HXc6DqxU8d12wKetNg_CByejknahfsdUrnqmvAk4cir1dj92YxGrI8CI8Z-Q5qQJZ9YQd2v4yElBErxGtIa6skhmwlilf2W1I";
-                OAuthUser? user = await oAuthService.GetUserByToken(testToken, ELoginTypes.LOGIN_TYPE_GOOGLE);
-                Assert.IsNotNull(user);
-                Assert.That(user?.Email == "abdlrhmanshehata@gmail.com");
-            });
-        }
+        //[Test]
+        //public void HappyScenarioGoogle()
+        //{
+        //    Assert.DoesNotThrowAsync(async () =>
+        //    {
+        //        string testToken = "ya29.a0ARrdaM-xXIC9l7CsL6u0Lxby__Ez8qSbZ7WOjauKphP0Fbz8OwBsuT9wRDdPQ9HXc6DqxU8d12wKetNg_CByejknahfsdUrnqmvAk4cir1dj92YxGrI8CI8Z-Q5qQJZ9YQd2v4yElBErxGtIa6skhmwlilf2W1I";
+        //        OAuthUser? user = await oAuthService.GetUserByToken(testToken, ELoginTypes.LOGIN_TYPE_GOOGLE);
+        //        Assert.IsNotNull(user);
+        //        Assert.That(user?.Email == "abdlrhmanshehata@gmail.com");
+        //    });
+        //}
     }
 }

@@ -44,7 +44,7 @@ namespace CloudHub.Domain.Services
             Consumer consumer = await GetConsumer(credentials);
 
             //Fetch user from database
-            User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.email);
+            User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.email && u.TenantId == consumer.Client.TenantId);
 
             //Check user
             if (user != null) { throw new UserExistsException(); }
@@ -55,6 +55,7 @@ namespace CloudHub.Domain.Services
                 Email = dto.email,
                 Name = dto.name,
                 ImageUrl = dto.image_url,
+                TenantId = consumer.Client.TenantId,
                 RoleId = ERoles.EndUser
             };
             double timeStamp = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
@@ -106,7 +107,7 @@ namespace CloudHub.Domain.Services
 
             //Fetch user from database
             User? user = await _unitOfWork.UsersRepository.FirstWhere(
-                (User u) => u.Email == dto.email,
+                (User u) => u.Email == dto.email && u.TenantId == consumer.Client.TenantId,
                 u => u.UserTokens,
                 u => u.Login,
                 u => u.Login.LoginType,

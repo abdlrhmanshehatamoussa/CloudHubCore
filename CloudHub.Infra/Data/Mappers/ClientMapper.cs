@@ -34,6 +34,10 @@ namespace CloudHub.Infra.Data
                 .IsRequired()
                 .HasColumnName("client_secret");
 
+            entity.Property(e => e.TenantId)
+            .IsRequired()
+            .HasColumnName("tenant_id");
+
             MappingUtils.MapTrackingAttributes(entity);
         }
 
@@ -47,6 +51,12 @@ namespace CloudHub.Infra.Data
 
             entity.HasIndex(e => e.ClientSecret, "clients_client_secret_unique")
             .IsUnique();
+
+            entity.HasOne(c => c.Tenant)
+            .WithMany(t => t.Clients)
+            .HasForeignKey(c => c.TenantId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .HasConstraintName("clients_tenant_id_foreign");
         }
     }
 

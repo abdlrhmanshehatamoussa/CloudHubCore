@@ -12,11 +12,13 @@ namespace CloudHub.Domain.Services
 
         public async Task<List<Purchase>> FetchAll(ConsumerCredentials consumerCredentials)
         {
-            Consumer info = await GetConsumer(consumerCredentials);
-            int userId = info.UserToken?.User.Id ?? throw new NotAuthenticatedException();
-            int nonceId = info.Nonce.Id;
+            Consumer consumer = await GetConsumer(consumerCredentials);
+            User user = consumer.UserToken?.User ?? throw new NotAuthenticatedException();
+            int nonceId = consumer.Nonce.Id;
 
-            List<Purchase> purchases = await _unitOfWork.PurchasesRepository.Where(p => p.UserId == userId, p => p.User, p => p.Feature);
+            List<Purchase> purchases = await _unitOfWork.PurchasesRepository.Where(p => p.UserId == user.Id,
+                p => p.User,
+                p => p.Feature);
 
             await ConsumeNonceOrThrow(nonceId);
             await _unitOfWork.Save();

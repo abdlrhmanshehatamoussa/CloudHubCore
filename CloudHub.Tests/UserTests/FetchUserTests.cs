@@ -5,7 +5,7 @@ using CloudHub.Infra.Data;
 using NUnit.Framework;
 using System;
 
-namespace CloudHub.Tests.UserTests
+namespace CloudHub.Tests
 {
     public class FetchUserTests
     {
@@ -31,6 +31,8 @@ namespace CloudHub.Tests.UserTests
                     Name = "testclient",
                     ClientKey = Guid.NewGuid().ToString(),
                     ClientSecret = Guid.NewGuid().ToString(),
+                    Tenant = new() { Id = 1, Name = "Tenant 1" },
+                    TenantId = 1
                 };
                 await unitOfWork.ClientsRepository.Add(client);
                 await unitOfWork.Save();
@@ -64,7 +66,8 @@ namespace CloudHub.Tests.UserTests
                     Name = random,
                     GlobalId = SecurityHelper.Hash256(random + email),
                     RoleId = ERoles.EndUser,
-                    Role = new () { Id = ERoles.EndUser, Name = "EndUser" }
+                    Role = new () { Id = ERoles.EndUser, Name = "EndUser" },
+                    TenantId = client.TenantId
                 };
                 await unitOfWork.UsersRepository.Add(user);
                 Login login = new ()

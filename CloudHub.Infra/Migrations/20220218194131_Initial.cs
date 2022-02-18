@@ -1,52 +1,15 @@
 ﻿using System;
-using System.Text.Json;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace CloudHub.Infra.Data.Migrations
+namespace CloudHub.Infra.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "clients",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    client_key = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    client_secret = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    active = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "true"),
-                    modified_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
-                    created_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_clients", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "features",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    global_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    active = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "true"),
-                    modified_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
-                    created_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_features", x => x.id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "login_types",
                 columns: table => new
@@ -78,11 +41,12 @@ namespace CloudHub.Infra.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "private_collections",
+                name: "tenants",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    guid = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     active = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "true"),
                     modified_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
@@ -90,23 +54,7 @@ namespace CloudHub.Infra.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_private_collections", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "public_collections",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    active = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "true"),
-                    modified_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
-                    created_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_public_collections", x => x.id);
+                    table.PrimaryKey("PK_tenants", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -122,6 +70,89 @@ namespace CloudHub.Infra.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_user_roles", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "clients",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    client_key = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    client_secret = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    tenant_id = table.Column<int>(type: "integer", nullable: false),
+                    active = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "true"),
+                    modified_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                    created_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_clients", x => x.id);
+                    table.ForeignKey(
+                        name: "clients_tenant_id_foreign",
+                        column: x => x.tenant_id,
+                        principalTable: "tenants",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "features",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    global_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    description = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    tenant_id = table.Column<int>(type: "integer", nullable: false),
+                    active = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "true"),
+                    modified_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                    created_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_features", x => x.id);
+                    table.ForeignKey(
+                        name: "features_tenant_id_foreign",
+                        column: x => x.tenant_id,
+                        principalTable: "tenants",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "users",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    image_url = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    global_id = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    tenant_id = table.Column<int>(type: "integer", nullable: false),
+                    role_id = table.Column<int>(type: "integer", nullable: false),
+                    active = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "true"),
+                    modified_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                    created_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users", x => x.id);
+                    table.ForeignKey(
+                        name: "users_role_id_foreign",
+                        column: x => x.role_id,
+                        principalTable: "user_roles",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "users_tenant_id_foreign",
+                        column: x => x.tenant_id,
+                        principalTable: "tenants",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -146,54 +177,6 @@ namespace CloudHub.Infra.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "public_documents",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    body = table.Column<JsonDocument>(type: "jsonb", nullable: false),
-                    public_collection_id = table.Column<int>(type: "integer", nullable: false),
-                    modified_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
-                    created_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_public_documents", x => x.Id);
-                    table.ForeignKey(
-                        name: "public_documents_public_collection_id_foreign",
-                        column: x => x.public_collection_id,
-                        principalTable: "public_collections",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "users",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    image_url = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    global_id = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    role_id = table.Column<int>(type: "integer", nullable: false),
-                    active = table.Column<bool>(type: "boolean", nullable: false, defaultValueSql: "true"),
-                    modified_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
-                    created_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_users", x => x.id);
-                    table.ForeignKey(
-                        name: "users_role_id_foreign",
-                        column: x => x.role_id,
-                        principalTable: "user_roles",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "logins",
                 columns: table => new
                 {
@@ -214,35 +197,6 @@ namespace CloudHub.Infra.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "logins_user_id_foreign",
-                        column: x => x.user_id,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "private_documents",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    body = table.Column<JsonDocument>(type: "jsonb", nullable: false),
-                    private_collection_id = table.Column<int>(type: "integer", nullable: false),
-                    user_id = table.Column<int>(type: "integer", nullable: false),
-                    modified_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
-                    created_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_private_documents", x => x.Id);
-                    table.ForeignKey(
-                        name: "private_documents_private_collection_id_foreign",
-                        column: x => x.private_collection_id,
-                        principalTable: "private_collections",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "private_documents_user_id_foreign",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
@@ -353,10 +307,20 @@ namespace CloudHub.Infra.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_clients_tenant_id",
+                table: "clients",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "features_global_id_unique",
                 table: "features",
                 column: "global_id",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_features_tenant_id",
+                table: "features",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "login_types_name_unique",
@@ -393,33 +357,6 @@ namespace CloudHub.Infra.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "private_collections_name_unique",
-                table: "private_collections",
-                column: "name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_private_documents_private_collection_id",
-                table: "private_documents",
-                column: "private_collection_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_private_documents_user_id",
-                table: "private_documents",
-                column: "user_id");
-
-            migrationBuilder.CreateIndex(
-                name: "public_collections_name_unique",
-                table: "public_collections",
-                column: "name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_public_documents_public_collection_id",
-                table: "public_documents",
-                column: "public_collection_id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_purchases_payment_gateway_id",
                 table: "purchases",
                 column: "payment_gateway_id");
@@ -433,6 +370,18 @@ namespace CloudHub.Infra.Data.Migrations
                 name: "purchases_user_id_feature_id_unique",
                 table: "purchases",
                 columns: new[] { "feature_id", "user_id" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "tenants_guid_unique",
+                table: "tenants",
+                column: "guid",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "tenants_name_unique",
+                table: "tenants",
+                column: "name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -458,6 +407,11 @@ namespace CloudHub.Infra.Data.Migrations
                 column: "role_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_users_tenant_id",
+                table: "users",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
                 name: "users_email_unique",
                 table: "users",
                 column: "email",
@@ -479,12 +433,6 @@ namespace CloudHub.Infra.Data.Migrations
                 name: "nonces");
 
             migrationBuilder.DropTable(
-                name: "private_documents");
-
-            migrationBuilder.DropTable(
-                name: "public_documents");
-
-            migrationBuilder.DropTable(
                 name: "purchases");
 
             migrationBuilder.DropTable(
@@ -497,12 +445,6 @@ namespace CloudHub.Infra.Data.Migrations
                 name: "clients");
 
             migrationBuilder.DropTable(
-                name: "private_collections");
-
-            migrationBuilder.DropTable(
-                name: "public_collections");
-
-            migrationBuilder.DropTable(
                 name: "features");
 
             migrationBuilder.DropTable(
@@ -513,6 +455,9 @@ namespace CloudHub.Infra.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_roles");
+
+            migrationBuilder.DropTable(
+                name: "tenants");
         }
     }
 }

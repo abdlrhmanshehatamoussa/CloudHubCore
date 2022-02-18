@@ -15,6 +15,7 @@ namespace CloudHub.Infra.Data
         public IRepository<Client> ClientsRepository => new Repository<Client>(_dbContext);
         public IRepository<UserToken> UserTokensRepository => new Repository<UserToken>(_dbContext);
         public IRepository<Login> LoginsRepository => new Repository<Login>(_dbContext);
+        public IRepository<Tenant> TenantsRepository => new Repository<Tenant>(_dbContext);
         public IRepository<Feature> FeaturesRepository => new Repository<Feature>(_dbContext);
         public IRepository<Nonce> NoncesRepository => new Repository<Nonce>(_dbContext);
         public IRepository<PaymentGateway> PaymentGatewaysRepository => new Repository<PaymentGateway>(_dbContext);

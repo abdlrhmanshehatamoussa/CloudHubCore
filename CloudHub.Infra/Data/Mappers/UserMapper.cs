@@ -41,6 +41,10 @@ namespace CloudHub.Infra.Data
                 .HasMaxLength(255)
                 .HasColumnName("image_url");
 
+            entity.Property(e => e.TenantId)
+                 .IsRequired()
+                 .HasColumnName("tenant_id");
+
             MappingUtils.MapTrackingAttributes(entity);
         }
 
@@ -57,6 +61,12 @@ namespace CloudHub.Infra.Data
             .HasForeignKey(d => d.RoleId)
             .OnDelete(DeleteBehavior.Restrict)
             .HasConstraintName("users_role_id_foreign");
+
+            entity.HasOne(u => u.Tenant)
+            .WithMany(t => t.Users)
+            .HasForeignKey(u => u.TenantId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .HasConstraintName("users_tenant_id_foreign");
         }
 
     }

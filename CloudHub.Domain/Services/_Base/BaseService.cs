@@ -22,7 +22,7 @@ namespace CloudHub.Domain.Services
         {
             if (string.IsNullOrWhiteSpace(credentials.ClientKey) || string.IsNullOrWhiteSpace(credentials.Nonce)) { throw new MissingParameterException(""); }
 
-            Client? client = await _unitOfWork.ClientsRepository.FirstWhere(c => c.ClientKey == credentials.ClientKey);
+            Client? client = await _unitOfWork.ClientsRepository.FirstWhere(c => c.ClientKey == credentials.ClientKey, c => c.Tenant);
             if (client == null) { throw new NotAuthenticatedException(); }
 
             string decryptedNonce = SecurityHelper.DecryptAES(credentials.Nonce, client.ClientSecret);
@@ -37,15 +37,19 @@ namespace CloudHub.Domain.Services
                     t => t.User,
                     t => t.User.Role,
                     t => t.User.Login,
+                    t => t.User.Tenant,
                     t => t.User.Login.LoginType);
                 if (userToken == null) { throw new NotAuthenticatedException(); }
                 if (userToken.RemainingSeconds <= 30) { throw new ExpiredTokenException(); }
+                if (userToken.User.TenantId != client.TenantId) { throw new NotAuthenticatedException(); }
             }
+
 
             return new Consumer()
             {
                 UserToken = userToken,
                 Nonce = nonce,
+                Client = client,
             };
         }
 
