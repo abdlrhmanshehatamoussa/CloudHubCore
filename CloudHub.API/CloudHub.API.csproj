@@ -9,10 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Mappers\**" />
-    <Content Remove="Data\Mappers\**" />
-    <EmbeddedResource Remove="Data\Mappers\**" />
-    <None Remove="Data\Mappers\**" />
+    <Compile Remove="Infra\Data\Mappers\**" />
+    <Content Remove="Infra\Data\Mappers\**" />
+    <EmbeddedResource Remove="Infra\Data\Mappers\**" />
+    <None Remove="Infra\Data\Mappers\**" />
   </ItemGroup>
 
   <ItemGroup>
