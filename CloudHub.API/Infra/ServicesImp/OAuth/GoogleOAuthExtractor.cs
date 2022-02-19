@@ -1,7 +1,7 @@
 ﻿using CloudHub.Domain.DTO;
 using System.Text.Json;
 
-namespace CloudHub.API.ServicesImplementation
+namespace CloudHub.Infra.ServicesImplementation
 {
     public class GoogleOAuthExtractor : IOAuthExtractor
     {

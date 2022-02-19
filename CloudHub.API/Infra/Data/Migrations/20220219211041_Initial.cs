@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace CloudHub.API.Data.Migrations
+namespace CloudHub.Infra.Data.Migrations
 {
     public partial class Initial : Migration
     {

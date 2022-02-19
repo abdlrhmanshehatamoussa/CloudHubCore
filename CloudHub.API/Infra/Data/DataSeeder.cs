@@ -1,7 +1,7 @@
 ﻿using CloudHub.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CloudHub.API.Data
+namespace CloudHub.Infra.Data
 {
     internal static class DataSeeder
     {

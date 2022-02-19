@@ -2,7 +2,7 @@
 using CloudHub.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace CloudHub.API.ServicesImplementation
+namespace CloudHub.Infra.ServicesImplementation
 {
     public class UnitOfWork : IUnitOfWork
     {

@@ -3,7 +3,7 @@ using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
 using System.Net;
 
-namespace CloudHub.API.ServicesImplementation
+namespace CloudHub.Infra.ServicesImplementation
 {
 
     public class OAuthService : IOAuthService
