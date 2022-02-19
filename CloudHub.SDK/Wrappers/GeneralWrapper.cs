@@ -1,12 +1,14 @@
-﻿namespace CloudHub.SDK
+﻿using CloudHub.ApiContracts;
+
+namespace CloudHub.SDK
 {
     public class GeneralWrapper : BaseWrapper
     {
         public GeneralWrapper(ClientInfo info) : base(info) { }
 
-        public async Task<dynamic?> Ping()
+        public async Task<PingResponseContract> Ping()
         {
-            return await Get<EmptyResponse>(PingEndpoint);
+            return await Get<PingResponseContract>(PingEndpoint);
         }
     }
 }

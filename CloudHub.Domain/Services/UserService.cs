@@ -106,7 +106,7 @@ namespace CloudHub.Domain.Services
 
             //Fetch user from database
             User? user = await _unitOfWork.UsersRepository.FirstWhere(
-                (User u) => u.Email == dto.email && u.TenantId == consumer.Client.TenantId,
+                (User u) => u.Email == dto.Email && u.TenantId == consumer.Client.TenantId,
                 u => u.UserTokens,
                 u => u.Login,
                 u => u.Login.LoginType
@@ -116,16 +116,16 @@ namespace CloudHub.Domain.Services
             if (user == null) { throw new UserNotExistsException(); }
 
             //Check user credentials
-            if (user.Login.LoginTypeId != dto.login_type) { throw new NotAuthenticatedException(); }
+            if (user.Login.LoginTypeId != dto.LoginType) { throw new NotAuthenticatedException(); }
 
-            if (dto.login_type != ELoginTypes.LOGIN_TYPE_BASIC)
+            if (dto.LoginType != ELoginTypes.LOGIN_TYPE_BASIC)
             {
-                OAuthUser? oAuthUser = await _oAuthService.GetUserByToken(dto.password, dto.login_type);
-                if (oAuthUser == null || oAuthUser.Email != dto.email) { throw new NotAuthenticatedException(); }
+                OAuthUser? oAuthUser = await _oAuthService.GetUserByToken(dto.Password, dto.LoginType);
+                if (oAuthUser == null || oAuthUser.Email != dto.Email) { throw new NotAuthenticatedException(); }
             }
             else
             {
-                if (user.Login.Passcode != dto.password) { throw new NotAuthenticatedException(); }
+                if (user.Login.Passcode != dto.Password) { throw new NotAuthenticatedException(); }
             }
 
             //Delete all existing tokens

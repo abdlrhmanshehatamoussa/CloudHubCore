@@ -1,4 +1,5 @@
-﻿using CloudHub.Domain.DTO;
+﻿using CloudHub.ApiContracts;
+using CloudHub.Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers
@@ -16,11 +17,11 @@ namespace CloudHub.API.Controllers
 
 
         [HttpGet]
-        public dynamic Ping()
+        public PingResponseContract Ping()
         {
-            return new
+            return new()
             {
-                timestamp = DateTime.Now,
+                timestamp = DateTime.Now.ToLongTimeString(),
                 build_id = envSettings.BuildId,
                 production_mode=envSettings.IsProductionModeEnabled,
                 environment = envSettings.EnvironmentName

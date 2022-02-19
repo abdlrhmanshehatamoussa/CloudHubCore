@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using CloudHub.ApiContracts;
+using NUnit.Framework;
 
 namespace CloudHub.Tests.SDK
 {
@@ -10,8 +11,9 @@ namespace CloudHub.Tests.SDK
         {
             Assert.DoesNotThrowAsync(async () =>
             {
-                var result = await Helper.CloudHubManager.General.Ping();
+                PingResponseContract result = await Helper.CloudHubManager.General.Ping();
                 Assert.NotNull(result);
+                Assert.IsTrue(result.production_mode);
             });
         }
     }

@@ -9,7 +9,7 @@ namespace CloudHub.Tests.SDK
         public static CloudHubManager CloudHubManager = new(
             new()
             {
-                ApiURL = "http://test.cloudhub.vps238.com",
+                ApiURL = "http://localhost:5098",
                 ClientKey = "ce7c48fc-fcb2-4f0c-be20-2e88e94f380f",
                 ClientSecret = "ce7c48fc-fcb2-4f0c-be20-2e88e94f380f"
             }

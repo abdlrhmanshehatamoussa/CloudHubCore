@@ -1,4 +1,4 @@
-﻿using CloudHub.Domain.DTO;
+﻿using CloudHub.ApiContracts;
 
 namespace CloudHub.SDK
 {
@@ -7,18 +7,18 @@ namespace CloudHub.SDK
         public UsersWrapper(ClientInfo info) : base(info) { }
 
 
-        public async Task<RegisterResponse> RegisterEndUser(RegisterRequest registerRequest)
+        public async Task<RegisterResponseContract> RegisterEndUser(RegisterRequestContract registerRequest)
         {
-            return await Post<RegisterResponse>(UsersEndpoint, registerRequest);
+            return await Post<RegisterResponseContract>(UsersEndpoint, registerRequest);
         }
-        public async Task<LoginResponse> LoginUser(LoginRequest loginRequest)
+        public async Task<LoginResponseContract> LoginUser(LoginRequestContract loginRequest)
         {
-            return await Post<LoginResponse>(UsersLoginEndpoint, loginRequest);
+            return await Post<LoginResponseContract>(UsersLoginEndpoint, loginRequest);
         }
 
-        public async Task<LoginResponse> FetchUser(string userToken)
+        public async Task<LoginResponseContract> FetchUser(string userToken)
         {
-            return await Get<LoginResponse>(UsersEndpoint, userToken);
+            return await Get<LoginResponseContract>(UsersEndpoint, userToken);
         }
 
     }

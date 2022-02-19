@@ -1,6 +1,6 @@
-﻿namespace CloudHub.ApiContracts.Responses
+﻿namespace CloudHub.ApiContracts
 {
-    public struct RegisterResponseContract
+    public struct UserContract
     {
         public string email { get; set; }
         public string name { get; set; }

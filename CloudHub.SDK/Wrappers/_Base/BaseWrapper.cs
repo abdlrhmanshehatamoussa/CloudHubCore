@@ -1,4 +1,5 @@
-﻿using CloudHub.Utils;
+﻿using CloudHub.ApiContracts;
+using CloudHub.Utils;
 using Newtonsoft.Json;
 using System.Text;
 

@@ -11,13 +11,13 @@ namespace CloudHub.Domain.DTO
             ValidationUtils.Mandatory(password, nameof(password));
             ValidationUtils.ValidEnumValue<ELoginTypes>(login_type, nameof(login_type));
 
-            this.email = email;
-            this.password = password;
-            this.login_type = login_type;
+            this.Email = email;
+            this.Password = password;
+            this.LoginType = login_type;
         }
 
-        public string email { get; set; }
-        public string password { get; set; }
-        public ELoginTypes login_type { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public ELoginTypes LoginType { get; set; }
     }
 }

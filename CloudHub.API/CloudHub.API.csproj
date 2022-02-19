@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CloudHub.ApiContracts\CloudHub.ApiContracts.csproj" />
     <ProjectReference Include="..\CloudHub.Domain\CloudHub.Domain.csproj" />
     <ProjectReference Include="..\CloudHub.Factories\CloudHub.Factories.csproj" />
     <ProjectReference Include="..\CloudHub.Infra\CloudHub.Infra.csproj" />

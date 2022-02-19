@@ -1,4 +1,4 @@
-﻿namespace CloudHub.SDK
+﻿namespace CloudHub.ApiContracts
 {
     public struct NonceResponse
     {
