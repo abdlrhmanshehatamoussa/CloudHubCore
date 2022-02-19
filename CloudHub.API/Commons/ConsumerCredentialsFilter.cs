@@ -1,8 +1,7 @@
-﻿using CloudHub.API.Commons;
-using CloudHub.BusinessLogic.DTO;
+﻿using CloudHub.BusinessLogic.DTO;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace CloudHub.API.Filters
+namespace CloudHub.API.Commons
 {
     public class ConsumerCredentialsFilter : IAuthorizationFilter
     {

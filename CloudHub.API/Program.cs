@@ -1,6 +1,4 @@
 using CloudHub.API.Commons;
-using CloudHub.API.Filters;
-using CloudHub.API.Middlewares;
 using CloudHub.BusinessLogic.DTO;
 using CloudHub.BusinessLogic.Repositories;
 using CloudHub.BusinessLogic.Services;
