@@ -1,4 +1,4 @@
-﻿using CloudHub.BusinessLogic;
+﻿using CloudHub.BusinessLogic.Services;
 using CloudHub.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 

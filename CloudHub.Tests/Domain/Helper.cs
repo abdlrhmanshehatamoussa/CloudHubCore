@@ -1,4 +1,4 @@
-﻿using CloudHub.BusinessLogic;
+﻿using CloudHub.BusinessLogic.DTO;
 using CloudHub.Infra.Data;
 using CloudHub.Infra.Services;
 using Microsoft.EntityFrameworkCore;

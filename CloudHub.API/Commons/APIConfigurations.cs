@@ -1,5 +1,5 @@
 ﻿using CloudHub.API.Exceptions;
-using CloudHub.BusinessLogic;
+using CloudHub.BusinessLogic.DTO;
 using CloudHub.Infra.Services;
 
 namespace CloudHub.API.Commons

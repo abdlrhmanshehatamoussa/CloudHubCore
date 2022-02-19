@@ -1,8 +1,9 @@
-﻿using CloudHub.Domain.DTO;
+﻿using CloudHub.BusinessLogic.DTO;
+using CloudHub.BusinessLogic.Repositories;
 using CloudHub.Domain.Entities;
 using CloudHub.Domain.Exceptions;
 
-namespace CloudHub.BusinessLogic
+namespace CloudHub.BusinessLogic.Services
 {
     public class PurchaseService : BaseService
     {

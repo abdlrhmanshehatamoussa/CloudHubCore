@@ -1,6 +1,6 @@
 ﻿using CloudHub.Domain.Entities;
 
-namespace CloudHub.BusinessLogic
+namespace CloudHub.BusinessLogic.Repositories
 {
     public interface IUnitOfWork
     {

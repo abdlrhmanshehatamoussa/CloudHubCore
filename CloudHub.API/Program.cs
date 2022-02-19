@@ -1,7 +1,9 @@
 using CloudHub.API.Commons;
 using CloudHub.API.Filters;
 using CloudHub.API.Middlewares;
-using CloudHub.BusinessLogic;
+using CloudHub.BusinessLogic.DTO;
+using CloudHub.BusinessLogic.Repositories;
+using CloudHub.BusinessLogic.Services;
 using CloudHub.Infra.Data;
 using CloudHub.Infra.Services;
 using Microsoft.EntityFrameworkCore;

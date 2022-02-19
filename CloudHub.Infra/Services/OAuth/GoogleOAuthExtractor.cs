@@ -1,4 +1,4 @@
-﻿using CloudHub.Domain.DTO;
+﻿using CloudHub.BusinessLogic.DTO;
 using System.Text.Json;
 
 namespace CloudHub.Infra.Services

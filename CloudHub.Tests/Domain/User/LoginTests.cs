@@ -1,6 +1,6 @@
-using CloudHub.BusinessLogic;
+using CloudHub.BusinessLogic.DTO;
+using CloudHub.BusinessLogic.Services;
 using CloudHub.Crosscutting;
-using CloudHub.Domain.DTO;
 using CloudHub.Domain.Entities;
 using CloudHub.Infra.Data;
 using NUnit.Framework;

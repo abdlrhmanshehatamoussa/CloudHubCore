@@ -1,4 +1,4 @@
-﻿using CloudHub.Domain.DTO;
+﻿using CloudHub.BusinessLogic.DTO;
 using CloudHub.Domain.Entities;
 using NUnit.Framework;
 
@@ -27,18 +27,18 @@ namespace CloudHub.Tests.SDK
                 //Assert.NotNull(user);
                 //Assert.IsTrue(success);
 
-                //result = await Helper.CloudHubManager.Users.LoginUser(new(
-                //    email: email,
-                //    password: password,
-                //    login_type: ELoginTypes.LOGIN_TYPE_BASIC
-                //    ));
-                //Assert.NotNull(result);
-                //dynamic token = result!["user_token"];
+                //var loginResult = await Helper.CloudHubManager.Users.LoginUser(new(
+                //   email: email,
+                //   password: password,
+                //   login_type: ELoginTypes.LOGIN_TYPE_BASIC
+                //   ));
+                //Assert.NotNull(loginResult);
+                //dynamic token = loginResult!["user_token"];
                 //Assert.NotNull(token);
 
                 //result = await Helper.CloudHubManager.Users.FetchUser(token);
                 //Assert.NotNull(result);
-                //dynamic returnedEmail = result!["email"];
+                //dynamic returnedEmail = loginResult!["email"];
                 //Assert.NotNull(returnedEmail);
                 //Assert.That(returnedEmail == email);
             });

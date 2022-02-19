@@ -1,7 +1,6 @@
-﻿using CloudHub.Domain.Commons;
+﻿using CloudHub.BusinessLogic.Utils;
 using CloudHub.Domain.Entities;
-
-namespace CloudHub.Domain.DTO
+namespace CloudHub.BusinessLogic.DTO
 {
     public class RegisterRequest
     {

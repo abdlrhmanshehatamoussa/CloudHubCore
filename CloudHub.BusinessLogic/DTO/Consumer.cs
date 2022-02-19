@@ -1,6 +1,6 @@
 ﻿using CloudHub.Domain.Entities;
 
-namespace CloudHub.Domain.DTO
+namespace CloudHub.BusinessLogic.DTO
 {
     public struct Consumer
     {

@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.SDK", "CloudHub.SD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudHub.BusinessLogic", "CloudHub.BusinessLogic\CloudHub.BusinessLogic.csproj", "{7C5EB496-FD02-46C1-A5A4-0761212EA67B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudHub.ApiContracts", "CloudHub.ApiContracts\CloudHub.ApiContracts.csproj", "{2397B118-73EB-4876-8075-0CF15FD78D22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{7C5EB496-FD02-46C1-A5A4-0761212EA67B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C5EB496-FD02-46C1-A5A4-0761212EA67B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C5EB496-FD02-46C1-A5A4-0761212EA67B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2397B118-73EB-4876-8075-0CF15FD78D22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2397B118-73EB-4876-8075-0CF15FD78D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2397B118-73EB-4876-8075-0CF15FD78D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2397B118-73EB-4876-8075-0CF15FD78D22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-﻿namespace CloudHub.BusinessLogic
+﻿namespace CloudHub.BusinessLogic.DTO
 {
     public interface IEnvironmentSettings
     {

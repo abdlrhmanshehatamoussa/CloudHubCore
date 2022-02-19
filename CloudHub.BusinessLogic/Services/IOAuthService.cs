@@ -1,7 +1,7 @@
-﻿using CloudHub.Domain.DTO;
+﻿using CloudHub.BusinessLogic.DTO;
 using CloudHub.Domain.Entities;
 
-namespace CloudHub.BusinessLogic
+namespace CloudHub.BusinessLogic.Services
 {
     public interface IOAuthService
     {

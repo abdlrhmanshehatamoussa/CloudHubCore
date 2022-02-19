@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace CloudHub.BusinessLogic
+namespace CloudHub.BusinessLogic.Repositories
 {
     public interface IRepository<T> where T : class
     {

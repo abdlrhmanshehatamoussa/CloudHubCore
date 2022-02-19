@@ -1,4 +1,4 @@
-﻿using CloudHub.BusinessLogic;
+﻿using CloudHub.BusinessLogic.Repositories;
 using CloudHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
