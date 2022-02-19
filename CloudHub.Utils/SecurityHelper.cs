@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace CloudHub.API.Commons
+namespace CloudHub.Utils
 {
     public class SecurityHelper
     {

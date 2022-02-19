@@ -9,13 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Infra\Data\Mappers\**" />
-    <Content Remove="Infra\Data\Mappers\**" />
-    <EmbeddedResource Remove="Infra\Data\Mappers\**" />
-    <None Remove="Infra\Data\Mappers\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -29,6 +22,12 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CloudHub.Domain\CloudHub.Domain.csproj" />
+    <ProjectReference Include="..\CloudHub.Factories\CloudHub.Factories.csproj" />
+    <ProjectReference Include="..\CloudHub.Infra\CloudHub.Infra.csproj" />
   </ItemGroup>
 
 </Project>

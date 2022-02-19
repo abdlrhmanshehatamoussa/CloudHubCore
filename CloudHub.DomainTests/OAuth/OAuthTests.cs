@@ -1,4 +1,4 @@
-﻿using CloudHub.API.ServicesImplementation;
+﻿using CloudHub.Factories;
 using CloudHub.Domain.DTO;
 using CloudHub.Domain.Models;
 using Moq;

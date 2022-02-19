@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 
-namespace CloudHub.Infra.ServicesImplementation
+namespace CloudHub.Factories
 {
 
     public class Repository<T> : IRepository<T> where T : class

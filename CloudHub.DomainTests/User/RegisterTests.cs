@@ -1,8 +1,8 @@
-﻿using CloudHub.API.Commons;
-using CloudHub.API.ServicesImplementation;
-using CloudHub.Domain.DTO;
+﻿using CloudHub.Domain.DTO;
 using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
+using CloudHub.Factories;
+using CloudHub.Utils;
 using NUnit.Framework;
 using System;
 

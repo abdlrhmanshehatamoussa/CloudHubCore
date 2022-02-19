@@ -1,9 +1,9 @@
 ﻿using CloudHub.Domain.DTO;
 using System.Text.Json;
 
-namespace CloudHub.Infra.ServicesImplementation
+namespace CloudHub.Factories
 {
-    public class GoogleOAuthExtractor : IOAuthExtractor
+    public partial class GoogleOAuthExtractor : IOAuthExtractor
     {
         public GoogleOAuthExtractor(IGoogleServicesConfigurations googleServicesConfigurations) => this.googleServicesConfigurations = googleServicesConfigurations;
 
@@ -24,22 +24,5 @@ namespace CloudHub.Infra.ServicesImplementation
             string url = string.Format("{0}{1}", googleServicesConfigurations.GoogleTokenInfoApiUrl, token);
             return url;
         }
-
-        private struct GoogleOAuthUser
-        {
-            public string issued_to { get; set; }
-            public string audience { get; set; }
-            public string user_id { get; set; }
-            public string scope { get; set; }
-            public int expires_in { get; set; }
-            public string email { get; set; }
-            public bool verified_email { get; set; }
-            public string access_type { get; set; }
-
-        }
-    }
-    public interface IGoogleServicesConfigurations
-    {
-        public string GoogleTokenInfoApiUrl { get; }
     }
 }

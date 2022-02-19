@@ -1,7 +1,7 @@
-﻿using CloudHub.API.Commons;
-using CloudHub.Domain.DTO;
-using CloudHub.Domain.Models;
+﻿using CloudHub.Domain.DTO;
 using CloudHub.Domain.Exceptions;
+using CloudHub.Domain.Models;
+using CloudHub.Utils;
 
 namespace CloudHub.Domain.Services
 {

@@ -1,6 +1,5 @@
-﻿using CloudHub.API.Data;
-using CloudHub.API.ServicesImplementation;
-using CloudHub.Domain.DTO;
+﻿using CloudHub.Domain.DTO;
+using CloudHub.Factories;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
@@ -17,7 +16,7 @@ namespace CloudHub.DomainTests
             DbContextOptionsBuilder builder = new();
             string dbName = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
             builder.UseInMemoryDatabase(dbName);
-            UnitOfWork uow = new(new PostgreContext(builder.Options));
+            UnitOfWork uow = new(new InMemoryContext(builder.Options));
             return uow;
         }
 

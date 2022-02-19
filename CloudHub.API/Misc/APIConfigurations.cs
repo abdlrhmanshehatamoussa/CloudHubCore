@@ -1,7 +1,6 @@
-﻿using CloudHub.Domain.DTO;
-using CloudHub.Domain.Exceptions;
-using CloudHub.Infra.ServicesImplementation;
-using CloudHub.API.Exceptions;
+﻿using CloudHub.API.Exceptions;
+using CloudHub.Domain.DTO;
+using CloudHub.Factories;
 
 namespace CloudHub.API.Commons
 {

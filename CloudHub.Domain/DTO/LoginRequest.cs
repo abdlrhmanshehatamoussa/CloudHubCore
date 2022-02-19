@@ -1,5 +1,5 @@
-﻿using CloudHub.API.Commons;
-using CloudHub.Domain.Models;
+﻿using CloudHub.Domain.Models;
+using CloudHub.Domain.Utils;
 
 namespace CloudHub.Domain.DTO
 {
