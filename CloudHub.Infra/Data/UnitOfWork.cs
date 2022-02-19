@@ -1,5 +1,5 @@
-﻿using CloudHub.Domain.Entities;
-using CloudHub.Domain.Repositories;
+﻿using CloudHub.BusinessLogic;
+using CloudHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CloudHub.Infra.Data

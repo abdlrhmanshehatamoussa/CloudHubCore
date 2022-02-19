@@ -1,4 +1,4 @@
-﻿using CloudHub.Domain.Repositories;
+﻿using CloudHub.BusinessLogic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;

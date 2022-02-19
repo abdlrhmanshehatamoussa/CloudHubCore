@@ -1,5 +1,5 @@
 ﻿using CloudHub.API.Commons;
-using CloudHub.Domain.Services;
+using CloudHub.Domain.DTO;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace CloudHub.API.Filters

@@ -1,5 +1,6 @@
-﻿using CloudHub.Domain.Entities;
-using CloudHub.Domain.Services;
+﻿using CloudHub.BusinessLogic;
+using CloudHub.Domain.DTO;
+using CloudHub.Domain.Entities;
 using System.Net;
 
 namespace CloudHub.Infra.Services

@@ -1,4 +1,4 @@
-﻿using CloudHub.Domain.Services;
+﻿using CloudHub.Domain.DTO;
 
 namespace CloudHub.Infra.Services
 {

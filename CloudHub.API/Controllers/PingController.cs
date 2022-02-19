@@ -1,4 +1,4 @@
-﻿using CloudHub.Domain.Services;
+﻿using CloudHub.BusinessLogic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers

@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CloudHub.BusinessLogic\CloudHub.BusinessLogic.csproj" />
     <ProjectReference Include="..\CloudHub.Domain\CloudHub.Domain.csproj" />
   </ItemGroup>
 

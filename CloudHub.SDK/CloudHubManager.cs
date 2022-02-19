@@ -2,9 +2,10 @@
 {
     public class CloudHubManager
     {
-        public CloudHubManager(CloudHubApiSettings settings) => _settings = settings;
-        private readonly CloudHubApiSettings _settings;
+        public CloudHubManager(ClientInfo info) => _info = info;
+        private readonly ClientInfo _info;
 
-        public CloudHubUsersWrapper CloudHubUsersWrapper => new CloudHubUsersWrapper(_settings);
+        public UsersWrapper Users => new (_info);
+        public GeneralWrapper General => new (_info);
     }
 }

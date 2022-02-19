@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CloudHub.Crosscutting\CloudHub.Crosscutting.csproj" />
     <ProjectReference Include="..\CloudHub.Domain\CloudHub.Domain.csproj" />
   </ItemGroup>
 
