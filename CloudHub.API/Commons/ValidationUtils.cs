@@ -1,4 +1,4 @@
-﻿using CloudHub.API.Exceptions;
+﻿using CloudHub.Domain.Exceptions;
 using System.Net.Mail;
 
 namespace CloudHub.API.Commons

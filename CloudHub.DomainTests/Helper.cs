@@ -1,6 +1,6 @@
 ﻿using CloudHub.API.Data;
-using CloudHub.API.Domain.DTO;
 using CloudHub.API.ServicesImplementation;
+using CloudHub.Domain.DTO;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;

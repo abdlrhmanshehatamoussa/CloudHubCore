@@ -1,4 +1,4 @@
-﻿using CloudHub.API.Domain.DTO;
+﻿using CloudHub.Domain.DTO;
 
 namespace CloudHub.SDK
 {

@@ -1,6 +1,6 @@
 ﻿using CloudHub.API.Commons;
 using CloudHub.Domain.DTO;
-using CloudHub.API.Exceptions;
+using CloudHub.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers

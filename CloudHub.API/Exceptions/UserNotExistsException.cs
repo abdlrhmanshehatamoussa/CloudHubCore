@@ -1,4 +1,4 @@
-﻿namespace CloudHub.API.Exceptions
+﻿namespace CloudHub.Domain.Exceptions
 {
     public class UserNotExistsException : Exception
     {

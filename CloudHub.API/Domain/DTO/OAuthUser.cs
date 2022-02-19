@@ -1,4 +1,4 @@
-﻿using CloudHub.API.Exceptions;
+﻿using CloudHub.Domain.Exceptions;
 
 namespace CloudHub.Domain.DTO
 {

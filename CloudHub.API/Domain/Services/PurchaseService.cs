@@ -1,6 +1,6 @@
 ﻿using CloudHub.Domain.DTO;
 using CloudHub.Domain.Models;
-using CloudHub.API.Exceptions;
+using CloudHub.Domain.Exceptions;
 
 namespace CloudHub.Domain.Services
 {
