@@ -1,4 +1,4 @@
-﻿using CloudHub.BusinessLogic.DTO;
+﻿using CloudHub.API.Domain.DTO;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace CloudHub.API.Commons

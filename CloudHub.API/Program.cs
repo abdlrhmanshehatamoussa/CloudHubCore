@@ -1,9 +1,8 @@
 using CloudHub.API.Commons;
-using CloudHub.BusinessLogic.DTO;
-using CloudHub.BusinessLogic.Repositories;
-using CloudHub.BusinessLogic.Services;
-using CloudHub.Infra.Data;
-using CloudHub.Infra.Services;
+using CloudHub.API.Domain.DTO;
+using CloudHub.API.Domain.Services;
+using CloudHub.API.ServicesImplementation;
+using CloudHub.API.Data;
 using Microsoft.EntityFrameworkCore;
 
 const string APP_SETTINGS_FILE = "appsettings.json";

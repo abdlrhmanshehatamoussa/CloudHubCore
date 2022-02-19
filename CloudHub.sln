@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.API", "CloudHub.AP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Domain", "CloudHub.Domain\CloudHub.Domain.csproj", "{5CBCB26F-55C2-4964-9EC7-F1C6044F925D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Tests", "CloudHub.Tests\CloudHub.Tests.csproj", "{645CAA17-AFA0-467E-8BE3-63ED7BFA5BD8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Crosscutting", "CloudHub.Crosscutting\CloudHub.Crosscutting.csproj", "{47220EAF-8C56-414F-A89A-1A0893477F51}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Infra", "CloudHub.Infra\CloudHub.Infra.csproj", "{548B1253-6482-41BF-865E-46B26C00258D}"
@@ -18,6 +16,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudHub.BusinessLogic", "CloudHub.BusinessLogic\CloudHub.BusinessLogic.csproj", "{7C5EB496-FD02-46C1-A5A4-0761212EA67B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudHub.ApiContracts", "CloudHub.ApiContracts\CloudHub.ApiContracts.csproj", "{2397B118-73EB-4876-8075-0CF15FD78D22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudHub.DomainTests", "CloudHub.DomainTests\CloudHub.DomainTests.csproj", "{03F8AD75-1EBE-48BD-8D35-94DE2B9E5536}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudHub.SDKTests", "CloudHub.SDKTests\CloudHub.SDKTests.csproj", "{F6E607F2-374E-47AA-A00C-90FE6EBFF19D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +35,6 @@ Global
 		{5CBCB26F-55C2-4964-9EC7-F1C6044F925D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CBCB26F-55C2-4964-9EC7-F1C6044F925D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CBCB26F-55C2-4964-9EC7-F1C6044F925D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{645CAA17-AFA0-467E-8BE3-63ED7BFA5BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{645CAA17-AFA0-467E-8BE3-63ED7BFA5BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{645CAA17-AFA0-467E-8BE3-63ED7BFA5BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{645CAA17-AFA0-467E-8BE3-63ED7BFA5BD8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{47220EAF-8C56-414F-A89A-1A0893477F51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{47220EAF-8C56-414F-A89A-1A0893477F51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47220EAF-8C56-414F-A89A-1A0893477F51}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +55,14 @@ Global
 		{2397B118-73EB-4876-8075-0CF15FD78D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2397B118-73EB-4876-8075-0CF15FD78D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2397B118-73EB-4876-8075-0CF15FD78D22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03F8AD75-1EBE-48BD-8D35-94DE2B9E5536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03F8AD75-1EBE-48BD-8D35-94DE2B9E5536}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03F8AD75-1EBE-48BD-8D35-94DE2B9E5536}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03F8AD75-1EBE-48BD-8D35-94DE2B9E5536}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6E607F2-374E-47AA-A00C-90FE6EBFF19D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6E607F2-374E-47AA-A00C-90FE6EBFF19D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6E607F2-374E-47AA-A00C-90FE6EBFF19D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6E607F2-374E-47AA-A00C-90FE6EBFF19D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,5 @@
-﻿using CloudHub.BusinessLogic.Services;
-using CloudHub.Domain.Entities;
+﻿using CloudHub.API.Domain.Models;
+using CloudHub.API.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers
