@@ -1,5 +1,5 @@
 ﻿using CloudHub.API.Commons;
-using CloudHub.API.Domain.DTO;
+using CloudHub.Domain.DTO;
 using CloudHub.API.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 

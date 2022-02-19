@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace CloudHub.API.Domain.Models
+namespace CloudHub.Domain.Models
 {
     public class UserToken: IBaseEntity
     {

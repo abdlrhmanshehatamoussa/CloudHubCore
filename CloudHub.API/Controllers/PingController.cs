@@ -1,4 +1,4 @@
-﻿using CloudHub.API.Domain.DTO;
+﻿using CloudHub.Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers

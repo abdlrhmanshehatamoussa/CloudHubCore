@@ -1,7 +1,7 @@
-﻿using CloudHub.API.Domain.DTO;
-using CloudHub.API.Domain.Models;
+﻿using CloudHub.Domain.DTO;
+using CloudHub.Domain.Models;
 
-namespace CloudHub.API.Domain.Services
+namespace CloudHub.Domain.Services
 {
     public class FeatureService : BaseService
     {

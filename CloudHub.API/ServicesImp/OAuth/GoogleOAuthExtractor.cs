@@ -1,4 +1,4 @@
-﻿using CloudHub.API.Domain.DTO;
+﻿using CloudHub.Domain.DTO;
 using System.Text.Json;
 
 namespace CloudHub.API.ServicesImplementation

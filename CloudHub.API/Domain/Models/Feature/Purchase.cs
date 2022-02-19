@@ -1,4 +1,4 @@
-﻿namespace CloudHub.API.Domain.Models
+﻿namespace CloudHub.Domain.Models
 {
     public class Purchase: IBaseEntity
     {

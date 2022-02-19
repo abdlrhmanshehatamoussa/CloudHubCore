@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace CloudHub.API.Domain.Services
+namespace CloudHub.Domain.Services
 {
     public interface IRepository<T> where T : class
     {

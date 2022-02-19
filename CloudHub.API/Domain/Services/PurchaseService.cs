@@ -1,8 +1,8 @@
-﻿using CloudHub.API.Domain.DTO;
-using CloudHub.API.Domain.Models;
+﻿using CloudHub.Domain.DTO;
+using CloudHub.Domain.Models;
 using CloudHub.API.Exceptions;
 
-namespace CloudHub.API.Domain.Services
+namespace CloudHub.Domain.Services
 {
     public class PurchaseService : BaseService
     {

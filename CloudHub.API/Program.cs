@@ -1,6 +1,6 @@
 using CloudHub.API.Commons;
-using CloudHub.API.Domain.DTO;
-using CloudHub.API.Domain.Services;
+using CloudHub.Domain.DTO;
+using CloudHub.Domain.Services;
 using CloudHub.API.ServicesImplementation;
 using CloudHub.API.Data;
 using Microsoft.EntityFrameworkCore;

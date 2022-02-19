@@ -1,8 +1,0 @@
-﻿namespace CloudHub.Domain.Entities
-{
-    public enum PaymentGatewayValues
-    {
-        GOOGLE_PLAY_BILLING = 1593267,
-        PAYPAL = 4863519,
-    }
-}

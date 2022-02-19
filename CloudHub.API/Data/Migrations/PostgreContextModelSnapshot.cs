@@ -22,7 +22,7 @@ namespace CloudHub.API.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Client", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,7 +61,7 @@ namespace CloudHub.API.Data.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Feature", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Feature", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -99,7 +99,7 @@ namespace CloudHub.API.Data.Migrations
                     b.ToTable("Features");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Login", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Login", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -127,7 +127,7 @@ namespace CloudHub.API.Data.Migrations
                     b.ToTable("Logins");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.LoginType", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.LoginType", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -184,7 +184,7 @@ namespace CloudHub.API.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Nonce", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Nonce", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -212,7 +212,7 @@ namespace CloudHub.API.Data.Migrations
                     b.ToTable("Nonces");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.PaymentGateway", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.PaymentGateway", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -253,7 +253,7 @@ namespace CloudHub.API.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Purchase", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Purchase", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -292,7 +292,7 @@ namespace CloudHub.API.Data.Migrations
                     b.ToTable("Purchases");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Tenant", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Tenant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -321,7 +321,7 @@ namespace CloudHub.API.Data.Migrations
                     b.ToTable("Tenants");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.User", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -363,7 +363,7 @@ namespace CloudHub.API.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.UserToken", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.UserToken", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -391,9 +391,9 @@ namespace CloudHub.API.Data.Migrations
                     b.ToTable("UserTokens");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Client", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Client", b =>
                 {
-                    b.HasOne("CloudHub.API.Domain.Models.Tenant", "Tenant")
+                    b.HasOne("CloudHub.Domain.Models.Tenant", "Tenant")
                         .WithMany("Clients")
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -402,9 +402,9 @@ namespace CloudHub.API.Data.Migrations
                     b.Navigation("Tenant");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Feature", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Feature", b =>
                 {
-                    b.HasOne("CloudHub.API.Domain.Models.Tenant", "Tenant")
+                    b.HasOne("CloudHub.Domain.Models.Tenant", "Tenant")
                         .WithMany("Features")
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -413,17 +413,17 @@ namespace CloudHub.API.Data.Migrations
                     b.Navigation("Tenant");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Login", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Login", b =>
                 {
-                    b.HasOne("CloudHub.API.Domain.Models.LoginType", "LoginType")
+                    b.HasOne("CloudHub.Domain.Models.LoginType", "LoginType")
                         .WithMany("Logins")
                         .HasForeignKey("LoginTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CloudHub.API.Domain.Models.User", "User")
+                    b.HasOne("CloudHub.Domain.Models.User", "User")
                         .WithOne("Login")
-                        .HasForeignKey("CloudHub.API.Domain.Models.Login", "UserId")
+                        .HasForeignKey("CloudHub.Domain.Models.Login", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -432,9 +432,9 @@ namespace CloudHub.API.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Nonce", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Nonce", b =>
                 {
-                    b.HasOne("CloudHub.API.Domain.Models.Client", "Client")
+                    b.HasOne("CloudHub.Domain.Models.Client", "Client")
                         .WithMany("Nonces")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -443,21 +443,21 @@ namespace CloudHub.API.Data.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Purchase", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Purchase", b =>
                 {
-                    b.HasOne("CloudHub.API.Domain.Models.Feature", "Feature")
+                    b.HasOne("CloudHub.Domain.Models.Feature", "Feature")
                         .WithMany("Purchases")
                         .HasForeignKey("FeatureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CloudHub.API.Domain.Models.PaymentGateway", "PaymentGateway")
+                    b.HasOne("CloudHub.Domain.Models.PaymentGateway", "PaymentGateway")
                         .WithMany("Purchases")
                         .HasForeignKey("PaymentGatewayId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CloudHub.API.Domain.Models.User", "User")
+                    b.HasOne("CloudHub.Domain.Models.User", "User")
                         .WithMany("Purchases")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -470,9 +470,9 @@ namespace CloudHub.API.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.User", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.User", b =>
                 {
-                    b.HasOne("CloudHub.API.Domain.Models.Tenant", "Tenant")
+                    b.HasOne("CloudHub.Domain.Models.Tenant", "Tenant")
                         .WithMany("Users")
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -481,9 +481,9 @@ namespace CloudHub.API.Data.Migrations
                     b.Navigation("Tenant");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.UserToken", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.UserToken", b =>
                 {
-                    b.HasOne("CloudHub.API.Domain.Models.User", "User")
+                    b.HasOne("CloudHub.Domain.Models.User", "User")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -492,27 +492,27 @@ namespace CloudHub.API.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Client", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Client", b =>
                 {
                     b.Navigation("Nonces");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Feature", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Feature", b =>
                 {
                     b.Navigation("Purchases");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.LoginType", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.LoginType", b =>
                 {
                     b.Navigation("Logins");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.PaymentGateway", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.PaymentGateway", b =>
                 {
                     b.Navigation("Purchases");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.Tenant", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.Tenant", b =>
                 {
                     b.Navigation("Clients");
 
@@ -521,7 +521,7 @@ namespace CloudHub.API.Data.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("CloudHub.API.Domain.Models.User", b =>
+            modelBuilder.Entity("CloudHub.Domain.Models.User", b =>
                 {
                     b.Navigation("Login")
                         .IsRequired();

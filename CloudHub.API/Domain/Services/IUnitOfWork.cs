@@ -1,6 +1,6 @@
-﻿using CloudHub.API.Domain.Models;
+﻿using CloudHub.Domain.Models;
 
-namespace CloudHub.API.Domain.Services
+namespace CloudHub.Domain.Services
 {
     public interface IUnitOfWork
     {

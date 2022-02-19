@@ -1,5 +1,5 @@
-using CloudHub.API.Domain.DTO;
-using CloudHub.API.Domain.Services;
+using CloudHub.Domain.DTO;
+using CloudHub.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers

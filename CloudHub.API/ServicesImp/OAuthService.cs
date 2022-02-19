@@ -1,6 +1,6 @@
-﻿using CloudHub.API.Domain.DTO;
-using CloudHub.API.Domain.Models;
-using CloudHub.API.Domain.Services;
+﻿using CloudHub.Domain.DTO;
+using CloudHub.Domain.Models;
+using CloudHub.Domain.Services;
 using System.Net;
 
 namespace CloudHub.API.ServicesImplementation

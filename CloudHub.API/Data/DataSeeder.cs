@@ -1,4 +1,4 @@
-﻿using CloudHub.API.Domain.Models;
+﻿using CloudHub.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CloudHub.API.Data
