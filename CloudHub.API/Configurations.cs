@@ -1,26 +1,25 @@
 ﻿using CloudHub.API.Exceptions;
 using CloudHub.Domain.Models;
-using CloudHub.Infra.Factories;
 
-namespace CloudHub.API.Utils
+namespace CloudHub.API
 {
-    public class APIConfigurations : IEnvironmentSettings, IGoogleServicesConfigurations
+    public class Configurations : IEnvironmentSettings
     {
         public string EnvironmentName { get; private set; } = null!;
         public string BuildId { get; private set; } = null!;
         public string MainConnectionString { get; private set; } = null!;
         public bool IsProductionModeEnabled { get; private set; } = false;
-        public string GoogleTokenInfoApiUrl { get; private set; } = null!;
+        public string GoogleOAuthUrl { get; private set; } = null!;
 
 
         private const string KEY_BUILD_ID = "BUILD_ID";
         private const string KEY_PROD_MODE = "PRODUCTION_MODE";
         private const string KEY_ENV_NAME = "ASPNETCORE_ENVIRONMENT";
-        private const string KEY_GOOGLE_TOKEN_URL = "GOOGLE_TOKEN_INFO_API_URL";
+        private const string KEY_GOOGLE_OAUTH_URL = "GOOGLE_TOKEN_INFO_API_URL";
         private const string KEY_MAIN_CONN_STR = "MAIN_CONNECTION_STRING";
 
 
-        public static APIConfigurations Load(string jsonFile)
+        public static Configurations Load(string jsonFile)
         {
             try
             {
@@ -32,24 +31,24 @@ namespace CloudHub.API.Utils
             }
         }
 
-        private static APIConfigurations FromEnvironment()
+        private static Configurations FromEnvironment()
         {
             bool isProduction = bool.Parse(GetEnvVar(KEY_PROD_MODE));
             string buildId = GetEnvVar(KEY_BUILD_ID);
             string envName = GetEnvVar(KEY_ENV_NAME);
-            string googleTokenInfoApiUrl = GetEnvVar(KEY_GOOGLE_TOKEN_URL);
+            string googleTokenInfoApiUrl = GetEnvVar(KEY_GOOGLE_OAUTH_URL);
             string connectionString = GetEnvVar(KEY_MAIN_CONN_STR);
             return new()
             {
                 BuildId = buildId,
                 IsProductionModeEnabled = isProduction,
                 EnvironmentName = envName,
-                GoogleTokenInfoApiUrl = googleTokenInfoApiUrl,
+                GoogleOAuthUrl = googleTokenInfoApiUrl,
                 MainConnectionString = connectionString
             };
         }
 
-        private static APIConfigurations FromJson(string jsonFile)
+        private static Configurations FromJson(string jsonFile)
         {
             var builder = new ConfigurationBuilder();
             builder.AddJsonFile(jsonFile);
@@ -57,14 +56,14 @@ namespace CloudHub.API.Utils
             bool isProduction = configuration.GetValue<bool>(KEY_PROD_MODE);
             string buildId = configuration.GetValue<string>(KEY_BUILD_ID);
             string envName = configuration.GetValue<string>(KEY_ENV_NAME);
-            string googleTokenInfoApiUrl = configuration.GetValue<string>(KEY_GOOGLE_TOKEN_URL);
+            string googleTokenInfoApiUrl = configuration.GetValue<string>(KEY_GOOGLE_OAUTH_URL);
             string mainConnectionString = configuration.GetValue<string>(KEY_MAIN_CONN_STR);
             return new()
             {
                 BuildId = buildId,
                 IsProductionModeEnabled = isProduction,
                 EnvironmentName = envName,
-                GoogleTokenInfoApiUrl = googleTokenInfoApiUrl,
+                GoogleOAuthUrl = googleTokenInfoApiUrl,
                 MainConnectionString = mainConnectionString
             };
         }

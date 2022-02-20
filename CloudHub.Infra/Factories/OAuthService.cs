@@ -1,5 +1,4 @@
-﻿using CloudHub.Domain.DTO;
-using CloudHub.Domain.Models;
+﻿using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
 using System.Net;
 
@@ -8,12 +7,19 @@ namespace CloudHub.Infra.Factories
 
     public class OAuthService : IOAuthService
     {
-        public OAuthService(GoogleOAuthExtractor googleOAuthExtractor)
+        public OAuthService(string googleOAuthURL)
         {
+            GoogleOAuthExtractor googleOAuthExtractor = new GoogleOAuthExtractor(googleOAuthURL);
             this.Extractors.Add(ELoginTypes.LOGIN_TYPE_GOOGLE, googleOAuthExtractor);
         }
 
         private readonly Dictionary<ELoginTypes, IOAuthExtractor> Extractors = new();
+
+        private IOAuthExtractor GetExtractor(ELoginTypes loginType)
+        {
+            if (Extractors.ContainsKey(loginType) == false) { throw new Exception(string.Format("Cannot find OAuth extractor for Login type [{0}]", loginType.ToString())); }
+            return this.Extractors[loginType];
+        }
 
         public async Task<OAuthUser?> GetUserByToken(string token, ELoginTypes loginType)
         {
@@ -29,17 +35,5 @@ namespace CloudHub.Infra.Factories
             }
             return extractor.ExtractUser(body);
         }
-
-        private IOAuthExtractor GetExtractor(ELoginTypes loginType)
-        {
-            if (Extractors.ContainsKey(loginType) == false) { throw new Exception(string.Format("Cannot find OAuth extractor for Login type [{0}]", loginType.ToString())); }
-            return this.Extractors[loginType];
-        }
-    }
-
-    public interface IOAuthExtractor
-    {
-        public string BuildURL(string token);
-        public OAuthUser ExtractUser(string bodyJson);
     }
 }

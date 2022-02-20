@@ -28,10 +28,7 @@ namespace CloudHub.Tests.Factories
             get
             {
                 string googleOauthUrl = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=";
-                Mock<IGoogleServicesConfigurations> googleMock = new();
-                googleMock.Setup(x => x.GoogleTokenInfoApiUrl).Returns(googleOauthUrl);
-                GoogleOAuthExtractor googleOAuthExtractor = new(googleMock.Object);
-                OAuthService service = new(googleOAuthExtractor);
+                OAuthService service = new(googleOauthUrl);
                 return service;
             }
         }

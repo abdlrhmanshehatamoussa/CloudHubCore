@@ -25,13 +25,13 @@ namespace CloudHub.Tests.Unit
         //[Test]
         //public void HappyScenarioGoogle()
         //{
-        //    Assert.DoesNotThrowAsync(async () =>
-        //    {
-        //        string testToken = "ya29.a0ARrdaM-xXIC9l7CsL6u0Lxby__Ez8qSbZ7WOjauKphP0Fbz8OwBsuT9wRDdPQ9HXc6DqxU8d12wKetNg_CByejknahfsdUrnqmvAk4cir1dj92YxGrI8CI8Z-Q5qQJZ9YQd2v4yElBErxGtIa6skhmwlilf2W1I";
-        //        OAuthUser? user = await oAuthService.GetUserByToken(testToken, ELoginTypes.LOGIN_TYPE_GOOGLE);
-        //        Assert.IsNotNull(user);
-        //        Assert.That(user?.Email == "abdlrhmanshehata@gmail.com");
-        //    });
+        //Assert.DoesNotThrowAsync(async () =>
+        //{
+        //    string testToken = "ya29.A0ARrdaM_0FxDN4BGGQ2O5GOJPqcALh3ceCac7K7ioAjd1pNSLHFlNRzEOtwu-SHQONhI86mNNJ0kwhsk3FhOqGdxtD_unTS_ySyxpC2SiwhX0AQojq2A36tWncNYSknsEN8pOh1F97nZ9qRqFX4D0DOhe5Ele";
+        //    OAuthUser? user = await oAuthService.GetUserByToken(testToken, ELoginTypes.LOGIN_TYPE_GOOGLE);
+        //    Assert.IsNotNull(user);
+        //    Assert.That(user?.Email == "abdlrhmanshehata@gmail.com");
+        //});
         //}
     }
 }
