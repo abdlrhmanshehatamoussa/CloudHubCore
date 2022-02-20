@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.32002.185
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.API", "CloudHub.API\CloudHub.API.csproj", "{D9C7E094-2A0D-4DBE-8732-27CA0B908927}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.DomainTests", "CloudHub.DomainTests\CloudHub.DomainTests.csproj", "{03F8AD75-1EBE-48BD-8D35-94DE2B9E5536}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Domain", "CloudHub.Domain\CloudHub.Domain.csproj", "{4F931B31-3403-45B2-99DD-AC6FF55149F9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Utils", "CloudHub.Utils\CloudHub.Utils.csproj", "{267BDDBA-85DC-4D17-9C67-7D3EB77989D6}"
@@ -14,6 +12,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Infra", "CloudHub.Infra\CloudHub.Infra.csproj", "{2E981353-5001-4E17-B63C-15A83695EE98}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Factories", "CloudHub.Factories\CloudHub.Factories.csproj", "{A449CA87-8D54-444D-897D-B99F55479595}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Tests", "CloudHub.Tests\CloudHub.Tests.csproj", "{3443A6A0-9120-4F3E-9095-5CF541897211}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,6 @@ Global
 		{D9C7E094-2A0D-4DBE-8732-27CA0B908927}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9C7E094-2A0D-4DBE-8732-27CA0B908927}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9C7E094-2A0D-4DBE-8732-27CA0B908927}.Release|Any CPU.Build.0 = Release|Any CPU
-		{03F8AD75-1EBE-48BD-8D35-94DE2B9E5536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03F8AD75-1EBE-48BD-8D35-94DE2B9E5536}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03F8AD75-1EBE-48BD-8D35-94DE2B9E5536}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03F8AD75-1EBE-48BD-8D35-94DE2B9E5536}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4F931B31-3403-45B2-99DD-AC6FF55149F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4F931B31-3403-45B2-99DD-AC6FF55149F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F931B31-3403-45B2-99DD-AC6FF55149F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{A449CA87-8D54-444D-897D-B99F55479595}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A449CA87-8D54-444D-897D-B99F55479595}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A449CA87-8D54-444D-897D-B99F55479595}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3443A6A0-9120-4F3E-9095-5CF541897211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3443A6A0-9120-4F3E-9095-5CF541897211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3443A6A0-9120-4F3E-9095-5CF541897211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3443A6A0-9120-4F3E-9095-5CF541897211}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
