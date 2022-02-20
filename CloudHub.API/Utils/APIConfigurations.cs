@@ -2,7 +2,7 @@
 using CloudHub.Domain.Models;
 using CloudHub.Factories;
 
-namespace CloudHub.API.Commons
+namespace CloudHub.API.Utils
 {
     public class APIConfigurations : IEnvironmentSettings, IGoogleServicesConfigurations
     {

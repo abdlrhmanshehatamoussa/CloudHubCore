@@ -1,7 +1,7 @@
 ﻿using CloudHub.Domain.Exceptions;
 using System.Net;
 
-namespace CloudHub.API.Commons
+namespace CloudHub.API.Filters
 {
     public class ErrorMiddleware
     {

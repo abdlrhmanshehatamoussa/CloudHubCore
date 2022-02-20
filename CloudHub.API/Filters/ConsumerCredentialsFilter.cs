@@ -1,7 +1,8 @@
-﻿using CloudHub.Domain.Models;
+﻿using CloudHub.API.Utils;
+using CloudHub.Domain.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace CloudHub.API.Commons
+namespace CloudHub.API.Filters
 {
     public class ConsumerCredentialsFilter : IAuthorizationFilter
     {

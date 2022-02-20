@@ -1,4 +1,4 @@
-﻿namespace CloudHub.API.Commons
+﻿namespace CloudHub.API.Utils
 {
     public static class Constants
     {
