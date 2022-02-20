@@ -41,7 +41,10 @@ namespace CloudHub.Infra.Data
 
         protected override void MapConstraints(EntityTypeBuilder<Feature> entityBuilder)
         {
-            entityBuilder.HasIndex(x => x.GlobalId, "features_global_id_unique")
+            entityBuilder.HasIndex(f => f.GlobalId, "features_global_id_unique")
+                .IsUnique();
+
+            entityBuilder.HasIndex(new string[] { "Name", "TenantId" }, "features_name_per_tenant_unique")
                 .IsUnique();
 
             entityBuilder.HasOne(f => f.Tenant)

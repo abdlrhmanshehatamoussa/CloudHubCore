@@ -285,6 +285,12 @@ namespace CloudHub.Infra.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "features_name_per_tenant_unique",
+                table: "features",
+                columns: new[] { "name", "tenant_id" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_features_tenant_id",
                 table: "features",
                 column: "tenant_id");
@@ -368,9 +374,9 @@ namespace CloudHub.Infra.Data.Migrations
                 column: "tenant_id");
 
             migrationBuilder.CreateIndex(
-                name: "users_email_unique",
+                name: "users_email_per_tenant_unique",
                 table: "users",
-                column: "email",
+                columns: new[] { "email", "tenant_id" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

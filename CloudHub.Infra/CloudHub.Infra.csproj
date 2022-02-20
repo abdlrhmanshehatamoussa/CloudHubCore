@@ -15,4 +15,8 @@
     <ProjectReference Include="..\CloudHub.Domain\CloudHub.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
 </Project>

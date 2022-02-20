@@ -49,7 +49,7 @@ namespace CloudHub.Infra.Data
             entity.HasIndex(e => e.GlobalId, "users_global_id_unique")
               .IsUnique();
 
-            entity.HasIndex(e => e.Email, "users_email_unique")
+            entity.HasIndex(new string[] { "Email", "TenantId" }, "users_email_per_tenant_unique")
               .IsUnique();
 
             entity.HasOne(u => u.Tenant)

@@ -34,6 +34,8 @@ namespace CloudHub.Infra.Data
 
         protected override void MapTable(EntityTypeBuilder<Tenant> entityBuilder)
         {
+            entityBuilder.HasIndex(t => t.Name, "tenants_name_unique")
+                .IsUnique();
             entityBuilder.ToTable("tenants")
               .HasKey(x => x.Id);
         }

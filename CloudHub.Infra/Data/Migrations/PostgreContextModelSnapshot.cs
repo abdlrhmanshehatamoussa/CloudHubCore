@@ -141,6 +141,9 @@ namespace CloudHub.Infra.Data.Migrations
                     b.HasIndex(new[] { "GlobalId" }, "features_global_id_unique")
                         .IsUnique();
 
+                    b.HasIndex(new[] { "Name", "TenantId" }, "features_name_per_tenant_unique")
+                        .IsUnique();
+
                     b.ToTable("features", (string)null);
                 });
 
@@ -499,7 +502,7 @@ namespace CloudHub.Infra.Data.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.HasIndex(new[] { "Email" }, "users_email_unique")
+                    b.HasIndex(new[] { "Email", "TenantId" }, "users_email_per_tenant_unique")
                         .IsUnique();
 
                     b.HasIndex(new[] { "GlobalId" }, "users_global_id_unique")
