@@ -11,15 +11,19 @@ namespace CloudHub.Tests.Integration
         [Test]
         public void Ping()
         {
-            var application = new CloudHubTestApp();
-            var client = application.CreateClient();
             Assert.DoesNotThrowAsync(async () =>
             {
+                //Arrange
+                var application = new CloudHubTestApp();
+                var client = application.CreateClient();
+
+                //Act
                 var response = await client.GetAsync("/ping");
-                var body = await response.Content.ReadAsStringAsync();
-                PingResponseContract pingResponseContract = JsonConvert.DeserializeObject<PingResponseContract>(body);
+
+                //Assert
                 Assert.True(response.StatusCode == HttpStatusCode.OK);
-                Assert.NotNull(body);
+                string body = await response.Content.ReadAsStringAsync();
+                PingResponseContract pingResponseContract = JsonConvert.DeserializeObject<PingResponseContract>(body);
                 Assert.That(pingResponseContract.build_id == CloudHubTestApp.BUILD_ID);
                 Assert.That(pingResponseContract.environment == CloudHubTestApp.ENV_NAME);
             });
