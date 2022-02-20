@@ -56,7 +56,7 @@ namespace CloudHub.DomainTests
                 string email = string.Format("{0}@domain.com", random);
 
                 //Act
-                RegisterResponse response = await userService.RegisterNewUser(credentials, new CreateUserDTO
+                User response = await userService.RegisterNewUser(credentials, new CreateUserDTO
                  (
                     "Test User",
                      email,

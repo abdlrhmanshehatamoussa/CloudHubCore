@@ -1,5 +1,6 @@
 ﻿using CloudHub.API.Contracts;
-using CloudHub.Domain.Models;
+using CloudHub.Domain.DTO;
+using CloudHub.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers
@@ -8,24 +9,16 @@ namespace CloudHub.API.Controllers
     [Route("ping")]
     public class PingController : BasicController
     {
-        public PingController(IEnvironmentSettings envSettings)
-        {
-            this.envSettings = envSettings;
-        }
-
-        private readonly IEnvironmentSettings envSettings;
-
+        public PingController(PingService pingService) => this.pingService = pingService;
+        
+        private readonly PingService pingService;
 
         [HttpGet]
         public PingResponseContract Ping()
         {
-            return new()
-            {
-                timestamp = DateTime.Now.ToLongTimeString(),
-                build_id = envSettings.BuildId,
-                production_mode=envSettings.IsProductionModeEnabled,
-                environment = envSettings.EnvironmentName
-            };
+            PingDTO dto = pingService.Ping();
+            PingResponseContract contract = PingResponseContract.FromDTO(dto);
+            return contract;
         }
     }
 }

@@ -69,7 +69,7 @@ namespace CloudHub.DomainTests
                     TenantId = client.TenantId
                 };
                 await unitOfWork.UsersRepository.Add(user);
-                Login login = new ()
+                Login login = new()
                 {
                     UserId = user.Id,
                     LoginTypeId = ELoginTypes.LOGIN_TYPE_BASIC,
@@ -86,27 +86,28 @@ namespace CloudHub.DomainTests
                     ClientClaim = SecurityHelper.EncryptAES(client.ClientKey, client.ClientSecret),
                     Nonce = nonce1.Token
                 };
-                LoginResponse response = await userService.Login(credentials, new CreateLoginDTO(
+                UserToken token = await userService.Login(credentials, new CreateLoginDTO(
                     email,
                     password,
                     ELoginTypes.LOGIN_TYPE_BASIC
                     ));
 
                 //Assert
-                string token = response.TokenBody;
                 Assert.NotNull(token);
+                Assert.NotNull(token.Token);
 
                 credentials = new()
                 {
                     ClientKey = client.ClientKey,
                     ClientClaim = SecurityHelper.EncryptAES(client.ClientKey, client.ClientSecret),
                     Nonce = nonce2.Token,
-                    UserToken = token
+                    UserToken = token.Token
                 };
-                response = await userService.FetchUser(credentials);
-                Assert.NotNull(response);
-                Assert.NotNull(response.Email);
-                Assert.That(response.Email == email);
+                token = await userService.FetchUser(credentials);
+                Assert.NotNull(token);
+                string returnedMail = token.User.Email;
+                Assert.NotNull(returnedMail);
+                Assert.That(returnedMail == email);
             });
         }
     }

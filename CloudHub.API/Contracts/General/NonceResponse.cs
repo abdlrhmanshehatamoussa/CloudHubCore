@@ -16,6 +16,4 @@ namespace CloudHub.API.Contracts
             };
         }
     }
-
-    public struct EmptyResponse { }
 }

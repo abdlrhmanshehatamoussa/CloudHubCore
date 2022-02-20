@@ -77,14 +77,14 @@ namespace CloudHub.DomainTests
                     ClientClaim = SecurityHelper.EncryptAES(client.ClientKey, client.ClientSecret),
                     Nonce = nonce.Token
                 };
-                LoginResponse response = await userService.Login(credentials, new CreateLoginDTO(
+                UserToken response = await userService.Login(credentials, new CreateLoginDTO(
                     email,
                     password,
                     ELoginTypes.LOGIN_TYPE_BASIC
                     ));
 
                 //Assert
-                Assert.NotNull(response.TokenBody);
+                Assert.NotNull(response.Token);
             });
         }
     }
