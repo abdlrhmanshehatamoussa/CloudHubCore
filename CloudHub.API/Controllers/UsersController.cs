@@ -28,10 +28,10 @@ namespace CloudHub.API.Controllers
                 global_id = response.GlobalId,
             };
         }
-        private LoginRequest MapLoginRequest(LoginRequestContract contract)
+        private CreateLoginDTO MapLoginRequest(LoginRequestContract contract)
         {
             ELoginTypes loginType = Enum.Parse<ELoginTypes>(contract.login_type.ToString());
-            LoginRequest request = new LoginRequest(contract.email, contract.password, loginType);
+            CreateLoginDTO request = new CreateLoginDTO(contract.email, contract.password, loginType);
             return request;
         }
 
@@ -49,7 +49,7 @@ namespace CloudHub.API.Controllers
         [Route("login")]
         public async Task<LoginResponseContract> Login([FromBody] LoginRequestContract requestContract)
         {
-            LoginRequest request = MapLoginRequest(requestContract);
+            CreateLoginDTO request = MapLoginRequest(requestContract);
             LoginResponse response = await _userService.Login(ConsumerCredentials, request);
             LoginResponseContract contract = MapLoginResponse(response);
             return contract;
@@ -57,7 +57,7 @@ namespace CloudHub.API.Controllers
 
 
         [HttpPost]
-        public async Task<RegisterResponseContract> Register([FromBody] RegisterRequest request)
+        public async Task<RegisterResponseContract> Register([FromBody] CreateUserDTO request)
         {
             RegisterResponse response = await _userService.RegisterNewUser(ConsumerCredentials, request);
 

@@ -1,4 +1,4 @@
-﻿using CloudHub.Domain.DTO;
+﻿using CloudHub.Domain.Models;
 using System.Text.Json;
 
 namespace CloudHub.Factories

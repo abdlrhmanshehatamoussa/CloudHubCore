@@ -1,7 +1,7 @@
-﻿using CloudHub.Utils;
-using CloudHub.Domain.DTO;
-using CloudHub.Domain.Models;
+﻿using CloudHub.Domain.DTO;
 using CloudHub.Domain.Exceptions;
+using CloudHub.Domain.Models;
+using CloudHub.Utils;
 
 
 namespace CloudHub.Domain.Services
@@ -39,7 +39,7 @@ namespace CloudHub.Domain.Services
             };
         }
 
-        public async Task<RegisterResponse> RegisterNewUser(ConsumerCredentials credentials, RegisterRequest dto)
+        public async Task<RegisterResponse> RegisterNewUser(ConsumerCredentials credentials, CreateUserDTO dto)
         {
             Consumer consumer = await GetConsumer(credentials);
 
@@ -100,7 +100,7 @@ namespace CloudHub.Domain.Services
 
 
 
-        public async Task<LoginResponse> Login(ConsumerCredentials clientCredentials, LoginRequest dto)
+        public async Task<LoginResponse> Login(ConsumerCredentials clientCredentials, CreateLoginDTO dto)
         {
             Consumer consumer = await GetConsumer(clientCredentials);
 

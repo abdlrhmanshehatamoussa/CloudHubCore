@@ -1,5 +1,5 @@
 using CloudHub.API.Commons;
-using CloudHub.Domain.DTO;
+using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
 using CloudHub.Factories;
 using CloudHub.Infra.Data;

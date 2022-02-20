@@ -3,9 +3,9 @@ using CloudHub.Domain.Utils;
 
 namespace CloudHub.Domain.DTO
 {
-    public class LoginRequest
+    public class CreateLoginDTO
     {
-        public LoginRequest(string email, string password, ELoginTypes login_type)
+        public CreateLoginDTO(string email, string password, ELoginTypes login_type)
         {
             ValidationUtils.Mandatory(email, nameof(email));
             ValidationUtils.Mandatory(password, nameof(password));

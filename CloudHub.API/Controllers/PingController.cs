@@ -1,5 +1,5 @@
 ﻿using CloudHub.ApiContracts;
-using CloudHub.Domain.DTO;
+using CloudHub.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers

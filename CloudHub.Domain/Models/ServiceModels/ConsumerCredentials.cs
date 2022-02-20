@@ -1,4 +1,4 @@
-﻿namespace CloudHub.Domain.DTO
+﻿namespace CloudHub.Domain.Models
 {
     public struct ConsumerCredentials
     {

@@ -1,4 +1,4 @@
-﻿using CloudHub.Domain.DTO;
+﻿using CloudHub.Domain.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace CloudHub.API.Commons

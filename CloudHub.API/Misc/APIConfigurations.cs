@@ -1,5 +1,5 @@
 ﻿using CloudHub.API.Exceptions;
-using CloudHub.Domain.DTO;
+using CloudHub.Domain.Models;
 using CloudHub.Factories;
 
 namespace CloudHub.API.Commons

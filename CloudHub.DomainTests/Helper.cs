@@ -1,4 +1,4 @@
-﻿using CloudHub.Domain.DTO;
+﻿using CloudHub.Domain.Models;
 using CloudHub.Factories;
 using Microsoft.EntityFrameworkCore;
 using Moq;
