@@ -6,15 +6,9 @@ namespace CloudHub.Domain.Services
 {
     public class NonceService
     {
-        public NonceService(IUnitOfWork unitOfWork, IEnvironmentSettings productionModeProvider)
-        {
-            _unitOfWork = unitOfWork;
-            this.productionModeProvider = productionModeProvider;
-        }
-
+        public NonceService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
         protected readonly IUnitOfWork _unitOfWork;
-        protected readonly IEnvironmentSettings productionModeProvider;
 
         public async Task<Nonce> GenereateNonce(ConsumerCredentials credentials)
         {

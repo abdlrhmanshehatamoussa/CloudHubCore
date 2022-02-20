@@ -12,13 +12,13 @@ namespace CloudHub.Tests.Unit
 {
     public class LoginTests
     {
-        private readonly UnitOfWork unitOfWork = Factory.UnitOfWork;
+        private readonly UnitOfWork unitOfWork = Factory.UnitOfWork();
         private UserService userService = null!;
 
         [SetUp]
         public void Setup()
         {
-            userService = new UserService(unitOfWork, Factory.EnvironmentSettings, Factory.AuthenticationService);
+            userService = new UserService(unitOfWork, Factory.AuthenticationService());
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace CloudHub.Tests.Unit
                     TenantId = client.TenantId
                 };
                 await unitOfWork.UsersRepository.Add(user);
-                Login login = new ()
+                Login login = new()
                 {
                     UserId = user.Id,
                     LoginTypeId = ELoginTypes.LOGIN_TYPE_BASIC,
@@ -79,6 +79,7 @@ namespace CloudHub.Tests.Unit
                     ClientClaim = SecurityHelper.EncryptAES(client.ClientKey, client.ClientSecret),
                     Nonce = nonce.Token
                 };
+
                 UserToken response = await userService.Login(credentials, new CreateLoginDTO(
                     email,
                     password,

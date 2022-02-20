@@ -6,9 +6,7 @@ namespace CloudHub.Domain.Services
 {
     public class PublicDataService : BaseService
     {
-        public PublicDataService(IUnitOfWork unitOfWork, IEnvironmentSettings productionModeProvider) : base(unitOfWork, productionModeProvider)
-        {
-        }
+        public PublicDataService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
 
         public async Task<List<PublicDocument>> FetchAll(ConsumerCredentials credentials, string collectionName)
         {

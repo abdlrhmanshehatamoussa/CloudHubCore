@@ -1,9 +1,8 @@
 ﻿using CloudHub.API.Exceptions;
-using CloudHub.Domain.Models;
 
 namespace CloudHub.API
 {
-    public class Configurations : IEnvironmentSettings
+    public class Configurations
     {
         public string EnvironmentName { get; private set; } = null!;
         public string BuildId { get; private set; } = null!;

@@ -12,14 +12,16 @@ namespace CloudHub.Tests.Unit
 {
     public class FetchTests
     {
-        private readonly UnitOfWork unitOfWork = Factory.UnitOfWork;
+        private readonly UnitOfWork unitOfWork = Factory.UnitOfWork();
         private UserService userService = null!;
+
 
         [SetUp]
         public void Setup()
         {
-            userService = new UserService(unitOfWork, Factory.EnvironmentSettings, Factory.AuthenticationService);
+            userService = new UserService(unitOfWork, Factory.AuthenticationService());
         }
+
 
         [Test]
         public void HappyScenario()

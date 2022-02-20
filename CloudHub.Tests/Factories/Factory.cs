@@ -1,36 +1,28 @@
-﻿using CloudHub.Domain.Models;
+﻿using CloudHub.Domain.Services;
 using CloudHub.Infra.Factories;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using System;
 
 namespace CloudHub.Tests.Factories
 {
     internal static class Factory
     {
-
-        public static UnitOfWork UnitOfWork
+        public static UnitOfWork UnitOfWork()
         {
-            get
-            {
-                DbContextOptionsBuilder builder = new();
-                string dbName = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
-                builder.UseInMemoryDatabase(dbName);
-                UnitOfWork uow = new(new InMemoryContext(builder.Options));
-                return uow;
-            }
+            DbContextOptionsBuilder builder = new();
+            string dbName = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
+            builder.UseInMemoryDatabase(dbName);
+            UnitOfWork uow = new(new InMemoryContext(builder.Options));
+            return uow;
         }
 
-        public static IEnvironmentSettings EnvironmentSettings => new TestSettings();
+        public static UserService UserService() => new(UnitOfWork(), AuthenticationService());
 
-        public static OAuthService AuthenticationService
+        public static OAuthService AuthenticationService()
         {
-            get
-            {
-                string googleOauthUrl = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=";
-                OAuthService service = new(googleOauthUrl);
-                return service;
-            }
+            string googleOauthUrl = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=";
+            OAuthService service = new(googleOauthUrl);
+            return service;
         }
     }
 }

@@ -5,9 +5,7 @@ namespace CloudHub.Domain.Services
 {
     public class PrivateDataService : BaseService
     {
-        public PrivateDataService(IUnitOfWork unitOfWork, IEnvironmentSettings productionModeProvider) : base(unitOfWork, productionModeProvider)
-        {
-        }
+        public PrivateDataService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
 
         public async Task<List<PrivateDocument>> FetchAll(ConsumerCredentials credentials, string collectionName)
         {

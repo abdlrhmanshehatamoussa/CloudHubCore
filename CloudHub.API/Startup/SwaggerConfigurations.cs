@@ -1,10 +1,8 @@
-﻿using CloudHub.Domain.Models;
-
-namespace CloudHub.API.Startup
+﻿namespace CloudHub.API.Startup
 {
     public static class SwaggerConfigurations
     {
-        public static void ConfigureSwagger(this WebApplication app, IEnvironmentSettings settings)
+        public static void ConfigureSwagger(this WebApplication app, Configurations settings)
         {
             if (settings.IsProductionModeEnabled == false)
             {
@@ -13,7 +11,7 @@ namespace CloudHub.API.Startup
             }
         }
 
-        public static void ConfigureSwaggerServices(this WebApplicationBuilder builder, IEnvironmentSettings settings)
+        public static void ConfigureSwaggerServices(this WebApplicationBuilder builder, Configurations settings)
         {
             //Swagger
             if (settings.IsProductionModeEnabled == false)

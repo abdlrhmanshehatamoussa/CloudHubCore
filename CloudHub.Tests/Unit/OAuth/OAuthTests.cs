@@ -8,7 +8,7 @@ namespace CloudHub.Tests.Unit
 {
     public class OAuthTests
     {
-        private readonly OAuthService oAuthService = Factory.AuthenticationService;
+        private readonly OAuthService oAuthService = Factory.AuthenticationService();
 
         [Test]
         public void UnRegisteredOAuthExtractor()

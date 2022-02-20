@@ -16,11 +16,9 @@ namespace CloudHub.API.Startup
             //Services
             builder.Services.AddSingleton<IOAuthService, OAuthService>(o => new OAuthService(configurations.GoogleOAuthUrl));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<IEnvironmentSettings>(_ => configurations);
 
             builder.Services.AddScoped<PublicDataService>();
             builder.Services.AddScoped<PrivateDataService>();
-            builder.Services.AddScoped<PingService>();
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<NonceService>();
             builder.Services.AddScoped<FeatureService>();

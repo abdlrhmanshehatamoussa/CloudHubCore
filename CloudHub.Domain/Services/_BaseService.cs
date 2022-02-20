@@ -6,15 +6,13 @@ namespace CloudHub.Domain.Services
 {
     public class BaseService
     {
-        public BaseService(IUnitOfWork unitOfWork, IEnvironmentSettings productionModeProvider)
+        public BaseService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            this.productionModeProvider = productionModeProvider;
         }
 
 
         protected readonly IUnitOfWork _unitOfWork;
-        protected readonly IEnvironmentSettings productionModeProvider;
 
 
         internal async Task<Consumer> GetConsumer(ConsumerCredentials credentials)
@@ -53,12 +51,10 @@ namespace CloudHub.Domain.Services
 
         protected async Task ConsumeNonceOrThrow(int nonceId)
         {
-            if (productionModeProvider.IsProductionModeEnabled == false) { return; }
             Nonce? nonce = await _unitOfWork.NoncesRepository.GetByPk(nonceId);
             if (nonce == null) { throw new Exception("Nonce not found"); }
             nonce.ConsumedOn = DateTime.UtcNow;
             _unitOfWork.NoncesRepository.Update(nonce);
-
         }
     }
 }
