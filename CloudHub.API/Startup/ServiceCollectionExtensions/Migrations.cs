@@ -1,4 +1,5 @@
 ﻿using CloudHub.Infra.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CloudHub.API.Startup
 {
@@ -10,7 +11,11 @@ namespace CloudHub.API.Startup
             IServiceScopeFactory serviceScopeFactory = serviceProvider.GetService<IServiceScopeFactory>() ?? throw new Exception("Error while applying migrations, Failed to create Service Scope Factory");
             IServiceScope serviceScope = serviceScopeFactory.CreateScope();
             PostgreContext context = serviceScope.ServiceProvider.GetService<PostgreContext>() ?? throw new Exception("Error while applying migrations, Failed to get DbContext");
-            context.Database.EnsureCreated();
+            int migrationsCount = context.Database.GetAppliedMigrations().Count();
+            if (migrationsCount == 0)
+            {
+                context.Database.Migrate();
+            }
         }
     }
 }
