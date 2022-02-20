@@ -37,22 +37,12 @@ namespace CloudHub.API.Controllers
 
 
         [HttpPost]
-        public async Task<RegisterResponseContract> Register([FromBody] CreateUserDTO request)
+        public async Task<RegisterResponseContract> Register([FromBody] RegisterRequestContract requestContract)
         {
-            User response = await _userService.RegisterNewUser(ConsumerCredentials, request);
-
-            return new()
-            {
-                success = true,
-                user = new()
-                {
-                    email = response.Email,
-                    name = response.Name,
-                    image_url = response.ImageUrl,
-                    global_id = response.GlobalId
-
-                }
-            };
+            CreateUserDTO dto = requestContract.ToDTO();
+            User user = await _userService.RegisterNewUser(ConsumerCredentials, dto);
+            RegisterResponseContract contract = RegisterResponseContract.FromUser(user);
+            return contract;
         }
 
     }

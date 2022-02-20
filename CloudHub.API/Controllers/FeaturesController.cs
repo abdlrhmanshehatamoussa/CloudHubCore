@@ -1,4 +1,5 @@
-﻿using CloudHub.Domain.Models;
+﻿using CloudHub.API.Contracts;
+using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,13 +16,7 @@ namespace CloudHub.API.Controllers
         public async Task<dynamic> Fetch()
         {
             List<Feature> features = await _featureService.Fetch(ConsumerCredentials);
-            return features.Select(f => new
-            {
-                feature_name = f.Name,
-                feature_description = f.Description,
-                feature_id = f.GlobalId,
-                active = f.Active,
-            });
+            return features.Select(f => FeatureResponseContract.FromFeature(f));
         }
     }
 }
