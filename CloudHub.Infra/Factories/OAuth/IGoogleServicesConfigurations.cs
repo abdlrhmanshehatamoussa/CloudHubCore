@@ -1,4 +1,4 @@
-﻿namespace CloudHub.Factories
+﻿namespace CloudHub.Infra.Factories
 {
     public interface IGoogleServicesConfigurations
     {

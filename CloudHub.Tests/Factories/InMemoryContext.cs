@@ -1,34 +1,18 @@
 ﻿using CloudHub.Domain.Models;
+using CloudHub.Infra.Data;
 using Microsoft.EntityFrameworkCore;
-
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
 using System.IO;
 using System.Text;
 using System.Text.Json;
 
-namespace CloudHub.Tests.Unit
+namespace CloudHub.Tests.Factories
 {
-    public partial class InMemoryContext : DbContext
+    public partial class InMemoryContext : PostgreContext
     {
-        public InMemoryContext(DbContextOptions options) : base(options) { }
-
-        public virtual DbSet<Client> Clients { get; set; } = null!;
-        public virtual DbSet<Feature> Features { get; set; } = null!;
-        public virtual DbSet<Login> Logins { get; set; } = null!;
-        public virtual DbSet<LoginType> LoginTypes { get; set; } = null!;
-        public virtual DbSet<Nonce> Nonces { get; set; } = null!;
-        public virtual DbSet<PaymentGateway> PaymentGateways { get; set; } = null!;
-        public virtual DbSet<Purchase> Purchases { get; set; } = null!;
-        public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
-        public virtual DbSet<Tenant> Tenants { get; set; } = null!;
-        public virtual DbSet<PublicCollection> PublicCollections { get; set; } = null!;
-        public virtual DbSet<PublicDocument> PublicDocuments { get; set; } = null!;
-        public virtual DbSet<PrivateCollection> PrivateCollections { get; set; } = null!;
-        public virtual DbSet<PrivateDocument> PrivateDocuments { get; set; } = null!;
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+        public InMemoryContext(DbContextOptions options) : base(options)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

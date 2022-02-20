@@ -2,7 +2,7 @@ using CloudHub.API.Filters;
 using CloudHub.API.Utils;
 using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
-using CloudHub.Factories;
+using CloudHub.Infra.Factories;
 using CloudHub.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 

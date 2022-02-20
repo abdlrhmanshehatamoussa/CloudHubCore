@@ -1,22 +1,24 @@
 using CloudHub.Utils;
-using CloudHub.Factories;
+using CloudHub.Infra.Factories;
 using CloudHub.Domain.DTO;
 using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
 using NUnit.Framework;
 using System;
+using CloudHub.Tests.Factories;
+using CloudHub.Tests.Utils;
 
 namespace CloudHub.Tests.Unit
 {
     public class LoginTests
     {
-        private readonly UnitOfWork unitOfWork = Helper.UnitOfWork();
+        private readonly UnitOfWork unitOfWork = Factory.UnitOfWork;
         private UserService userService = null!;
 
         [SetUp]
         public void Setup()
         {
-            userService = new UserService(unitOfWork, Helper.EnvironmentSettings, Helper.AuthenticationService);
+            userService = new UserService(unitOfWork, Factory.EnvironmentSettings, Factory.AuthenticationService);
         }
 
         [Test]
@@ -49,9 +51,9 @@ namespace CloudHub.Tests.Unit
                 await unitOfWork.Save();
 
                 //Create a user
-                string random = Helper.RandomString(8);
+                string random = HelperFunctions.RandomString(8);
                 string email = string.Format("{0}@domain.com", random);
-                string password = Helper.RandomString(10);
+                string password = HelperFunctions.RandomString(10);
                 User user = new()
                 {
                     Email = email,

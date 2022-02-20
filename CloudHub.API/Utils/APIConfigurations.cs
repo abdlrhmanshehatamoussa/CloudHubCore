@@ -1,6 +1,6 @@
 ﻿using CloudHub.API.Exceptions;
 using CloudHub.Domain.Models;
-using CloudHub.Factories;
+using CloudHub.Infra.Factories;
 
 namespace CloudHub.API.Utils
 {
