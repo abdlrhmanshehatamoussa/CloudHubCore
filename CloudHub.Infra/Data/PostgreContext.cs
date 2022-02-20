@@ -23,6 +23,7 @@ namespace CloudHub.Infra.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             DataSeeder.Seed(modelBuilder);
+            EntityMapper.MapEntities(modelBuilder);
         }
     }
 }

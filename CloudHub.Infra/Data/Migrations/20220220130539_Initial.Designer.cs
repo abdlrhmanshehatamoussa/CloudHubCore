@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CloudHub.Infra.Data.Migrations
 {
     [DbContext(typeof(PostgreContext))]
-    [Migration("20220219211041_Initial")]
+    [Migration("20220220130539_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,128 +28,193 @@ namespace CloudHub.Infra.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Active")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasColumnName("active")
+                        .HasDefaultValueSql("true");
 
                     b.Property<string>("ClientKey")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("client_key");
 
                     b.Property<string>("ClientSecret")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("client_secret");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modified_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
 
                     b.Property<int>("TenantId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("tenant_id");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Clients");
+                    b.HasIndex(new[] { "ClientKey" }, "clients_client_key_unique")
+                        .IsUnique();
+
+                    b.HasIndex(new[] { "ClientSecret" }, "clients_client_secret_unique")
+                        .IsUnique();
+
+                    b.HasIndex(new[] { "Name" }, "clients_name_unique")
+                        .IsUnique();
+
+                    b.ToTable("clients", (string)null);
                 });
 
             modelBuilder.Entity("CloudHub.Domain.Models.Feature", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Active")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasColumnName("active")
+                        .HasDefaultValueSql("true");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("description");
 
                     b.Property<Guid>("GlobalId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("global_id");
 
                     b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modified_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
 
                     b.Property<int>("TenantId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("tenant_id");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Features");
+                    b.HasIndex(new[] { "GlobalId" }, "features_global_id_unique")
+                        .IsUnique();
+
+                    b.ToTable("features", (string)null);
                 });
 
             modelBuilder.Entity("CloudHub.Domain.Models.Login", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("LoginTypeId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("login_type_id");
 
                     b.Property<string>("Passcode")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("passcode");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LoginTypeId");
 
-                    b.HasIndex("UserId")
+                    b.HasIndex(new[] { "UserId" }, "logins_user_id_unique")
                         .IsUnique();
 
-                    b.ToTable("Logins");
+                    b.ToTable("logins", (string)null);
                 });
 
             modelBuilder.Entity("CloudHub.Domain.Models.LoginType", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     b.Property<bool>("Active")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasColumnName("active")
+                        .HasDefaultValueSql("true");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modified_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoginTypes");
+                    b.HasIndex(new[] { "Name" }, "login_types_name_unique")
+                        .IsUnique();
+
+                    b.ToTable("login_types", (string)null);
 
                     b.HasData(
                         new
@@ -190,51 +255,77 @@ namespace CloudHub.Infra.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ClientId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("client_id");
 
                     b.Property<DateTime?>("ConsumedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("consumed_on");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("token");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Nonces");
+                    b.HasIndex(new[] { "Token" }, "nonces_tokens_unique")
+                        .IsUnique();
+
+                    b.ToTable("nonces", (string)null);
                 });
 
             modelBuilder.Entity("CloudHub.Domain.Models.PaymentGateway", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     b.Property<bool>("Active")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasColumnName("active")
+                        .HasDefaultValueSql("true");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modified_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentGateways");
+                    b.HasIndex(new[] { "Name" }, "payment_gateways_name_unique")
+                        .IsUnique();
+
+                    b.ToTable("payment_gateways", (string)null);
 
                     b.HasData(
                         new
@@ -259,138 +350,205 @@ namespace CloudHub.Infra.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<int>("FeatureId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("feature_id");
 
                     b.Property<string>("Payload")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("payload");
 
                     b.Property<int>("PaymentGatewayId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("payment_gateway_id");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
 
                     b.Property<string>("Validation")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("validation");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FeatureId");
 
                     b.HasIndex("PaymentGatewayId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Purchases");
+                    b.HasIndex(new[] { "FeatureId", "UserId" }, "purchases_user_id_feature_id_unique")
+                        .IsUnique();
+
+                    b.ToTable("purchases", (string)null);
                 });
 
             modelBuilder.Entity("CloudHub.Domain.Models.Tenant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Active")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasColumnName("active")
+                        .HasDefaultValueSql("true");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<Guid>("Guid")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("guid");
 
                     b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modified_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tenants");
+                    b.HasIndex(new[] { "Guid" }, "tenants_guid_unique")
+                        .IsUnique();
+
+                    b.HasIndex(new[] { "Name" }, "tenants_name_unique")
+                        .IsUnique();
+
+                    b.ToTable("tenants", (string)null);
                 });
 
             modelBuilder.Entity("CloudHub.Domain.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Active")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasColumnName("active")
+                        .HasDefaultValueSql("true");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("email");
 
                     b.Property<string>("GlobalId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("global_id");
 
                     b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("image_url");
 
                     b.Property<DateTime>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modified_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
 
                     b.Property<int>("TenantId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("tenant_id");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("Users");
+                    b.HasIndex(new[] { "Email" }, "users_email_unique")
+                        .IsUnique();
+
+                    b.HasIndex(new[] { "GlobalId" }, "users_global_id_unique")
+                        .IsUnique();
+
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("CloudHub.Domain.Models.UserToken", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expiry_date")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("token");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserTokens");
+                    b.HasIndex(new[] { "Token" }, "user_tokens_token_unique")
+                        .IsUnique();
+
+                    b.ToTable("user_tokens", (string)null);
                 });
 
             modelBuilder.Entity("CloudHub.Domain.Models.Client", b =>
@@ -398,8 +556,9 @@ namespace CloudHub.Infra.Data.Migrations
                     b.HasOne("CloudHub.Domain.Models.Tenant", "Tenant")
                         .WithMany("Clients")
                         .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("clients_tenant_id_foreign");
 
                     b.Navigation("Tenant");
                 });
@@ -409,8 +568,9 @@ namespace CloudHub.Infra.Data.Migrations
                     b.HasOne("CloudHub.Domain.Models.Tenant", "Tenant")
                         .WithMany("Features")
                         .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("features_tenant_id_foreign");
 
                     b.Navigation("Tenant");
                 });
@@ -420,14 +580,16 @@ namespace CloudHub.Infra.Data.Migrations
                     b.HasOne("CloudHub.Domain.Models.LoginType", "LoginType")
                         .WithMany("Logins")
                         .HasForeignKey("LoginTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("logins_login_type_id_foreign");
 
                     b.HasOne("CloudHub.Domain.Models.User", "User")
                         .WithOne("Login")
                         .HasForeignKey("CloudHub.Domain.Models.Login", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("logins_user_id_foreign");
 
                     b.Navigation("LoginType");
 
@@ -439,8 +601,8 @@ namespace CloudHub.Infra.Data.Migrations
                     b.HasOne("CloudHub.Domain.Models.Client", "Client")
                         .WithMany("Nonces")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("nonces_client_id_foreign");
 
                     b.Navigation("Client");
                 });
@@ -450,20 +612,20 @@ namespace CloudHub.Infra.Data.Migrations
                     b.HasOne("CloudHub.Domain.Models.Feature", "Feature")
                         .WithMany("Purchases")
                         .HasForeignKey("FeatureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("purchases_feature_id_foreign");
 
                     b.HasOne("CloudHub.Domain.Models.PaymentGateway", "PaymentGateway")
                         .WithMany("Purchases")
                         .HasForeignKey("PaymentGatewayId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("purchases_payment_gateway_id_foreign");
 
                     b.HasOne("CloudHub.Domain.Models.User", "User")
                         .WithMany("Purchases")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("purchases_user_id_foreign");
 
                     b.Navigation("Feature");
 
@@ -477,8 +639,9 @@ namespace CloudHub.Infra.Data.Migrations
                     b.HasOne("CloudHub.Domain.Models.Tenant", "Tenant")
                         .WithMany("Users")
                         .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("users_tenant_id_foreign");
 
                     b.Navigation("Tenant");
                 });
@@ -488,8 +651,8 @@ namespace CloudHub.Infra.Data.Migrations
                     b.HasOne("CloudHub.Domain.Models.User", "User")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("user_tokens_user_id_foreign");
 
                     b.Navigation("User");
                 });
