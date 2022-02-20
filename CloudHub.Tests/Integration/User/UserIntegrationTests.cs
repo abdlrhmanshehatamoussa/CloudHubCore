@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using NUnit.Framework;
-using System.Net;
+﻿using NUnit.Framework;
 
 namespace CloudHub.Tests.Integration
 {
@@ -10,14 +8,6 @@ namespace CloudHub.Tests.Integration
         public void RegisterNewUser()
         {
             //TODO: Implement Integration Tests
-            var application = new WebApplicationFactory<Program>().WithWebHostBuilder(builder => { });
-            var client = application.CreateClient();
-            Assert.DoesNotThrowAsync(async () =>
-            {
-                var response = await client.GetAsync("/ping");
-                Assert.True(response.StatusCode == HttpStatusCode.OK);
-                Assert.NotNull(response.Content);
-            });
         }
     }
 }
