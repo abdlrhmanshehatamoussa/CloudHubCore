@@ -4,13 +4,16 @@ namespace CloudHub.API
 {
     public class Configurations
     {
-        public string EnvironmentName { get; private set; } = null!;
-        public string BuildId { get; private set; } = null!;
-        public string MainConnectionString { get; private set; } = null!;
-        public bool IsProductionModeEnabled { get; private set; } = false;
-        public string GoogleOAuthUrl { get; private set; } = null!;
+        public string EnvironmentName { get; set; } = null!;
+        public string BuildId { get; set; } = null!;
+        public string MainConnectionString { get; set; } = null!;
+        public bool IsProductionModeEnabled { get; set; } = false;
+        public string GoogleOAuthUrl { get; set; } = null!;
+    }
 
 
+    public class ConfigurationsLoader
+    {
         private const string KEY_BUILD_ID = "BUILD_ID";
         private const string KEY_PROD_MODE = "PRODUCTION_MODE";
         private const string KEY_ENV_NAME = "ASPNETCORE_ENVIRONMENT";
@@ -75,4 +78,5 @@ namespace CloudHub.API
             throw new MissingEnvironmentVariableException(var);
         }
     }
+
 }
