@@ -15,31 +15,20 @@ namespace CloudHub.Domain.Services
 
         private readonly IOAuthService _oAuthService;
 
-        public async Task<LoginResponse> FetchUser(ConsumerCredentials consumerCredentials)
+        public async Task<UserToken> FetchUser(ConsumerCredentials consumerCredentials)
         {
             Consumer consumer = await GetConsumer(consumerCredentials);
             UserToken token = consumer.UserToken ?? throw new NotAuthenticatedException();
-            User user = token.User;
 
             //Consume Nonce
             await ConsumeNonceOrThrow(consumer.Nonce.Id);
             await _unitOfWork.Save();
 
             //Return the result
-            return new LoginResponse()
-            {
-                Email = user.Email,
-                TokenBody = token.Token,
-                GlobalId = user.GlobalId,
-                ImageURL = user.ImageUrl,
-                LoginTypeName = user.Login.LoginType.Name,
-                Name = user.Name,
-                TokenRemainingSeconds = token.RemainingSeconds,
-                TokenAgeSeconds = token.AgeSeconds,
-            };
+            return token;
         }
 
-        public async Task<RegisterResponse> RegisterNewUser(ConsumerCredentials credentials, CreateUserDTO dto)
+        public async Task<User> RegisterNewUser(ConsumerCredentials credentials, CreateUserDTO dto)
         {
             Consumer consumer = await GetConsumer(credentials);
 
@@ -95,12 +84,12 @@ namespace CloudHub.Domain.Services
             await _unitOfWork.Save();
 
             //Return the result
-            return new RegisterResponse() { Email = user.Email, Name = user.Name, ImageURL = user.ImageUrl, GlobalId = user.GlobalId };
+            return user;
         }
 
 
 
-        public async Task<LoginResponse> Login(ConsumerCredentials clientCredentials, CreateLoginDTO dto)
+        public async Task<UserToken> Login(ConsumerCredentials clientCredentials, CreateLoginDTO dto)
         {
             Consumer consumer = await GetConsumer(clientCredentials);
 
@@ -148,17 +137,7 @@ namespace CloudHub.Domain.Services
             if (token.Id <= 0) { throw new Exception("Failed to save token"); }
 
             //Return the result
-            return new LoginResponse()
-            {
-                Email = user.Email,
-                TokenBody = token.Token,
-                GlobalId = user.GlobalId,
-                ImageURL = user.ImageUrl,
-                LoginTypeName = user.Login.LoginType.Name,
-                Name = user.Name,
-                TokenRemainingSeconds = token.RemainingSeconds,
-                TokenAgeSeconds = token.AgeSeconds,
-            };
+            return token;
         }
     }
 }

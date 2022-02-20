@@ -1,4 +1,7 @@
-﻿namespace CloudHub.ApiContracts
+﻿using CloudHub.Domain.DTO;
+using CloudHub.Domain.Models;
+
+namespace CloudHub.API.Contracts
 {
     public class LoginRequestContract
     {
@@ -12,5 +15,12 @@
         public string email { get; set; }
         public string password { get; set; }
         public int login_type { get; set; }
+
+        public CreateLoginDTO ToDTO()
+        {
+            ELoginTypes loginType = Enum.Parse<ELoginTypes>(login_type.ToString());
+            CreateLoginDTO request = new CreateLoginDTO(email, password, loginType);
+            return request;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CloudHub.ApiContracts
+﻿namespace CloudHub.API.Contracts
 {
     public class RegisterRequestContract
     {

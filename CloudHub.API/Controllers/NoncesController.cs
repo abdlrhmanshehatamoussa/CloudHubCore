@@ -1,4 +1,4 @@
-﻿using CloudHub.ApiContracts;
+﻿using CloudHub.API.Contracts;
 using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +17,7 @@ namespace CloudHub.API.Controllers
         public async Task<NonceResponse> Post()
         {
             Nonce nonce = await _nonceService.GenereateNonce(ConsumerCredentials);
-            return new()
-            {
-                token = nonce.Token,
-                created_on = nonce.CreatedOn.ToString()
-            };
+            return NonceResponse.FromNonce(nonce);
         }
     }
 }

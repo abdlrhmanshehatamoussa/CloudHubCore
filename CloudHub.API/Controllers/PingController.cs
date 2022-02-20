@@ -1,4 +1,4 @@
-﻿using CloudHub.ApiContracts;
+﻿using CloudHub.API.Contracts;
 using CloudHub.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 

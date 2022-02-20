@@ -1,4 +1,4 @@
-﻿namespace CloudHub.ApiContracts
+﻿namespace CloudHub.API.Contracts
 {
     public struct RegisterResponseContract
     {
