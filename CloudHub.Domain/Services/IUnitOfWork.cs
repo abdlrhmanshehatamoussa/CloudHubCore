@@ -13,6 +13,11 @@ namespace CloudHub.Domain.Services
         IRepository<Nonce> NoncesRepository { get; }
         IRepository<PaymentGateway> PaymentGatewaysRepository { get; }
         IRepository<Purchase> PurchasesRepository { get; }
+        IRepository<PublicDocument> PublicDocumentsRepository { get; }
+        IRepository<PublicCollection> PublicCollectionsRepository { get; }
+        IRepository<PrivateDocument> PrivateDocumentsRepository { get; }
+        IRepository<PrivateCollection> PrivateCollectionsRepository { get; }
+
 
         Task Save();
     }

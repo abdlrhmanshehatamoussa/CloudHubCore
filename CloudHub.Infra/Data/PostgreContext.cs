@@ -17,7 +17,12 @@ namespace CloudHub.Infra.Data
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
         public virtual DbSet<Tenant> Tenants { get; set; } = null!;
- 
+        public virtual DbSet<PublicCollection> PublicCollections { get; set; } = null!;
+        public virtual DbSet<PublicDocument> PublicDocuments { get; set; } = null!;
+        public virtual DbSet<PrivateCollection> PrivateCollections { get; set; } = null!;
+        public virtual DbSet<PrivateDocument> PrivateDocuments { get; set; } = null!;
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

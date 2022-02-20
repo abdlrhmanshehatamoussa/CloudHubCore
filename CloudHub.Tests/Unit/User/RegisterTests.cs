@@ -6,7 +6,7 @@ using CloudHub.Utils;
 using NUnit.Framework;
 using System;
 
-namespace CloudHub.DomainTests
+namespace CloudHub.Tests.Unit
 {
     public class RegisterTests
     {

@@ -5,7 +5,7 @@ using Moq;
 using System;
 using System.Linq;
 
-namespace CloudHub.DomainTests
+namespace CloudHub.Tests.Unit
 {
     internal static class Helper
     {

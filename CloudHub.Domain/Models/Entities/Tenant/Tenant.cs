@@ -12,6 +12,8 @@
         public virtual ICollection<Feature> Features { get; set; } = new HashSet<Feature>();
         public virtual ICollection<User> Users { get; set; } = new HashSet<User>();
         public virtual ICollection<Client> Clients { get; set; } = new HashSet<Client>();
+        public virtual ICollection<PublicCollection> PublicCollections { get; set; } = new HashSet<PublicCollection>();
+        public virtual ICollection<PrivateCollection> PrivateCollections { get; set; } = new HashSet<PrivateCollection>();
 
     }
 }

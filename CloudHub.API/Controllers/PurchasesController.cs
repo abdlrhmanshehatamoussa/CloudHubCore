@@ -25,7 +25,7 @@ namespace CloudHub.API.Controllers
             });
         }
 
-        //TODO: Implement
+        //TODO: Implement Purchase Endpoint
         [HttpPost]
         public Task<dynamic> Purchase()
         {

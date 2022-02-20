@@ -1,14 +1,14 @@
-using CloudHub.Utils;
-using CloudHub.Factories;
-using CloudHub.Domain.DTO;
+﻿using CloudHub.Domain.DTO;
 using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
+using CloudHub.Factories;
+using CloudHub.Utils;
 using NUnit.Framework;
 using System;
 
-namespace CloudHub.DomainTests
+namespace CloudHub.Tests.Unit
 {
-    public class LoginTests
+    public class FetchTests
     {
         private readonly UnitOfWork unitOfWork = Helper.UnitOfWork();
         private UserService userService = null!;
@@ -39,13 +39,22 @@ namespace CloudHub.DomainTests
                 await unitOfWork.Save();
 
                 //Create a nonce
-                Nonce nonce = new()
+                Nonce nonce1 = new()
                 {
                     Token = Guid.NewGuid().ToString(),
                     ClientId = client.Id,
                     CreatedOn = DateTime.Now
                 };
-                await unitOfWork.NoncesRepository.Add(nonce);
+                await unitOfWork.NoncesRepository.Add(nonce1);
+                await unitOfWork.Save();
+
+                Nonce nonce2 = new()
+                {
+                    Token = Guid.NewGuid().ToString(),
+                    ClientId = client.Id,
+                    CreatedOn = DateTime.Now
+                };
+                await unitOfWork.NoncesRepository.Add(nonce2);
                 await unitOfWork.Save();
 
                 //Create a user
@@ -60,7 +69,7 @@ namespace CloudHub.DomainTests
                     TenantId = client.TenantId
                 };
                 await unitOfWork.UsersRepository.Add(user);
-                Login login = new ()
+                Login login = new()
                 {
                     UserId = user.Id,
                     LoginTypeId = ELoginTypes.LOGIN_TYPE_BASIC,
@@ -75,16 +84,30 @@ namespace CloudHub.DomainTests
                 {
                     ClientKey = client.ClientKey,
                     ClientClaim = SecurityHelper.EncryptAES(client.ClientKey, client.ClientSecret),
-                    Nonce = nonce.Token
+                    Nonce = nonce1.Token
                 };
-                UserToken response = await userService.Login(credentials, new CreateLoginDTO(
+                UserToken token = await userService.Login(credentials, new CreateLoginDTO(
                     email,
                     password,
                     ELoginTypes.LOGIN_TYPE_BASIC
                     ));
 
                 //Assert
-                Assert.NotNull(response.Token);
+                Assert.NotNull(token);
+                Assert.NotNull(token.Token);
+
+                credentials = new()
+                {
+                    ClientKey = client.ClientKey,
+                    ClientClaim = SecurityHelper.EncryptAES(client.ClientKey, client.ClientSecret),
+                    Nonce = nonce2.Token,
+                    UserToken = token.Token
+                };
+                token = await userService.FetchUser(credentials);
+                Assert.NotNull(token);
+                string returnedMail = token.User.Email;
+                Assert.NotNull(returnedMail);
+                Assert.That(returnedMail == email);
             });
         }
     }

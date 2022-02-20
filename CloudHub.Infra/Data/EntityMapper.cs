@@ -15,7 +15,11 @@ namespace CloudHub.Infra.Data
             new PurchaseMapper(),
             new UserMapper(),
             new UserTokenMapper(),
-            new TenantMapper()
+            new TenantMapper(),
+            new PublicCollectionMapper(),
+            new PublicDocumentMapper(),
+            new PrivateCollectionMapper(),
+            new PrivateDocumentMapper(),
         };
 
         public static void MapEntities(ModelBuilder modelBuilder)

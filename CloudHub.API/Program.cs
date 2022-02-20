@@ -23,6 +23,8 @@ ApplyPendingMigrations(settings.MainConnectionString);
 builder.Services.AddDbContext<DbContext, PostgreContext>(options => options.UseNpgsql(settings.MainConnectionString));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //Services
+builder.Services.AddScoped<PublicDataService>();
+builder.Services.AddScoped<PrivateDataService>();
 builder.Services.AddScoped<PingService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<NonceService>();

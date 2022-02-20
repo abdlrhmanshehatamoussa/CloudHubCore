@@ -1,11 +1,10 @@
-﻿using CloudHub.Factories;
-using CloudHub.Domain.DTO;
-using CloudHub.Domain.Models;
+﻿using CloudHub.Domain.Models;
+using CloudHub.Factories;
 using Moq;
 using NUnit.Framework;
 using System;
 
-namespace CloudHub.DomainTests
+namespace CloudHub.Tests.Unit
 {
     public class OAuthTests
     {
