@@ -55,7 +55,7 @@ namespace CloudHub.Tests.Unit
                  ));
 
                 //Assert
-                Assert.That(response.Email == "");
+                Assert.That(response.Email == email);
                 Assert.IsNotNull(response.GlobalId);
             });
         }
