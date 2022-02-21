@@ -1,5 +1,4 @@
 ﻿using CloudHub.Domain.Services;
-using CloudHub.Infra.Data;
 using CloudHub.Infra.Factories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,13 +7,13 @@ namespace CloudHub.Tests.Unit
 {
     internal class UnitTest
     {
-        protected readonly UnitOfWork UnitOfWork;
+        protected readonly TestUnitOfWork UnitOfWork;
         protected readonly UserService UserService;
         protected readonly OAuthService AuthenticationService;
 
         public UnitTest()
         {
-            DbContextOptionsBuilder<PostgreContext> builder = new();
+            DbContextOptionsBuilder<InMemoryContext> builder = new();
             string dbName = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
             builder.UseInMemoryDatabase(dbName);
             string googleOauthUrl = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=";

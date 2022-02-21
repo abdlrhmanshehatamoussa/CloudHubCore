@@ -1,5 +1,4 @@
 ﻿using CloudHub.Domain.Models;
-using CloudHub.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.IO;
@@ -8,9 +7,9 @@ using System.Text.Json;
 
 namespace CloudHub.Tests.Unit
 {
-    public partial class InMemoryContext : PostgreContext
+    public partial class InMemoryContext : DbContext
     {
-        public InMemoryContext(DbContextOptions<PostgreContext> options) : base(options)
+        public InMemoryContext(DbContextOptions<InMemoryContext> options) : base(options)
         {
         }
 
