@@ -7,10 +7,7 @@ namespace CloudHub.Tests.Unit
 {
     public class TestUnitOfWork : IUnitOfWork
     {
-        private readonly DbContext _dbContext;
-
-        public TestUnitOfWork(DbContext context) => _dbContext = context;
-
+        private readonly DbContext _dbContext = new InMemoryContext();
 
         public IRepository<User> UsersRepository => new TestRepository<User>(_dbContext);
         public IRepository<Client> ClientsRepository => new TestRepository<Client>(_dbContext);

@@ -1,8 +1,8 @@
 ﻿using CloudHub.Domain.Models;
 
-namespace CloudHub.Infra.Factories
+namespace CloudHub.ServiceImp.OAuth
 {
-    public interface IOAuthExtractor
+    internal interface IOAuthExtractor
     {
         public string BuildURL(string token);
         public OAuthUser ExtractUser(string bodyJson);

@@ -2,7 +2,7 @@
 using CloudHub.Domain.Services;
 using System.Net;
 
-namespace CloudHub.Infra.Factories
+namespace CloudHub.ServiceImp.OAuth
 {
 
     public class OAuthService : IOAuthService

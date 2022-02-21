@@ -1,7 +1,5 @@
 ﻿using CloudHub.Domain.Services;
-using CloudHub.Infra.Factories;
-using Microsoft.EntityFrameworkCore;
-using System;
+using CloudHub.ServiceImp.OAuth;
 
 namespace CloudHub.Tests.Unit
 {
@@ -9,17 +7,12 @@ namespace CloudHub.Tests.Unit
     {
         protected readonly TestUnitOfWork UnitOfWork;
         protected readonly UserService UserService;
-        protected readonly OAuthService AuthenticationService;
+        protected readonly IOAuthService AuthenticationService;
 
         public UnitTest()
         {
-            DbContextOptionsBuilder<InMemoryContext> builder = new();
-            string dbName = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
-            builder.UseInMemoryDatabase(dbName);
-            string googleOauthUrl = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=";
-            
-            UnitOfWork = new(new InMemoryContext(builder.Options));
-            AuthenticationService = new(googleOauthUrl);
+            UnitOfWork = new TestUnitOfWork();
+            AuthenticationService = new OAuthService("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=");
             UserService = new(UnitOfWork, AuthenticationService);
         }
 

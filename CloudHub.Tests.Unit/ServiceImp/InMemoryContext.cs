@@ -1,4 +1,5 @@
 ﻿using CloudHub.Domain.Models;
+using CloudHub.Utils;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.IO;
@@ -9,8 +10,9 @@ namespace CloudHub.Tests.Unit
 {
     public partial class InMemoryContext : DbContext
     {
-        public InMemoryContext(DbContextOptions<InMemoryContext> options) : base(options)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseInMemoryDatabase(HelperFunctions.RandomString(10));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

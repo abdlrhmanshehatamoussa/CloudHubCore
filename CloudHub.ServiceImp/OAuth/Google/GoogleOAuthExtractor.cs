@@ -1,9 +1,9 @@
 ﻿using CloudHub.Domain.Models;
 using System.Text.Json;
 
-namespace CloudHub.Infra.Factories
+namespace CloudHub.ServiceImp.OAuth
 {
-    public class GoogleOAuthExtractor : IOAuthExtractor
+    internal class GoogleOAuthExtractor : IOAuthExtractor
     {
 
         private struct GoogleOAuthUser
