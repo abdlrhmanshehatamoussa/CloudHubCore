@@ -10,6 +10,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test CloudHub.Tests.Unit --no-restore --verbosity normal
+
       - name: Extracting Build Environment and Build Id
         id: gitinfo
         run: |

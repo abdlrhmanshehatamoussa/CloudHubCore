@@ -7,8 +7,9 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["CloudHub.API/CloudHub.API.csproj", "CloudHub.API/"]
 COPY ["CloudHub.Domain/CloudHub.Domain.csproj", "CloudHub.Domain/"]
-COPY ["CloudHub.Crosscutting/CloudHub.Crosscutting.csproj", "CloudHub.Crosscutting/"]
+COPY ["CloudHub.Utils/CloudHub.Utils.csproj", "CloudHub.Utils/"]
 COPY ["CloudHub.Infra/CloudHub.Infra.csproj", "CloudHub.Infra/"]
+COPY ["CloudHub.ServiceImp/CloudHub.ServiceImp.csproj", "CloudHub.ServiceImp/"]
 RUN dotnet restore "CloudHub.API/CloudHub.API.csproj"
 COPY . .
 WORKDIR "/src/CloudHub.API"
