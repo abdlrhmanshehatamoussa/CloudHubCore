@@ -1,6 +1,5 @@
 ﻿using CloudHub.Domain.Services;
 using CloudHub.Infra.Data;
-using CloudHub.Infra.Factories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CloudHub.API.Startup
@@ -9,7 +8,7 @@ namespace CloudHub.API.Startup
     {
         public static void RegisterDbContext(this WebApplicationBuilder builder, CloudHubApiConfigurations configurations)
         {
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IUnitOfWork, SQLUnitOfWork>();
             builder.Services.AddDbContext<DbContext, PostgreContext>(options => options.UseNpgsql(configurations.MainConnectionString));
         }
     }
