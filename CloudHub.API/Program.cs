@@ -4,7 +4,7 @@ using CloudHub.API.Startup;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-Configurations configurations = builder.InjectConfigurations();
+CloudHubApiConfigurations configurations = builder.InjectConfigurations();
 builder.RegisterDbContext(configurations);
 builder.ApplyDbMigrations();
 builder.RegisterFactories(configurations);

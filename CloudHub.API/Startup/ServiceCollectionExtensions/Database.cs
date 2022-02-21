@@ -5,7 +5,7 @@ namespace CloudHub.API.Startup
 {
     public static partial class ServiceCollectionExtensions
     {
-        public static void RegisterDbContext(this WebApplicationBuilder builder, Configurations configurations)
+        public static void RegisterDbContext(this WebApplicationBuilder builder, CloudHubApiConfigurations configurations)
         {
             builder.Services.AddDbContext<DbContext, PostgreContext>(options => options.UseNpgsql(configurations.MainConnectionString));
         }

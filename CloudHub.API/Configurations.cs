@@ -1,6 +1,6 @@
 ﻿namespace CloudHub.API
 {
-    public class Configurations
+    public class CloudHubApiConfigurations
     {
         public string EnvironmentName { get; set; } = null!;
         public string BuildId { get; set; } = null!;

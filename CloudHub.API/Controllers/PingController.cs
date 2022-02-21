@@ -7,9 +7,9 @@ namespace CloudHub.API.Controllers
     [Route("ping")]
     public class PingController : BasicController
     {
-        public PingController(Configurations configurations) => this.configurations = configurations;
+        public PingController(CloudHubApiConfigurations configurations) => this.configurations = configurations;
 
-        private readonly Configurations configurations;
+        private readonly CloudHubApiConfigurations configurations;
 
         [HttpGet]
         public PingResponseContract Ping()

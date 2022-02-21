@@ -5,7 +5,7 @@ namespace CloudHub.Infra.Data
 {
     public partial class PostgreContext : DbContext
     {
-        public PostgreContext(DbContextOptions options) : base(options) { }
+        public PostgreContext(DbContextOptions<PostgreContext> options) : base(options) { }
 
         public virtual DbSet<Client> Clients { get; set; } = null!;
         public virtual DbSet<Feature> Features { get; set; } = null!;

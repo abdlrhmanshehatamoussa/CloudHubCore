@@ -2,7 +2,7 @@
 {
     public static partial class ServiceCollectionExtensions
     {
-        public static void ConfigureSwaggerServices(this WebApplicationBuilder builder, Configurations settings)
+        public static void ConfigureSwaggerServices(this WebApplicationBuilder builder, CloudHubApiConfigurations settings)
         {
             if (settings.IsProductionModeEnabled == false)
             {

@@ -19,8 +19,8 @@ namespace CloudHub.Tests.Integration
                 Assert.True(response.StatusCode == HttpStatusCode.OK);
                 string body = await response.Content.ReadAsStringAsync();
                 PingResponseContract pingResponseContract = JsonConvert.DeserializeObject<PingResponseContract>(body);
-                Assert.That(pingResponseContract.build_id == BUILD_ID);
-                Assert.That(pingResponseContract.environment == ENV_NAME);
+                Assert.That(pingResponseContract.build_id == TestAppFactory.BUILD_ID);
+                Assert.That(pingResponseContract.environment == TestAppFactory.ENV_NAME);
             });
         }
     }

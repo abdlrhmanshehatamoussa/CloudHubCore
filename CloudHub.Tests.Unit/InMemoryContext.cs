@@ -10,7 +10,7 @@ namespace CloudHub.Tests.Unit
 {
     public partial class InMemoryContext : PostgreContext
     {
-        public InMemoryContext(DbContextOptions options) : base(options)
+        public InMemoryContext(DbContextOptions<PostgreContext> options) : base(options)
         {
         }
 
