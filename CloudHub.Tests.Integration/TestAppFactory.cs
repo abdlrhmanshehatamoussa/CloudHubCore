@@ -1,4 +1,5 @@
 ﻿using CloudHub.API;
+using CloudHub.Domain.Models;
 using CloudHub.Infra.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -48,30 +49,50 @@ namespace CloudHub.Tests.Integration
             MigrateAndSeed(services);
         }
 
+        //General
+        private void UnRegister<T>(IServiceCollection services)
+        {
+            var serviceDescriptor = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(T));
+            if (serviceDescriptor != null) services.Remove(serviceDescriptor);
+        }
+
         private void InjectConfigurations(IServiceCollection services)
         {
             UnRegister<CloudHubApiConfigurations>(services);
             services.AddSingleton(MyConfigurations);
         }
+        
+
+        //Database
         private void RegisterDatabase(IServiceCollection services)
         {
             UnRegister<DbContextOptions<PostgreContext>>(services);
             services.AddDbContext<DbContext, PostgreContext>(options => options.UseNpgsql(MyConfigurations.MainConnectionString));
         }
+
+        //Migrations
+        public void HandleMigrations(DbContext _context)
+        {
+            _context.Database.EnsureDeleted();
+            int migrationsCount = _context.Database.GetAppliedMigrations().Count();
+            if (migrationsCount == 0) _context.Database.Migrate();
+        }
+        private void SeedTestData(PostgreContext _context, string _clientKey, string _clientSecret)
+        {
+            Tenant tenant = new Tenant() { Name = "Test Tenant" };
+            var inserted = _context.Tenants.Add(tenant);
+            _context.SaveChanges();
+
+            Client client = new Client() { TenantId = inserted.Entity.Id, Name = "Test Client", ClientKey = _clientKey, ClientSecret = _clientSecret };
+            _context.Clients.Add(client);
+            _context.SaveChanges();
+        }
         private void MigrateAndSeed(IServiceCollection services)
         {
             IServiceProvider serviceProvider = services.BuildServiceProvider();
-            IServiceScopeFactory serviceScopeFactory = serviceProvider.GetService<IServiceScopeFactory>() ?? throw new Exception("Error while applying migrations, Failed to create Service Scope Factory");
-            IServiceScope serviceScope = serviceScopeFactory.CreateScope();
-            PostgreContext context = serviceScope.ServiceProvider.GetService<PostgreContext>() ?? throw new Exception("Error while applying migrations, Failed to get DbContext");
-            new TestDatabaseMigraionHandler(context).HandleMigrations();
-            new TestDataSeeder(context, CLIENT_KEY, CLIENT_CLAIM).Seed();
-        }
-
-        private void UnRegister<T>(IServiceCollection services)
-        {
-            var serviceDescriptor = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(T));
-            if (serviceDescriptor != null) services.Remove(serviceDescriptor);
+            PostgreContext context = serviceProvider.GetService<PostgreContext>() ?? throw new Exception("Error while applying migrations, Failed to get DbContext");
+            HandleMigrations(context);
+            SeedTestData(context, CLIENT_KEY, CLIENT_CLAIM);
         }
     }
 }

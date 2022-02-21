@@ -8,9 +8,7 @@ namespace CloudHub.API.Startup
         public static void ApplyDbMigrations(this WebApplicationBuilder builder)
         {
             IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
-            IServiceScopeFactory serviceScopeFactory = serviceProvider.GetService<IServiceScopeFactory>() ?? throw new Exception("Error while applying migrations, Failed to create Service Scope Factory");
-            IServiceScope serviceScope = serviceScopeFactory.CreateScope();
-            PostgreContext context = serviceScope.ServiceProvider.GetService<PostgreContext>() ?? throw new Exception("Error while applying migrations, Failed to get DbContext");
+            PostgreContext context = serviceProvider.GetService<PostgreContext>() ?? throw new Exception("Error while applying migrations, Failed to get PostgreContext");
             int migrationsCount = context.Database.GetAppliedMigrations().Count();
             if (migrationsCount == 0)
             {
