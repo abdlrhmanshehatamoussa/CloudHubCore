@@ -6,7 +6,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 Configurations configurations = builder.InjectConfigurations();
 builder.RegisterDbContext(configurations);
-builder.ApplyDbMigrations(configurations);
+builder.ApplyDbMigrations();
 builder.RegisterFactories(configurations);
 builder.RegisterDomainServices();
 builder.Services.AddControllers(options => options.Filters.Add<ConsumerCredentialsFilter>());

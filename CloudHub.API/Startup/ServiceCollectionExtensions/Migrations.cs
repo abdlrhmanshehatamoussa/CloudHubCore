@@ -5,7 +5,7 @@ namespace CloudHub.API.Startup
 {
     public static partial class ServiceCollectionExtensions
     {
-        public static void ApplyDbMigrations(this WebApplicationBuilder builder, Configurations configurations)
+        public static void ApplyDbMigrations(this WebApplicationBuilder builder)
         {
             IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
             IServiceScopeFactory serviceScopeFactory = serviceProvider.GetService<IServiceScopeFactory>() ?? throw new Exception("Error while applying migrations, Failed to create Service Scope Factory");

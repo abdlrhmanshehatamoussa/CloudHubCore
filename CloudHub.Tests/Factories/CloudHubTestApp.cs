@@ -13,7 +13,7 @@ namespace CloudHub.Tests.Factories
         {
             builder.ConfigureServices((IServiceCollection services) =>
             {
-                services.AddSingleton<Configurations>(new Configurations()
+                services.AddSingleton(new Configurations()
                 {
                     BuildId = BUILD_ID,
                     EnvironmentName = ENV_NAME,
