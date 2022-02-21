@@ -1,9 +1,6 @@
-﻿using System;
-using System.Linq;
-
-namespace CloudHub.Tests.Utils
+﻿namespace CloudHub.Utils
 {
-    internal class HelperFunctions
+    public class HelperFunctions
     {
         private static readonly Random random = new();
         public static string RandomString(int length)

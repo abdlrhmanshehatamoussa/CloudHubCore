@@ -1,26 +1,13 @@
 ﻿using CloudHub.Domain.DTO;
 using CloudHub.Domain.Models;
-using CloudHub.Domain.Services;
-using CloudHub.Infra.Factories;
-using CloudHub.Tests.Factories;
-using CloudHub.Tests.Utils;
 using CloudHub.Utils;
 using NUnit.Framework;
 using System;
 
 namespace CloudHub.Tests.Unit
 {
-    public class RegisterTests
+    internal class RegisterTests : UnitTest
     {
-        private readonly UnitOfWork unitOfWork = Factory.UnitOfWork();
-        private UserService userService = null!;
-
-        [SetUp]
-        public void Setup()
-        {
-            userService = new UserService(unitOfWork, Factory.AuthenticationService());
-        }
-
         [Test]
         public void HappyScenario()
         {
@@ -35,8 +22,8 @@ namespace CloudHub.Tests.Unit
                     Tenant = new() { Id = 1, Name = "Tenant 1" },
                     TenantId = 1
                 };
-                await unitOfWork.ClientsRepository.Add(client);
-                await unitOfWork.Save();
+                await UnitOfWork.ClientsRepository.Add(client);
+                await UnitOfWork.Save();
 
                 Nonce nonce = new()
                 {
@@ -44,8 +31,8 @@ namespace CloudHub.Tests.Unit
                     ClientId = client.Id,
                     CreatedOn = DateTime.Now
                 };
-                await unitOfWork.NoncesRepository.Add(nonce);
-                await unitOfWork.Save();
+                await UnitOfWork.NoncesRepository.Add(nonce);
+                await UnitOfWork.Save();
 
                 ConsumerCredentials credentials = new()
                 {
@@ -58,7 +45,7 @@ namespace CloudHub.Tests.Unit
                 string email = string.Format("{0}@domain.com", random);
 
                 //Act
-                User response = await userService.RegisterNewUser(credentials, new CreateUserDTO
+                User response = await UserService.RegisterNewUser(credentials, new CreateUserDTO
                  (
                     "Test User",
                      email,

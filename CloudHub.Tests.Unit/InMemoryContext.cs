@@ -6,7 +6,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 
-namespace CloudHub.Tests.Factories
+namespace CloudHub.Tests.Unit
 {
     public partial class InMemoryContext : PostgreContext
     {

@@ -1,28 +1,13 @@
 ﻿using CloudHub.Domain.DTO;
 using CloudHub.Domain.Models;
-using CloudHub.Domain.Services;
-using CloudHub.Infra.Factories;
-using CloudHub.Tests.Factories;
-using CloudHub.Tests.Utils;
 using CloudHub.Utils;
 using NUnit.Framework;
 using System;
 
 namespace CloudHub.Tests.Unit
 {
-    public class FetchTests
+    internal class FetchTests : UnitTest
     {
-        private readonly UnitOfWork unitOfWork = Factory.UnitOfWork();
-        private UserService userService = null!;
-
-
-        [SetUp]
-        public void Setup()
-        {
-            userService = new UserService(unitOfWork, Factory.AuthenticationService());
-        }
-
-
         [Test]
         public void HappyScenario()
         {
@@ -39,8 +24,8 @@ namespace CloudHub.Tests.Unit
                     Tenant = new() { Id = 1, Name = "Tenant 1" },
                     TenantId = 1
                 };
-                await unitOfWork.ClientsRepository.Add(client);
-                await unitOfWork.Save();
+                await UnitOfWork.ClientsRepository.Add(client);
+                await UnitOfWork.Save();
 
                 //Create a nonce
                 Nonce nonce1 = new()
@@ -49,8 +34,8 @@ namespace CloudHub.Tests.Unit
                     ClientId = client.Id,
                     CreatedOn = DateTime.Now
                 };
-                await unitOfWork.NoncesRepository.Add(nonce1);
-                await unitOfWork.Save();
+                await UnitOfWork.NoncesRepository.Add(nonce1);
+                await UnitOfWork.Save();
 
                 Nonce nonce2 = new()
                 {
@@ -58,8 +43,8 @@ namespace CloudHub.Tests.Unit
                     ClientId = client.Id,
                     CreatedOn = DateTime.Now
                 };
-                await unitOfWork.NoncesRepository.Add(nonce2);
-                await unitOfWork.Save();
+                await UnitOfWork.NoncesRepository.Add(nonce2);
+                await UnitOfWork.Save();
 
                 //Create a user
                 string random = HelperFunctions.RandomString(8);
@@ -72,7 +57,7 @@ namespace CloudHub.Tests.Unit
                     GlobalId = SecurityHelper.Hash256(random + email),
                     TenantId = client.TenantId
                 };
-                await unitOfWork.UsersRepository.Add(user);
+                await UnitOfWork.UsersRepository.Add(user);
                 Login login = new()
                 {
                     UserId = user.Id,
@@ -80,8 +65,8 @@ namespace CloudHub.Tests.Unit
                     Passcode = password,
                     LoginType = new LoginType() { Name = "Basic", Id = ELoginTypes.LOGIN_TYPE_BASIC }
                 };
-                await unitOfWork.LoginsRepository.Add(login);
-                await unitOfWork.Save();
+                await UnitOfWork.LoginsRepository.Add(login);
+                await UnitOfWork.Save();
 
                 //Act
                 ConsumerCredentials credentials = new()
@@ -90,7 +75,7 @@ namespace CloudHub.Tests.Unit
                     ClientClaim = SecurityHelper.EncryptAES(client.ClientKey, client.ClientSecret),
                     Nonce = nonce1.Token
                 };
-                UserToken token = await userService.Login(credentials, new CreateLoginDTO(
+                UserToken token = await UserService.Login(credentials, new CreateLoginDTO(
                     email,
                     password,
                     ELoginTypes.LOGIN_TYPE_BASIC
@@ -107,7 +92,7 @@ namespace CloudHub.Tests.Unit
                     Nonce = nonce2.Token,
                     UserToken = token.Token
                 };
-                token = await userService.FetchUser(credentials);
+                token = await UserService.FetchUser(credentials);
                 Assert.NotNull(token);
                 string returnedMail = token.User.Email;
                 Assert.NotNull(returnedMail);

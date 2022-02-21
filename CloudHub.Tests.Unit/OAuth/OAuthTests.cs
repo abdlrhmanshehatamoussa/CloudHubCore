@@ -1,14 +1,11 @@
 ﻿using CloudHub.Domain.Models;
-using CloudHub.Infra.Factories;
-using CloudHub.Tests.Factories;
 using NUnit.Framework;
 using System;
 
 namespace CloudHub.Tests.Unit
 {
-    public class OAuthTests
+    internal class OAuthTests : UnitTest
     {
-        private readonly OAuthService oAuthService = Factory.AuthenticationService();
 
         [Test]
         public void UnRegisteredOAuthExtractor()
@@ -16,7 +13,7 @@ namespace CloudHub.Tests.Unit
             Exception? ex = Assert.ThrowsAsync<Exception>(async () =>
             {
                 string testToken = "ya29.a0ARrdaM-3GuDHx8FqkLg56ObadhGgKMCaFcKLdLAmVc5P184DlypEB9aSiovD_9VmdlfhnHulgm3FiA0UPlaBbhYy_kb-zTrlPo-YiDebHc5OPYRqC0V5pmXgclo98DGMtH0M-L7iZC2yphrbSK-zl6ZY24kW5R0";
-                OAuthUser? user = await oAuthService.GetUserByToken(testToken, ELoginTypes.LOGIN_TYPE_FACEBOOK);
+                OAuthUser? user = await AuthenticationService.GetUserByToken(testToken, ELoginTypes.LOGIN_TYPE_FACEBOOK);
             });
 
             Assert.That(ex?.Message.Contains("LOGIN_TYPE_FACEBOOK") == true);
