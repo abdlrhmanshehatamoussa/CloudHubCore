@@ -22,8 +22,8 @@ namespace CloudHub.Tests.Integration
         protected async Task<string> GetNonce()
         {
             HttpResponseMessage response1 = await Client.PostAsyncJson("nonce");
-            NonceResponse nonce = await response1.Parse<NonceResponse>();
             Assert.True(response1.StatusCode == HttpStatusCode.OK);
+            NonceResponse nonce = await response1.Parse<NonceResponse>();
             Assert.IsNotNull(nonce.token);
             return nonce.token;
         }

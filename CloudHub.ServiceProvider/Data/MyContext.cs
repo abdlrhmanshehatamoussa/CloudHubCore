@@ -1,16 +1,16 @@
 ﻿using CloudHub.Domain.Models;
-using CloudHub.ServiceProvider.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace CloudHub.ServiceProvider
+namespace CloudHub.ServiceProvider.Data
 {
-    public interface IConfigDatabase
-    {
 
-    }
-    public partial class MyContext : DbContext
+    internal class MyContext : DbContext
     {
-        public MyContext(DbContextOptions<MyContext> options) : base(options) { }
+        public MyContext(DbContextOptions<MyContext> options) : base(options)
+        {
+            int migrationsCount = Database.GetAppliedMigrations().Count();
+            if (migrationsCount == 0) Database.Migrate();
+        }
 
         public virtual DbSet<Client> Clients { get; set; } = null!;
         public virtual DbSet<Feature> Features { get; set; } = null!;

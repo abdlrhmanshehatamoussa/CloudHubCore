@@ -1,13 +1,23 @@
 ﻿using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
 using CloudHub.ServiceProvider.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CloudHub.ServiceProvider
 {
+    public interface IConfigDatabase
+    {
+        public string ConnectionString { get; set; }
+    }
     public class UnitOfWork : IUnitOfWork
     {
-        public UnitOfWork(MyContext dbContext) => _dbContext = dbContext;
-        
+        public UnitOfWork(IConfigDatabase dbConfigurations)
+        {
+            DbContextOptionsBuilder<MyContext> builder = new DbContextOptionsBuilder<MyContext>();
+            builder.UseNpgsql(dbConfigurations.ConnectionString);
+            _dbContext = new MyContext(builder.Options);
+        }
+
         private readonly MyContext _dbContext;
 
         public IRepository<User> UsersRepository => new GenericRepository<User>(_dbContext);

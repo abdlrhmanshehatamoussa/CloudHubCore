@@ -13,10 +13,10 @@ namespace CloudHub.Tests.Integration
         public async Task RegisterLoginFetchScenario()
         {
             //Arrange
-            string email = "email@gmail.com";
+            string email = string.Format("{0}@gmail.com", HelperFunctions.RandomString(10));
             string password = HelperFunctions.RandomString(10);
             int loginType = (int)ELoginTypes.LOGIN_TYPE_BASIC;
-            RegisterRequestContract registerContract = new RegisterRequestContract("Test User", email, password, "", loginType);
+            RegisterRequestContract registerContract = new RegisterRequestContract(HelperFunctions.RandomString(10), email, password, "", loginType);
             string nonce = await GetNonce();
 
             //Act

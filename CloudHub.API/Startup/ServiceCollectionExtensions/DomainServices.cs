@@ -2,9 +2,9 @@
 
 namespace CloudHub.API.Startup
 {
-    public static partial class ServiceCollectionExtensions
+    internal static partial class ServiceCollectionExtensions
     {
-        public static void RegisterDomainServices(this WebApplicationBuilder builder)
+        internal static void RegisterDomainServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<PublicDataService>();
             builder.Services.AddScoped<PrivateDataService>();

@@ -3,9 +3,9 @@ using CloudHub.ServiceProvider;
 
 namespace CloudHub.API.Startup
 {
-    public static partial class ServiceCollectionExtensions
+    internal static partial class ServiceCollectionExtensions
     {
-        public static void RegisterServiceImplementations(this WebApplicationBuilder builder)
+        internal static void RegisterServiceImplementations(this WebApplicationBuilder builder)
         {
             builder.Services.AddSingleton<IOAuthService, OAuthService>();
         }

@@ -1,11 +1,11 @@
 ﻿using CloudHub.API;
 using CloudHub.Domain.Models;
+using CloudHub.Domain.Services;
 using CloudHub.ServiceProvider;
-using CloudHub.ServiceProvider.Data;
+using CloudHub.Utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -13,22 +13,37 @@ using System.Net.Http;
 
 namespace CloudHub.Tests.Integration
 {
+    internal class TestConfigurations : IConfigOAuthService, IConfigDatabase, IEnvironmentInfo
+    {
+        public string EnvironmentName { get; set; } = null!;
+        public string BuildId { get; set; } = null!;
+        public bool IsProduction { get; set; } = false;
+        public string ConnectionString { get; set; } = null!;
+        public string GoogleOAuthUrl { get; set; } = null!;
+    }
+
     internal class TestAppFactory : WebApplicationFactory<Program>
     {
         public static string BUILD_ID = "0.0.0";
         public static string ENV_NAME = "IntegrationTestApp";
-        private const string CLIENT_KEY = "ce7c48fc-fcb2-4f0c-be20-2e88e94f380f";
-        private const string CLIENT_CLAIM = "ce7c48fc-fcb2-4f0c-be20-2e88e94f380f";
 
-        private readonly CloudHubApiConfigurations MyConfigurations = new()
+        private readonly string ClientKey;
+        private readonly string ClientSecret;
+
+        public TestAppFactory()
+        {
+            ClientKey = Guid.NewGuid().ToString();
+            ClientSecret = Guid.NewGuid().ToString();
+        }
+
+        protected readonly TestConfigurations MyConfigurations = new()
         {
             BuildId = BUILD_ID,
             EnvironmentName = ENV_NAME,
             GoogleOAuthUrl = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=",
-            MainConnectionString = "Host=127.0.0.1;Database=cloudhub-integration-tests;Username=postgres;Password=123456",
-            IsProduction = false,
+            ConnectionString = "Host=127.0.0.1;Database=cloudhub-integration-tests;Username=postgres;Password=123456",
+            IsProduction = false
         };
-
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -39,15 +54,14 @@ namespace CloudHub.Tests.Integration
         protected override void ConfigureClient(HttpClient client)
         {
             base.ConfigureClient(client);
-            client.DefaultRequestHeaders.Add("client-key", CLIENT_KEY);
-            client.DefaultRequestHeaders.Add("client-claim", CLIENT_CLAIM);
+            client.DefaultRequestHeaders.Add("client-key", ClientKey);
+            client.DefaultRequestHeaders.Add("client-claim", SecurityHelper.EncryptAES(ClientKey, ClientSecret));
         }
 
         private void RegisterServices(IServiceCollection services)
         {
             InjectConfigurations(services);
-            RegisterDatabase(services);
-            MigrateAndSeed(services);
+            RegisterUnitOfWork(services);
         }
 
         //General
@@ -61,42 +75,31 @@ namespace CloudHub.Tests.Integration
         {
             UnRegister<IConfigOAuthService>(services);
             services.AddSingleton<IConfigOAuthService>(MyConfigurations);
-            
+
             UnRegister<IEnvironmentInfo>(services);
             services.AddSingleton<IEnvironmentInfo>(MyConfigurations);
-        }
-        
 
-        //Database
-        private void RegisterDatabase(IServiceCollection services)
-        {
-            UnRegister<DbContextOptions<MyContext>>(services);
-            services.AddDbContext<DbContext, MyContext>(options => options.UseNpgsql(MyConfigurations.MainConnectionString));
+            UnRegister<IConfigDatabase>(services);
+            services.AddSingleton<IConfigDatabase>(MyConfigurations);
         }
 
-        //Migrations
-        public void HandleMigrations(DbContext _context)
+        private void RegisterUnitOfWork(IServiceCollection services)
         {
-            _context.Database.EnsureDeleted();
-            int migrationsCount = _context.Database.GetAppliedMigrations().Count();
-            if (migrationsCount == 0) _context.Database.Migrate();
+            UnRegister<IUnitOfWork>(services);
+            Seed();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
-        private void SeedTestData(MyContext _context, string _clientKey, string _clientSecret)
-        {
-            Tenant tenant = new Tenant() { Name = "Test Tenant" };
-            var inserted = _context.Tenants.Add(tenant);
-            _context.SaveChanges();
 
-            Client client = new Client() { TenantId = inserted.Entity.Id, Name = "Test Client", ClientKey = _clientKey, ClientSecret = _clientSecret };
-            _context.Clients.Add(client);
-            _context.SaveChanges();
-        }
-        private void MigrateAndSeed(IServiceCollection services)
+        private void Seed()
         {
-            IServiceProvider serviceProvider = services.BuildServiceProvider();
-            MyContext context = serviceProvider.GetService<MyContext>() ?? throw new Exception("Error while applying migrations, Failed to get DbContext");
-            HandleMigrations(context);
-            SeedTestData(context, CLIENT_KEY, CLIENT_CLAIM);
+            UnitOfWork _context = new UnitOfWork(MyConfigurations);
+            Tenant tenant = new Tenant() { Name = HelperFunctions.RandomString(10) };
+            Tenant inserted = _context.TenantsRepository.Add(tenant).Result;
+            _context.Save().Wait();
+
+            Client client = new Client() { TenantId = inserted.Id, Name = HelperFunctions.RandomString(10), ClientKey = ClientKey, ClientSecret = ClientSecret };
+            _context.ClientsRepository.Add(client).Wait();
+            _context.Save().Wait();
         }
     }
 }

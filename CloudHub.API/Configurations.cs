@@ -3,15 +3,14 @@ using CloudHub.ServiceProvider;
 
 namespace CloudHub.API
 {
-    public class CloudHubApiConfigurations : IConfigOAuthService, IEnvironmentInfo
+    internal class CloudHubApiConfigurations : IConfigOAuthService, IConfigDatabase, IEnvironmentInfo
     {
         public string EnvironmentName { get; set; } = null!;
         public string BuildId { get; set; } = null!;
         public bool IsProduction { get; set; } = false;
-        public string MainConnectionString { get; set; } = null!;
+        public string ConnectionString { get; set; } = null!;
         public string GoogleOAuthUrl { get; set; } = null!;
-
-
+    
         public static CloudHubApiConfigurations Load(ConfigurationManager configurationManager)
         {
             T GetOrThrow<T>(string key)
@@ -29,7 +28,7 @@ namespace CloudHub.API
                 IsProduction = isProduction,
                 EnvironmentName = envName,
                 GoogleOAuthUrl = googleTokenInfoApiUrl,
-                MainConnectionString = mainConnectionString
+                ConnectionString = mainConnectionString
             };
             return configurations;
         }
