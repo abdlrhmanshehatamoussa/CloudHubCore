@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Domain", "CloudHub
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Utils", "CloudHub.Utils\CloudHub.Utils.csproj", "{267BDDBA-85DC-4D17-9C67-7D3EB77989D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Infra", "CloudHub.Infra\CloudHub.Infra.csproj", "{2E981353-5001-4E17-B63C-15A83695EE98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.ServiceProvider", "CloudHub.Infra\CloudHub.ServiceProvider.csproj", "{2E981353-5001-4E17-B63C-15A83695EE98}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Tests.Integration", "CloudHub.Tests.Integration\CloudHub.Tests.Integration.csproj", "{F1EABB2A-31AC-42FA-A569-78064DB59EA8}"
 EndProject
