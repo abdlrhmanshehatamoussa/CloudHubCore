@@ -1,7 +1,7 @@
 ﻿using CloudHub.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CloudHub.Infra.Data
+namespace CloudHub.ServiceProvider.Data
 {
     internal abstract class LookupMapper<T, E> : IBaseMapper where T : class, ITrackableEntity, ILookupEntity<E> where E : struct
     {

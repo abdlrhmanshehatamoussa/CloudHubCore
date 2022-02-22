@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CloudHub.Infra.Data
+namespace CloudHub.ServiceProvider.Data
 {
     internal class FeatureMapper : BaseMapper<Feature>
     {

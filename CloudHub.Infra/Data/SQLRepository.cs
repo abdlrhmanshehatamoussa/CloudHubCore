@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 
-namespace CloudHub.Infra.Data
+namespace CloudHub.ServiceProvider.Data
 {
 
-    public class SQLRepository<T> : IRepository<T> where T : class
+    internal class SQLRepository<T> : IRepository<T> where T : class
     {
         public SQLRepository(DbContext context) => _context = context;
 

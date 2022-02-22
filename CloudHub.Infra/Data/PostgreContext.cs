@@ -1,7 +1,7 @@
 ﻿using CloudHub.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CloudHub.Infra.Data
+namespace CloudHub.ServiceProvider.Data
 {
     public partial class PostgreContext : DbContext
     {

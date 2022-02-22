@@ -75,6 +75,7 @@ namespace CloudHub.Tests.Unit
                     ClientClaim = SecurityHelper.EncryptAES(client.ClientKey, client.ClientSecret),
                     Nonce = nonce1.Token
                 };
+                
                 UserToken token = await UserService.Login(credentials, new CreateLoginDTO(
                     email,
                     password,

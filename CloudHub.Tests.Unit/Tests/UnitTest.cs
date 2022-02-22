@@ -1,20 +1,18 @@
 ﻿using CloudHub.Domain.Services;
-using CloudHub.ServiceImp.OAuth;
+using Moq;
 
 namespace CloudHub.Tests.Unit
 {
     internal class UnitTest
     {
-        protected readonly TestUnitOfWork UnitOfWork;
-        protected readonly UserService UserService;
-        protected readonly IOAuthService AuthenticationService;
-
-        public UnitTest()
+        protected readonly TestUnitOfWork UnitOfWork = new TestUnitOfWork();
+        protected UserService UserService
         {
-            UnitOfWork = new TestUnitOfWork();
-            AuthenticationService = new OAuthService("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=");
-            UserService = new(UnitOfWork, AuthenticationService);
+            get
+            {
+                IOAuthService authService = new Mock<IOAuthService>().Object;
+                return new(UnitOfWork, authService);
+            }
         }
-
     }
 }

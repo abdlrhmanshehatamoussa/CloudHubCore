@@ -1,5 +1,5 @@
 ﻿using CloudHub.Domain.Services;
-using CloudHub.ServiceImp.OAuth;
+using CloudHub.ServiceProvider;
 
 namespace CloudHub.API.Startup
 {

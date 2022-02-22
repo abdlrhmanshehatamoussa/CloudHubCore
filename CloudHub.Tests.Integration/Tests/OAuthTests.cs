@@ -1,21 +1,22 @@
 ﻿using CloudHub.Domain.Models;
+using CloudHub.ServiceProvider;
 using NUnit.Framework;
 using System;
 
-namespace CloudHub.Tests.Unit
+namespace CloudHub.Tests.Integration
 {
-    internal class OAuthTests : UnitTest
+    internal class OAuthTests
     {
+        protected OAuthService oAuthService = new OAuthService("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=");
 
         [Test]
         public void UnRegisteredOAuthExtractor()
         {
+            string testToken = "";
             Exception? ex = Assert.ThrowsAsync<Exception>(async () =>
             {
-                string testToken = "ya29.a0ARrdaM-3GuDHx8FqkLg56ObadhGgKMCaFcKLdLAmVc5P184DlypEB9aSiovD_9VmdlfhnHulgm3FiA0UPlaBbhYy_kb-zTrlPo-YiDebHc5OPYRqC0V5pmXgclo98DGMtH0M-L7iZC2yphrbSK-zl6ZY24kW5R0";
-                OAuthUser? user = await AuthenticationService.GetUserByToken(testToken, ELoginTypes.LOGIN_TYPE_FACEBOOK);
+                OAuthUser? user = await oAuthService.GetUserByToken(testToken, ELoginTypes.LOGIN_TYPE_FACEBOOK);
             });
-
             Assert.That(ex?.Message.Contains("LOGIN_TYPE_FACEBOOK") == true);
         }
 

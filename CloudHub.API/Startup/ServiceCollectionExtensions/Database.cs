@@ -1,5 +1,6 @@
 ﻿using CloudHub.Domain.Services;
-using CloudHub.Infra.Data;
+using CloudHub.ServiceProvider;
+using CloudHub.ServiceProvider.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace CloudHub.API.Startup
@@ -10,6 +11,12 @@ namespace CloudHub.API.Startup
         {
             builder.Services.AddScoped<IUnitOfWork, SQLUnitOfWork>();
             builder.Services.AddDbContext<DbContext, PostgreContext>(options => options.UseNpgsql(configurations.MainConnectionString));
+
+            //Migration
+            IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
+            PostgreContext context = serviceProvider.GetService<PostgreContext>() ?? throw new Exception("Error while applying migrations, Failed to get PostgreContext");
+            int migrationsCount = context.Database.GetAppliedMigrations().Count();
+            if (migrationsCount == 0) context.Database.Migrate();
         }
     }
 }

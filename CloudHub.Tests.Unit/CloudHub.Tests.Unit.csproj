@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CloudHub.Domain\CloudHub.Domain.csproj" />
-    <ProjectReference Include="..\CloudHub.ServiceImp\CloudHub.ServiceImp.csproj" />
     <ProjectReference Include="..\CloudHub.Utils\CloudHub.Utils.csproj" />
   </ItemGroup>
 

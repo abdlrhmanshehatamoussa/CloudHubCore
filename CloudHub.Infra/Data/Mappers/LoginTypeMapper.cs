@@ -1,5 +1,5 @@
 ﻿using CloudHub.Domain.Models;
-namespace CloudHub.Infra.Data
+namespace CloudHub.ServiceProvider.Data
 {
     internal class LoginTypeMapper : LookupMapper<LoginType, ELoginTypes>
     {

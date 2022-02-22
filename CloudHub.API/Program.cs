@@ -6,7 +6,6 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 CloudHubApiConfigurations configurations = builder.InjectConfigurations();
 builder.RegisterDbContext(configurations);
-builder.ApplyDbMigrations();
 builder.RegisterServiceImplementations(configurations);
 builder.RegisterDomainServices();
 builder.Services.AddControllers(options => options.Filters.Add<ConsumerCredentialsFilter>());

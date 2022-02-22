@@ -1,6 +1,6 @@
 ﻿using CloudHub.Domain.Models;
 
-namespace CloudHub.ServiceImp.OAuth
+namespace CloudHub.ServiceProvider.OAuth
 {
     internal interface IOAuthExtractor
     {

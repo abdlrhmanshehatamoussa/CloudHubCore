@@ -1,7 +1,7 @@
 ﻿using CloudHub.Domain.Models;
 using System.Text.Json;
 
-namespace CloudHub.ServiceImp.OAuth
+namespace CloudHub.ServiceProvider.OAuth
 {
     internal class GoogleOAuthExtractor : IOAuthExtractor
     {

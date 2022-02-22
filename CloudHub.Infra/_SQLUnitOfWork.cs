@@ -1,8 +1,9 @@
 ﻿using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
+using CloudHub.ServiceProvider.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace CloudHub.Infra.Data
+namespace CloudHub.ServiceProvider
 {
     public class SQLUnitOfWork : IUnitOfWork
     {

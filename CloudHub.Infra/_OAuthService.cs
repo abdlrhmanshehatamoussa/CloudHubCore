@@ -1,8 +1,9 @@
 ﻿using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
+using CloudHub.ServiceProvider.OAuth;
 using System.Net;
 
-namespace CloudHub.ServiceImp.OAuth
+namespace CloudHub.ServiceProvider
 {
 
     public class OAuthService : IOAuthService
@@ -23,8 +24,8 @@ namespace CloudHub.ServiceImp.OAuth
 
         public async Task<OAuthUser?> GetUserByToken(string token, ELoginTypes loginType)
         {
-            if (string.IsNullOrWhiteSpace(token)) { return null; }
             IOAuthExtractor extractor = GetExtractor(loginType);
+            if (string.IsNullOrWhiteSpace(token)) { return null; }
             HttpClient client = new();
             string url = extractor.BuildURL(token);
             HttpResponseMessage response = await client.GetAsync(url);

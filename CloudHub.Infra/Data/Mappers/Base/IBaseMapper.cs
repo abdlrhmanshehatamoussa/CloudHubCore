@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace CloudHub.Infra.Data
+namespace CloudHub.ServiceProvider.Data
 {
     internal interface IBaseMapper
     {

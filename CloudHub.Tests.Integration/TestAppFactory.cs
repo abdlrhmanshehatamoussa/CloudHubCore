@@ -1,6 +1,6 @@
 ﻿using CloudHub.API;
 using CloudHub.Domain.Models;
-using CloudHub.Infra.Data;
+using CloudHub.ServiceProvider.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;

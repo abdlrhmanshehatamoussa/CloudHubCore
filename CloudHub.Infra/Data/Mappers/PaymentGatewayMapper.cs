@@ -1,6 +1,6 @@
 ﻿using CloudHub.Domain.Models;
 
-namespace CloudHub.Infra.Data
+namespace CloudHub.ServiceProvider.Data
 {
     internal class PaymentGatewayMapper : LookupMapper<PaymentGateway, PaymentGatewayValues>
     {

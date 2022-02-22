@@ -1,6 +1,8 @@
 using CloudHub.Domain.DTO;
 using CloudHub.Domain.Models;
+using CloudHub.Domain.Services;
 using CloudHub.Utils;
+using Moq;
 using NUnit.Framework;
 using System;
 
@@ -66,7 +68,6 @@ namespace CloudHub.Tests.Unit
                     ClientClaim = SecurityHelper.EncryptAES(client.ClientKey, client.ClientSecret),
                     Nonce = nonce.Token
                 };
-
                 UserToken response = await UserService.Login(credentials, new CreateLoginDTO(
                     email,
                     password,
