@@ -7,19 +7,18 @@ namespace CloudHub.API.Controllers
     [Route("ping")]
     public class PingController : BasicController
     {
-        public PingController(CloudHubApiConfigurations configurations) => this.configurations = configurations;
+        public PingController(IEnvironmentInfo env) => _env = env;
 
-        private readonly CloudHubApiConfigurations configurations;
+        private readonly IEnvironmentInfo _env;
 
         [HttpGet]
         public PingResponseContract Ping()
         {
             return new PingResponseContract(
                 timestamp: DateTime.Now.ToString(),
-                build_id: configurations.BuildId,
-                production_mode: configurations.IsProductionModeEnabled,
-                environment: configurations.EnvironmentName
-                );
+                build_id: _env.BuildId,
+                production_mode: _env.IsProduction,
+                environment: _env.EnvironmentName);
         }
     }
 }

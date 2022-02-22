@@ -5,12 +5,15 @@ using System.Net;
 
 namespace CloudHub.ServiceProvider
 {
-
+    public interface IConfigOAuthService
+    {
+        public string GoogleOAuthUrl { get; set; }
+    }
     public class OAuthService : IOAuthService
     {
-        public OAuthService(string googleOAuthURL)
+        public OAuthService(IConfigOAuthService configurations)
         {
-            GoogleOAuthExtractor googleOAuthExtractor = new GoogleOAuthExtractor(googleOAuthURL);
+            GoogleOAuthExtractor googleOAuthExtractor = new GoogleOAuthExtractor(configurations.GoogleOAuthUrl);
             this.Extractors.Add(ELoginTypes.LOGIN_TYPE_GOOGLE, googleOAuthExtractor);
         }
 

@@ -1,16 +1,14 @@
 ﻿using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
 using CloudHub.ServiceProvider.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace CloudHub.ServiceProvider
 {
     public class SQLUnitOfWork : IUnitOfWork
     {
-        private readonly DbContext _dbContext;
-
-        public SQLUnitOfWork(DbContext context) => _dbContext = context;
-
+        public SQLUnitOfWork(PostgreContext dbContext) => _dbContext = dbContext;
+        
+        private readonly PostgreContext _dbContext;
 
         public IRepository<User> UsersRepository => new SQLRepository<User>(_dbContext);
         public IRepository<Client> ClientsRepository => new SQLRepository<Client>(_dbContext);

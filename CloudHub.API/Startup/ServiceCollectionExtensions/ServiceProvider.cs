@@ -5,9 +5,9 @@ namespace CloudHub.API.Startup
 {
     public static partial class ServiceCollectionExtensions
     {
-        public static void RegisterServiceImplementations(this WebApplicationBuilder builder, CloudHubApiConfigurations configurations)
+        public static void RegisterServiceImplementations(this WebApplicationBuilder builder)
         {
-            builder.Services.AddSingleton<IOAuthService, OAuthService>(o => new OAuthService(configurations.GoogleOAuthUrl));
+            builder.Services.AddSingleton<IOAuthService, OAuthService>();
         }
     }
 }

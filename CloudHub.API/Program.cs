@@ -3,16 +3,17 @@ using CloudHub.API.Filters;
 using CloudHub.API.Startup;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+CloudHubApiConfigurations configurations = CloudHubApiConfigurations.Load(builder.Configuration);
 
-CloudHubApiConfigurations configurations = builder.InjectConfigurations();
+builder.InjectConfigurations(configurations);
 builder.RegisterDbContext(configurations);
-builder.RegisterServiceImplementations(configurations);
+builder.RegisterServiceImplementations();
 builder.RegisterDomainServices();
 builder.Services.AddControllers(options => options.Filters.Add<ConsumerCredentialsFilter>());
-builder.ConfigureSwaggerServices(configurations);
+if (!configurations.IsProduction) builder.ConfigureSwaggerServices();
 
 WebApplication app = builder.Build();
-app.ConfigureSwagger(configurations);
+if (!configurations.IsProduction) app.ConfigureSwagger();
 app.UseMiddleware<ErrorMiddleware>();
 app.MapControllers();
 

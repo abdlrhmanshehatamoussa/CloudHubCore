@@ -2,13 +2,10 @@
 {
     public static partial class ServiceCollectionExtensions
     {
-        public static void ConfigureSwaggerServices(this WebApplicationBuilder builder, CloudHubApiConfigurations settings)
+        public static void ConfigureSwaggerServices(this WebApplicationBuilder builder)
         {
-            if (settings.IsProductionModeEnabled == false)
-            {
-                builder.Services.AddEndpointsApiExplorer();
-                builder.Services.AddSwaggerGen();
-            }
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
         }
     }
 }

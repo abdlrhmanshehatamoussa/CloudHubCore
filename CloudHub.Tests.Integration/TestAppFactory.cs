@@ -1,5 +1,6 @@
 ﻿using CloudHub.API;
 using CloudHub.Domain.Models;
+using CloudHub.ServiceProvider;
 using CloudHub.ServiceProvider.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -25,7 +26,7 @@ namespace CloudHub.Tests.Integration
             EnvironmentName = ENV_NAME,
             GoogleOAuthUrl = "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=",
             MainConnectionString = "Host=127.0.0.1;Database=cloudhub-integration-tests;Username=postgres;Password=123456",
-            IsProductionModeEnabled = false,
+            IsProduction = false,
         };
 
 
@@ -58,8 +59,11 @@ namespace CloudHub.Tests.Integration
 
         private void InjectConfigurations(IServiceCollection services)
         {
-            UnRegister<CloudHubApiConfigurations>(services);
-            services.AddSingleton(MyConfigurations);
+            UnRegister<IConfigOAuthService>(services);
+            services.AddSingleton<IConfigOAuthService>(MyConfigurations);
+            
+            UnRegister<IEnvironmentInfo>(services);
+            services.AddSingleton<IEnvironmentInfo>(MyConfigurations);
         }
         
 
