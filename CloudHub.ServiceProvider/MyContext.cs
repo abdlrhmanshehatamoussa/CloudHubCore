@@ -1,11 +1,16 @@
 ﻿using CloudHub.Domain.Models;
+using CloudHub.ServiceProvider.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace CloudHub.ServiceProvider.Data
+namespace CloudHub.ServiceProvider
 {
-    public partial class PostgreContext : DbContext
+    public interface IConfigDatabase
     {
-        public PostgreContext(DbContextOptions<PostgreContext> options) : base(options) { }
+
+    }
+    public partial class MyContext : DbContext
+    {
+        public MyContext(DbContextOptions<MyContext> options) : base(options) { }
 
         public virtual DbSet<Client> Clients { get; set; } = null!;
         public virtual DbSet<Feature> Features { get; set; } = null!;

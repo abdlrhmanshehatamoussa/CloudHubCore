@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 namespace CloudHub.ServiceProvider.Data
 {
 
-    internal class SQLRepository<T> : IRepository<T> where T : class
+    internal class GenericRepository<T> : IRepository<T> where T : class
     {
-        public SQLRepository(DbContext context) => _context = context;
+        public GenericRepository(DbContext context) => _context = context;
 
 
         private readonly DbContext _context;

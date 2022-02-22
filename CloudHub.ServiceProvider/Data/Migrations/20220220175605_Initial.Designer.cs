@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CloudHub.ServiceProvider.Data
 {
-    [DbContext(typeof(PostgreContext))]
+    [DbContext(typeof(MyContext))]
     [Migration("20220220175605_Initial")]
     partial class Initial
     {

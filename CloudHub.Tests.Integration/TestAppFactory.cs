@@ -70,8 +70,8 @@ namespace CloudHub.Tests.Integration
         //Database
         private void RegisterDatabase(IServiceCollection services)
         {
-            UnRegister<DbContextOptions<PostgreContext>>(services);
-            services.AddDbContext<DbContext, PostgreContext>(options => options.UseNpgsql(MyConfigurations.MainConnectionString));
+            UnRegister<DbContextOptions<MyContext>>(services);
+            services.AddDbContext<DbContext, MyContext>(options => options.UseNpgsql(MyConfigurations.MainConnectionString));
         }
 
         //Migrations
@@ -81,7 +81,7 @@ namespace CloudHub.Tests.Integration
             int migrationsCount = _context.Database.GetAppliedMigrations().Count();
             if (migrationsCount == 0) _context.Database.Migrate();
         }
-        private void SeedTestData(PostgreContext _context, string _clientKey, string _clientSecret)
+        private void SeedTestData(MyContext _context, string _clientKey, string _clientSecret)
         {
             Tenant tenant = new Tenant() { Name = "Test Tenant" };
             var inserted = _context.Tenants.Add(tenant);
@@ -94,7 +94,7 @@ namespace CloudHub.Tests.Integration
         private void MigrateAndSeed(IServiceCollection services)
         {
             IServiceProvider serviceProvider = services.BuildServiceProvider();
-            PostgreContext context = serviceProvider.GetService<PostgreContext>() ?? throw new Exception("Error while applying migrations, Failed to get DbContext");
+            MyContext context = serviceProvider.GetService<MyContext>() ?? throw new Exception("Error while applying migrations, Failed to get DbContext");
             HandleMigrations(context);
             SeedTestData(context, CLIENT_KEY, CLIENT_CLAIM);
         }
