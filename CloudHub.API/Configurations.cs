@@ -7,7 +7,7 @@ namespace CloudHub.API
     {
         public string EnvironmentName { get; set; } = null!;
         public string BuildId { get; set; } = null!;
-        public bool IsProduction { get; set; } = false;
+        public bool IsProduction { get; set; } = true;
         public string ConnectionString { get; set; } = null!;
         public string GoogleOAuthUrl { get; set; } = null!;
     
