@@ -6,14 +6,15 @@ namespace CloudHub.ServiceProvider
 {
     public class EncryptionService : IEncryptionService
     {
+        //TODO: Implement Encryption
         public string Decrypt(string message, string key)
         {
-            return message;
+            return message.Replace("|" + key, "");
         }
 
         public string Encrypt(string message, string key)
         {
-            return message;
+            return message + "|" + key;
         }
 
         public string Hash(string text)
