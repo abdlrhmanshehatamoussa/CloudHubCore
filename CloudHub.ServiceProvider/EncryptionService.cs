@@ -7,9 +7,11 @@ namespace CloudHub.ServiceProvider
     public class EncryptionService : IEncryptionService
     {
         //TODO: Implement Encryption
-        public string Decrypt(string message, string key)
+        public string? Decrypt(string message, string key)
         {
-            return message.Replace("|" + key, "");
+            string searchfor = "|" + key;
+            if (!message.Contains(searchfor)) return null;
+            return message.Replace(searchfor, "");
         }
 
         public string Encrypt(string message, string key)

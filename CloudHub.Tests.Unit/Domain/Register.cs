@@ -2,7 +2,6 @@
 using CloudHub.Domain.Models;
 using CloudHub.Utils;
 using NUnit.Framework;
-using System;
 using System.Threading.Tasks;
 
 namespace CloudHub.Tests.Unit.Domain
@@ -13,31 +12,18 @@ namespace CloudHub.Tests.Unit.Domain
         public async Task HappyScenario()
         {
             //Arrange
-            Client client = new()
-            {
-                Name = "testclient",
-                ClientKey = Guid.NewGuid().ToString(),
-                ClientSecret = Guid.NewGuid().ToString(),
-                Tenant = new() { Id = 1, Name = "Tenant 1" },
-                TenantId = 1
-            };
+            Client client = NewClient();
             await UnitOfWork.ClientsRepository.Add(client);
             await UnitOfWork.Save();
 
-            Nonce nonce = new()
-            {
-                Token = Guid.NewGuid().ToString(),
-                ClientId = client.Id,
-                CreatedOn = DateTime.Now
-            };
+            Nonce nonce = NewNonce(client.Id);
             await UnitOfWork.NoncesRepository.Add(nonce);
             await UnitOfWork.Save();
 
             ConsumerCredentials credentials = new()
             {
                 ClientKey = client.ClientKey,
-                ClientClaim = EncryptionService.Encrypt(client.ClientKey, client.ClientSecret),
-                Nonce = nonce.Token
+                Nonce = EncryptionService.Encrypt(nonce.Token, client.ClientSecret)
             };
             string random = HelperFunctions.RandomString(8);
             string password = HelperFunctions.RandomString(10);

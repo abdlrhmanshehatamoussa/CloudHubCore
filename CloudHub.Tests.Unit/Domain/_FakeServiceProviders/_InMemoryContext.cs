@@ -12,7 +12,7 @@ namespace CloudHub.Tests.Unit.Domain
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseInMemoryDatabase(HelperFunctions.RandomString(10));
+            optionsBuilder.UseInMemoryDatabase(HelperFunctions.RandomString(20));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

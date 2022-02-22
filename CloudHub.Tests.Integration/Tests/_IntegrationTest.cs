@@ -1,6 +1,7 @@
 ﻿using CloudHub.API.Contracts;
+using CloudHub.Domain.Services;
+using CloudHub.ServiceProvider;
 using CloudHub.Utils;
-using Microsoft.AspNetCore.Mvc.Testing;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Net;
@@ -12,11 +13,15 @@ namespace CloudHub.Tests.Integration
     internal class IntegrationTest
     {
         protected readonly HttpClient Client;
+        public readonly string ClientKey;
+        public readonly string ClientSecret;
 
         public IntegrationTest()
         {
-            WebApplicationFactory<Program> factory = new TestAppFactory();
+            TestAppFactory factory = new TestAppFactory();
             Client = factory.CreateClient();
+            ClientKey = factory.ClientKey;
+            ClientSecret = factory.ClientSecret;
         }
 
         protected async Task<string> GetNonce()
@@ -30,7 +35,9 @@ namespace CloudHub.Tests.Integration
 
         protected Dictionary<string, string> BuildHeaders(string nonce, string? userToken = null)
         {
-            var headers = new Dictionary<string, string>() { { "nonce", nonce } };
+            IEncryptionService encryptionService = new EncryptionService();
+            string? encryptedNonce = encryptionService.Encrypt(nonce, ClientSecret);
+            var headers = new Dictionary<string, string>() { { "nonce", encryptedNonce } };
             if (userToken != null) headers.Add("user-token", userToken);
             return headers;
         }

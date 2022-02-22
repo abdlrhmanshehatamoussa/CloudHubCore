@@ -13,15 +13,13 @@ namespace CloudHub.Tests.Integration
 {
     internal class TestAppFactory : WebApplicationFactory<Program>
     {
-        private readonly string ClientKey;
-        private readonly string ClientSecret;
-        private readonly IEncryptionService EncryptionService;
+        public readonly string ClientKey;
+        public readonly string ClientSecret;
 
         public TestAppFactory()
         {
             ClientKey = Guid.NewGuid().ToString();
             ClientSecret = Guid.NewGuid().ToString();
-            this.EncryptionService = new EncryptionService();
         }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -36,8 +34,9 @@ namespace CloudHub.Tests.Integration
         protected override void ConfigureClient(HttpClient client)
         {
             base.ConfigureClient(client);
+            IEncryptionService encryptionService = new EncryptionService();
             client.DefaultRequestHeaders.Add("client-key", ClientKey);
-            client.DefaultRequestHeaders.Add("client-claim", EncryptionService.Encrypt(ClientKey, ClientSecret));
+            client.DefaultRequestHeaders.Add("client-claim", encryptionService.Encrypt(ClientKey, ClientSecret));
         }
 
         private void SeedTestData(IServiceCollection services)

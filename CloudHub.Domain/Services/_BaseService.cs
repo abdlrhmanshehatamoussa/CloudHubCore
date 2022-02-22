@@ -23,7 +23,7 @@ namespace CloudHub.Domain.Services
             Client? client = await _unitOfWork.ClientsRepository.FirstWhere(c => c.ClientKey == credentials.ClientKey, c => c.Tenant);
             if (client == null) { throw new NotAuthenticatedException(); }
 
-            string decryptedNonce = _encryptionService.Decrypt(credentials.Nonce, client.ClientSecret);
+            string? decryptedNonce = _encryptionService.Decrypt(credentials.Nonce, client.ClientSecret);
             Nonce? nonce = await _unitOfWork.NoncesRepository.FirstWhere(n => n.Token == decryptedNonce && n.ClientId == client.Id, n => n.Client);
             if (nonce == null) { throw new InvalidNonceException(); }
             if (nonce.ConsumedOn.HasValue) { throw new ConsumedNonceException(); }
