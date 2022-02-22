@@ -2,13 +2,12 @@ using CloudHub.Domain.DTO;
 using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
 using CloudHub.Utils;
-using Moq;
 using NUnit.Framework;
 using System;
 
-namespace CloudHub.Tests.Unit
+namespace CloudHub.Tests.Unit.Domain
 {
-    internal class LoginTests: UnitTest
+    internal class LoginTests: DomainUnitTest
     {
         [Test]
         public void HappyScenario()
@@ -47,7 +46,7 @@ namespace CloudHub.Tests.Unit
                 {
                     Email = email,
                     Name = random,
-                    GlobalId = SecurityHelper.Hash256(random + email),
+                    GlobalId = EncryptionService.Hash(random + email),
                     TenantId = client.TenantId
                 };
                 await UnitOfWork.UsersRepository.Add(user);
@@ -65,7 +64,7 @@ namespace CloudHub.Tests.Unit
                 ConsumerCredentials credentials = new()
                 {
                     ClientKey = client.ClientKey,
-                    ClientClaim = SecurityHelper.EncryptAES(client.ClientKey, client.ClientSecret),
+                    ClientClaim = EncryptionService.Encrypt(client.ClientKey, client.ClientSecret),
                     Nonce = nonce.Token
                 };
                 UserToken response = await UserService.Login(credentials, new CreateLoginDTO(

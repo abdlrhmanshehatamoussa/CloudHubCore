@@ -5,7 +5,7 @@ namespace CloudHub.Domain.Services
 {
     public class PurchaseService : BaseService
     {
-        public PurchaseService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+        public PurchaseService(IUnitOfWork unitOfWork, IEncryptionService encryptionService) : base(unitOfWork, encryptionService) { }
 
         public async Task<List<Purchase>> FetchAll(ConsumerCredentials consumerCredentials)
         {

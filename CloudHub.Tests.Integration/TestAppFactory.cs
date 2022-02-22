@@ -29,11 +29,13 @@ namespace CloudHub.Tests.Integration
 
         private readonly string ClientKey;
         private readonly string ClientSecret;
+        private readonly IEncryptionService EncryptionService;
 
         public TestAppFactory()
         {
             ClientKey = Guid.NewGuid().ToString();
             ClientSecret = Guid.NewGuid().ToString();
+            this.EncryptionService = new EncryptionService();
         }
 
         protected readonly TestConfigurations MyConfigurations = new()
@@ -55,7 +57,7 @@ namespace CloudHub.Tests.Integration
         {
             base.ConfigureClient(client);
             client.DefaultRequestHeaders.Add("client-key", ClientKey);
-            client.DefaultRequestHeaders.Add("client-claim", SecurityHelper.EncryptAES(ClientKey, ClientSecret));
+            client.DefaultRequestHeaders.Add("client-claim", EncryptionService.Encrypt(ClientKey, ClientSecret));
         }
 
         private void RegisterServices(IServiceCollection services)

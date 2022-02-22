@@ -1,14 +1,20 @@
 ﻿using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Models;
-using CloudHub.Utils;
 
 namespace CloudHub.Domain.Services
 {
     public class NonceService
     {
-        public NonceService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        
 
         protected readonly IUnitOfWork _unitOfWork;
+        protected readonly IEncryptionService _encryptionService;
+
+        public NonceService(IUnitOfWork unitOfWork, IEncryptionService encryptionService)
+        {
+            _unitOfWork = unitOfWork;
+            _encryptionService = encryptionService;
+        }
 
         public async Task<Nonce> GenereateNonce(ConsumerCredentials credentials)
         {
@@ -16,7 +22,7 @@ namespace CloudHub.Domain.Services
             Client? client = await _unitOfWork.ClientsRepository.FirstWhere(c => c.ClientKey == credentials.ClientKey);
             if (client == null) { throw new NotAuthenticatedException(); }
 
-            string decryptedClientClaim = SecurityHelper.DecryptAES(credentials.ClientClaim, client.ClientSecret);
+            string decryptedClientClaim = _encryptionService.Decrypt(credentials.ClientClaim, client.ClientSecret);
             if (decryptedClientClaim != credentials.ClientKey) { throw new NotAuthenticatedException(); }
             Nonce nonce = new();
             nonce.ClientId = client.Id;

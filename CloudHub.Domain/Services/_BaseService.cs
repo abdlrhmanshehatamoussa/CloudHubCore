@@ -1,18 +1,19 @@
 ﻿using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Models;
-using CloudHub.Utils;
 
 namespace CloudHub.Domain.Services
 {
     public class BaseService
     {
-        public BaseService(IUnitOfWork unitOfWork)
+        public BaseService(IUnitOfWork unitOfWork, IEncryptionService encryptionService)
         {
             _unitOfWork = unitOfWork;
+            _encryptionService = encryptionService;
         }
 
 
         protected readonly IUnitOfWork _unitOfWork;
+        protected readonly IEncryptionService _encryptionService;
 
 
         internal async Task<Consumer> GetConsumer(ConsumerCredentials credentials)
@@ -22,7 +23,7 @@ namespace CloudHub.Domain.Services
             Client? client = await _unitOfWork.ClientsRepository.FirstWhere(c => c.ClientKey == credentials.ClientKey, c => c.Tenant);
             if (client == null) { throw new NotAuthenticatedException(); }
 
-            string decryptedNonce = SecurityHelper.DecryptAES(credentials.Nonce, client.ClientSecret);
+            string decryptedNonce = _encryptionService.Decrypt(credentials.Nonce, client.ClientSecret);
             Nonce? nonce = await _unitOfWork.NoncesRepository.FirstWhere(n => n.Token == decryptedNonce && n.ClientId == client.Id, n => n.Client);
             if (nonce == null) { throw new InvalidNonceException(); }
             if (nonce.ConsumedOn.HasValue) { throw new ConsumedNonceException(); }

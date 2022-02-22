@@ -6,7 +6,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 
-namespace CloudHub.Tests.Unit
+namespace CloudHub.Tests.Unit.Domain
 {
     public partial class InMemoryContext : DbContext
     {

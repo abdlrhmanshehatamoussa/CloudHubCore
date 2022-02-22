@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace CloudHub.Tests.Unit
+namespace CloudHub.Tests.Unit.Domain
 {
     public class FetchPublicTests
     {

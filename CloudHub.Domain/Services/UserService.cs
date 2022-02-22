@@ -1,14 +1,13 @@
 ﻿using CloudHub.Domain.DTO;
 using CloudHub.Domain.Exceptions;
 using CloudHub.Domain.Models;
-using CloudHub.Utils;
 
 
 namespace CloudHub.Domain.Services
 {
     public class UserService : BaseService
     {
-        public UserService(IUnitOfWork unitOfWork, IOAuthService oAuthService) : base(unitOfWork) => _oAuthService = oAuthService;
+        public UserService(IUnitOfWork unitOfWork, IOAuthService oAuthService, IEncryptionService encryptionService) : base(unitOfWork,encryptionService) => _oAuthService = oAuthService;
 
         private readonly IOAuthService _oAuthService;
 
@@ -44,7 +43,7 @@ namespace CloudHub.Domain.Services
                 TenantId = consumer.Client.TenantId
             };
             double timeStamp = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
-            user.GlobalId = SecurityHelper.Hash256(String.Format("{0}{1}", dto.email, timeStamp));
+            user.GlobalId = _encryptionService.Hash(string.Format("{0}{1}", dto.email, timeStamp));
 
             user = await _unitOfWork.UsersRepository.Add(user);
 

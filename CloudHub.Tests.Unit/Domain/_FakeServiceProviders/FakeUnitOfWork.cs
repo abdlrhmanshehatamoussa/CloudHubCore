@@ -3,9 +3,9 @@ using CloudHub.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-namespace CloudHub.Tests.Unit
+namespace CloudHub.Tests.Unit.Domain
 {
-    public class TestUnitOfWork : IUnitOfWork
+    internal class FakeUnitOfWork : IUnitOfWork
     {
         private readonly DbContext _dbContext = new InMemoryContext();
 

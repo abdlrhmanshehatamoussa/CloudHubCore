@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CloudHub.Tests.Unit
+namespace CloudHub.Tests.Unit.Domain
 {
     public class TestRepository<T> : IRepository<T> where T : class
     {

@@ -6,7 +6,7 @@ namespace CloudHub.Domain.Services
 {
     public class PublicDataService : BaseService
     {
-        public PublicDataService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+        public PublicDataService(IUnitOfWork unitOfWork, IEncryptionService encryptionService) : base(unitOfWork, encryptionService) { }
 
         public async Task<List<PublicDocument>> FetchAll(ConsumerCredentials credentials, string collectionName)
         {

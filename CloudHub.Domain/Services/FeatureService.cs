@@ -4,7 +4,7 @@ namespace CloudHub.Domain.Services
 {
     public class FeatureService : BaseService
     {
-        public FeatureService(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+        public FeatureService(IUnitOfWork unitOfWork, IEncryptionService encryptionService) : base(unitOfWork, encryptionService) { }
 
         public async Task<List<Feature>> Fetch(ConsumerCredentials consumerCredentials)
         {
