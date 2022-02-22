@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Domain", "CloudHub
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Utils", "CloudHub.Utils\CloudHub.Utils.csproj", "{267BDDBA-85DC-4D17-9C67-7D3EB77989D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.ServiceProvider", "CloudHub.Infra\CloudHub.ServiceProvider.csproj", "{2E981353-5001-4E17-B63C-15A83695EE98}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Tests.Integration", "CloudHub.Tests.Integration\CloudHub.Tests.Integration.csproj", "{F1EABB2A-31AC-42FA-A569-78064DB59EA8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.Tests.Unit", "CloudHub.Tests.Unit\CloudHub.Tests.Unit.csproj", "{D1160AB1-13C7-48AB-BC25-A5932FDA1C62}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudHub.ServiceProvider", "CloudHub.ServiceProvider\CloudHub.ServiceProvider.csproj", "{E11B4DA4-A841-4A32-B4BD-A601F1B5C6B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,6 @@ Global
 		{267BDDBA-85DC-4D17-9C67-7D3EB77989D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{267BDDBA-85DC-4D17-9C67-7D3EB77989D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{267BDDBA-85DC-4D17-9C67-7D3EB77989D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E981353-5001-4E17-B63C-15A83695EE98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E981353-5001-4E17-B63C-15A83695EE98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E981353-5001-4E17-B63C-15A83695EE98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E981353-5001-4E17-B63C-15A83695EE98}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F1EABB2A-31AC-42FA-A569-78064DB59EA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F1EABB2A-31AC-42FA-A569-78064DB59EA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1EABB2A-31AC-42FA-A569-78064DB59EA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{D1160AB1-13C7-48AB-BC25-A5932FDA1C62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1160AB1-13C7-48AB-BC25-A5932FDA1C62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1160AB1-13C7-48AB-BC25-A5932FDA1C62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E11B4DA4-A841-4A32-B4BD-A601F1B5C6B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E11B4DA4-A841-4A32-B4BD-A601F1B5C6B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E11B4DA4-A841-4A32-B4BD-A601F1B5C6B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E11B4DA4-A841-4A32-B4BD-A601F1B5C6B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,8 +8,7 @@ WORKDIR /src
 COPY ["CloudHub.API/CloudHub.API.csproj", "CloudHub.API/"]
 COPY ["CloudHub.Domain/CloudHub.Domain.csproj", "CloudHub.Domain/"]
 COPY ["CloudHub.Utils/CloudHub.Utils.csproj", "CloudHub.Utils/"]
-COPY ["CloudHub.Infra/CloudHub.Infra.csproj", "CloudHub.Infra/"]
-COPY ["CloudHub.ServiceImp/CloudHub.ServiceImp.csproj", "CloudHub.ServiceImp/"]
+COPY ["CloudHub.ServiceProvider/CloudHub.ServiceProvider.csproj", "CloudHub.ServiceProvider/"]
 RUN dotnet restore "CloudHub.API/CloudHub.API.csproj"
 COPY . .
 WORKDIR "/src/CloudHub.API"
