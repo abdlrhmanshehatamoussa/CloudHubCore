@@ -20,7 +20,7 @@ namespace CloudHub.Tests.Integration
             string nonce = await GetNonce();
 
             //Act
-            HttpResponseMessage response2 = await Client.PostAsyncJson("users", registerContract, BuildHeaders(nonce));
+            HttpResponseMessage response2 = await _myHttpClient.PostAsyncJson("users", registerContract, BuildHeaders(nonce));
 
             //Assert
             Assert.That(response2.IsSuccessStatusCode, Is.True);
@@ -34,7 +34,7 @@ namespace CloudHub.Tests.Integration
 
             //Act
             LoginRequestContract loginContract = new LoginRequestContract(email, password, loginType);
-            HttpResponseMessage response3 = await Client.PostAsyncJson("users/login", loginContract, BuildHeaders(nonce));
+            HttpResponseMessage response3 = await _myHttpClient.PostAsyncJson("users/login", loginContract, BuildHeaders(nonce));
 
             //Assert
             Assert.That(response3.IsSuccessStatusCode, Is.True);
@@ -49,7 +49,7 @@ namespace CloudHub.Tests.Integration
             string userToken = loginResponse.user_token;
 
             //Act
-            HttpResponseMessage response4 = await Client.GetAsyncCustom("users", BuildHeaders(nonce, userToken));
+            HttpResponseMessage response4 = await _myHttpClient.GetAsyncCustom("users", BuildHeaders(nonce, userToken));
             LoginResponseContract fetchResponse = await response4.Parse<LoginResponseContract>();
 
             //Assert

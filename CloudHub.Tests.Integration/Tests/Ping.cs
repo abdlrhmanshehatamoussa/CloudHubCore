@@ -12,7 +12,7 @@ namespace CloudHub.Tests.Integration
         public async Task Ping_Success()
         {
             //Act
-            var response = await Client.GetAsync("/ping");
+            var response = await _myHttpClient.GetAsync("/ping");
 
             //Assert
             Assert.True(response.StatusCode == HttpStatusCode.OK);

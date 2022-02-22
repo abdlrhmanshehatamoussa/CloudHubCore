@@ -1,7 +1,6 @@
 ﻿using CloudHub.Domain.Models;
 using CloudHub.Domain.Services;
 using CloudHub.ServiceProvider;
-using CloudHub.Utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -13,14 +12,9 @@ namespace CloudHub.Tests.Integration
 {
     internal class TestAppFactory : WebApplicationFactory<Program>
     {
-        public readonly string ClientKey;
-        public readonly string ClientSecret;
-
-        public TestAppFactory()
-        {
-            ClientKey = Guid.NewGuid().ToString();
-            ClientSecret = Guid.NewGuid().ToString();
-        }
+        public TestAppFactory(Client client) => _client = client;
+        
+        private readonly Client _client;
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -35,24 +29,14 @@ namespace CloudHub.Tests.Integration
         {
             base.ConfigureClient(client);
             IEncryptionService encryptionService = new EncryptionService();
-            client.DefaultRequestHeaders.Add("client-key", ClientKey);
-            client.DefaultRequestHeaders.Add("client-claim", encryptionService.Encrypt(ClientKey, ClientSecret));
+            client.DefaultRequestHeaders.Add("client-key", _client.ClientKey);
+            client.DefaultRequestHeaders.Add("client-claim", encryptionService.Encrypt(_client.ClientKey, _client.ClientSecret));
         }
 
         private void SeedTestData(IServiceCollection services)
         {
             IUnitOfWork _context = services.BuildServiceProvider().GetService<IUnitOfWork>() ?? throw new Exception("Failed to get unit of work");
-            Client client = new Client()
-            {
-                Tenant = new Tenant()
-                {
-                    Name = HelperFunctions.RandomString(10)
-                },
-                Name = HelperFunctions.RandomString(10),
-                ClientKey = ClientKey,
-                ClientSecret = ClientSecret
-            };
-            _context.ClientsRepository.Add(client).Wait();
+            _context.ClientsRepository.Add(_client).Wait();
             _context.Save().Wait();
         }
     }
