@@ -24,52 +24,11 @@ namespace CloudHub.Domain.Services
             return token;
         }
 
-        private async Task<string> ExtractPasscode(CreateUserDTO dto)
-        {
-            string passcode;
-            if (dto.login_type == ELoginTypes.LOGIN_TYPE_BASIC)
-            {
-                passcode = dto.password;
-            }
-            else
-            {
-                OAuthUser? oAuthUser = await _oAuthService.GetUserByToken(dto.password, dto.login_type);
-                if (oAuthUser == null || oAuthUser.Email != dto.email) { throw new NotAuthenticatedException(); }
-                passcode = oAuthUser.OpenId;
-            }
-            /*TODO: Encrypt password before saving it, using client secret
-            #
-            string clientSecret = consumerInfo.ClientApplication.Client.ClientSecret;
-            login.Passcode = Encrypt(passcode,clientSecret);
-            #
-            Note: You will have to decrypt the passwords coming from the database in the Login usecase
-             */
-            return passcode;
-        }
-        private string GenerateGlobalId(IEncryptionService encryptionService, string email, int tenantId)
-        {
-            double timeStamp = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
-            string globalId = encryptionService.Hash(string.Format("{0}{1}{2}", email, tenantId, timeStamp));
-            return globalId;
-        }
-        private async Task<User> CreateNewUserWithLogin(CreateUserDTO dto, int tenantId)
-        {
-            string globalId = GenerateGlobalId(_encryptionService, dto.email, tenantId);
-            string passcode = await ExtractPasscode(dto);
-            return new()
-            {
-                Email = dto.email,
-                Name = dto.name,
-                ImageUrl = dto.image_url,
-                TenantId = tenantId,
-                GlobalId = globalId,
-                Login = new() { LoginTypeId = dto.login_type, Passcode = passcode }
-            };
-        }
 
         public async Task<User> RegisterNewUser(ConsumerCredentials credentials, CreateUserDTO dto)
         {
             Consumer consumer = await GetConsumer(credentials);
+            int tenantId = consumer.Client.TenantId;
 
             //Fetch user from database
             User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.email && u.TenantId == consumer.Client.TenantId);
@@ -78,7 +37,7 @@ namespace CloudHub.Domain.Services
             if (user != null) { throw new UserExistsException(); }
 
             //Create user
-            user = await CreateNewUserWithLogin(dto, consumer.Client.TenantId);
+            user = await User.FromDTO(dto, tenantId, _encryptionService, _oAuthService);
             user = await _unitOfWork.UsersRepository.Add(user);
 
             //Consume Nonce
