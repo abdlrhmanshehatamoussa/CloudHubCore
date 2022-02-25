@@ -7,7 +7,7 @@ namespace CloudHub.Domain.Services
 {
     public class UserService : BaseService
     {
-        public UserService(IUnitOfWork unitOfWork, IOAuthService oAuthService, IEncryptionService encryptionService) : base(unitOfWork,encryptionService) => _oAuthService = oAuthService;
+        public UserService(IUnitOfWork unitOfWork, IOAuthService oAuthService, IEncryptionService encryptionService) : base(unitOfWork, encryptionService) => _oAuthService = oAuthService;
 
         private readonly IOAuthService _oAuthService;
 
@@ -24,33 +24,8 @@ namespace CloudHub.Domain.Services
             return token;
         }
 
-        public async Task<User> RegisterNewUser(ConsumerCredentials credentials, CreateUserDTO dto)
+        private async Task<string> ExtractPasscode(CreateUserDTO dto)
         {
-            Consumer consumer = await GetConsumer(credentials);
-
-            //Fetch user from database
-            User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.email && u.TenantId == consumer.Client.TenantId);
-
-            //Check user
-            if (user != null) { throw new UserExistsException(); }
-
-            //Create user
-            user = new User
-            {
-                Email = dto.email,
-                Name = dto.name,
-                ImageUrl = dto.image_url,
-                TenantId = consumer.Client.TenantId
-            };
-            double timeStamp = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
-            user.GlobalId = _encryptionService.Hash(string.Format("{0}{1}", dto.email, timeStamp));
-
-            user = await _unitOfWork.UsersRepository.Add(user);
-
-            //Create Login
-            Login login = new();
-            login.LoginTypeId = dto.login_type;
-            login.User = user;
             string passcode;
             if (dto.login_type == ELoginTypes.LOGIN_TYPE_BASIC)
             {
@@ -62,16 +37,49 @@ namespace CloudHub.Domain.Services
                 if (oAuthUser == null || oAuthUser.Email != dto.email) { throw new NotAuthenticatedException(); }
                 passcode = oAuthUser.OpenId;
             }
-
-            /*
-            //TODO: Encrypt password before saving it, using client secret
+            /*TODO: Encrypt password before saving it, using client secret
+            #
             string clientSecret = consumerInfo.ClientApplication.Client.ClientSecret;
             login.Passcode = Encrypt(passcode,clientSecret);
-
-            - You will have to decrypt the password in the Login usecase
+            #
+            Note: You will have to decrypt the passwords coming from the database in the Login usecase
              */
-            login.Passcode = passcode;
-            login = await _unitOfWork.LoginsRepository.Add(login);
+            return passcode;
+        }
+        private string GenerateGlobalId(IEncryptionService encryptionService, string email, int tenantId)
+        {
+            double timeStamp = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
+            string globalId = encryptionService.Hash(string.Format("{0}{1}{2}", email, tenantId, timeStamp));
+            return globalId;
+        }
+        private async Task<User> CreateNewUserWithLogin(CreateUserDTO dto, int tenantId)
+        {
+            string globalId = GenerateGlobalId(_encryptionService, dto.email, tenantId);
+            string passcode = await ExtractPasscode(dto);
+            return new()
+            {
+                Email = dto.email,
+                Name = dto.name,
+                ImageUrl = dto.image_url,
+                TenantId = tenantId,
+                GlobalId = globalId,
+                Login = new() { LoginTypeId = dto.login_type, Passcode = passcode }
+            };
+        }
+
+        public async Task<User> RegisterNewUser(ConsumerCredentials credentials, CreateUserDTO dto)
+        {
+            Consumer consumer = await GetConsumer(credentials);
+
+            //Fetch user from database
+            User? user = await _unitOfWork.UsersRepository.FirstWhere((User u) => u.Email == dto.email && u.TenantId == consumer.Client.TenantId);
+
+            //Check user
+            if (user != null) { throw new UserExistsException(); }
+
+            //Create user
+            user = await CreateNewUserWithLogin(dto, consumer.Client.TenantId);
+            user = await _unitOfWork.UsersRepository.Add(user);
 
             //Consume Nonce
             await ConsumeNonceOrThrow(consumer.Nonce.Id);
