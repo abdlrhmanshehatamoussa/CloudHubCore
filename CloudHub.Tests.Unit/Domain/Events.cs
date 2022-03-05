@@ -63,7 +63,7 @@ namespace CloudHub.Tests.Unit.Domain
             Assert.IsNotNull(e.Payload);
             TestPayload resultPayload = e.Payload!.Deserialize<TestPayload>();
             Assert.True(resultPayload.Exact(inputPayload));
-            Assert.True(e.CreatedOn.Year == 2022 && e.CreatedOn.Month == 1 && e.CreatedOn.Day == 13 && e.CreatedOn.Hour == 18);
+            Assert.True(e.CreatedOn.Year == 2022 && e.CreatedOn.Month == 1 && e.CreatedOn.Day == 13 && e.CreatedOn.Hour == 18 && e.CreatedOn.Minute == 13);
         }
 
         [Test]

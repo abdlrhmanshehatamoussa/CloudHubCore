@@ -1,4 +1,6 @@
 ﻿using CloudHub.Domain.DTO;
+using CloudHub.Domain.Exceptions;
+using System.Globalization;
 using System.Text.Json;
 
 namespace CloudHub.Domain.Models
@@ -21,7 +23,15 @@ namespace CloudHub.Domain.Models
             JsonDocument? doc = null;
             DateTime timestamp = DateTime.UtcNow;
             if (dto.Payload != null) doc = JsonDocument.Parse(dto.Payload);
-            if (dto.CreatedOn != null) _ = DateTime.TryParse(dto.CreatedOn, out timestamp);
+            if (dto.CreatedOn != null)
+            {
+                bool validTimestamp = DateTime.TryParse(dto.CreatedOn, out timestamp);
+                if (validTimestamp) timestamp = new DateTime(timestamp.Ticks, DateTimeKind.Utc);
+            }
+            if (dto.Description == null) throw new MissingParameterException();
+            if (dto.Category == null) throw new MissingParameterException();
+            if (dto.BuildId == null) throw new MissingParameterException();
+
             return new Event()
             {
                 BuildId = dto.BuildId,

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CloudHub.Tests.Integration.Tests
+namespace CloudHub.Tests.Integration
 {
     internal class EventsTests : IntegrationTest
     {
@@ -13,15 +13,15 @@ namespace CloudHub.Tests.Integration.Tests
         public async Task LogSingle_HappyScenario()
         {
             //Arrange
-            CreateEventRequest eventContract = new()
-            {
-                build_id = "1",
-                category = "category",
-                created_on = "2022-01-13 18:13:06.623782",
-                description = "desc",
-                payload = null,
-                source = "source1"
-            };
+            CreateEventRequest eventContract = new
+            (
+                build_id: "1",
+                category: "category",
+                created_on: "2022-01-13 18:13:06.623782",
+                description: "desc",
+                payload: null,
+                source: "source1"
+            );
             string nonce = await GetNonce();
 
             //Act
@@ -39,15 +39,22 @@ namespace CloudHub.Tests.Integration.Tests
             //Arrange
             List<CreateEventRequest> eventContracts = new()
             {
-                new()
-                {
-                    build_id = "1",
-                    category = "category",
-                    created_on = "2022-01-13 18:13:06.623782",
-                    description = "desc",
-                    payload = null,
-                    source = "source1"
-                }
+                new(
+                    build_id: "1",
+                    category: "category",
+                    created_on: "2022-01-13 18:13:06.623782",
+                    description: "desc",
+                    payload: null,
+                    source: "source1"
+                    ),
+                new(
+                    build_id: "2",
+                    category: "category2",
+                    description: "desc",
+                    created_on: null,
+                    payload: null,
+                    source: null
+                    )
             };
             string nonce = await GetNonce();
 

@@ -3,6 +3,7 @@ using CloudHub.Domain.Models;
 
 namespace CloudHub.API.Contracts
 {
+#pragma warning disable IDE1006 // Naming Styles
     public class LoginRequestContract
     {
         public LoginRequestContract(string email, string password, int login_type)
@@ -19,7 +20,7 @@ namespace CloudHub.API.Contracts
         public CreateLoginDTO ToDTO()
         {
             ELoginTypes loginType = Enum.Parse<ELoginTypes>(login_type.ToString());
-            CreateLoginDTO request = new CreateLoginDTO(email, password, loginType);
+            CreateLoginDTO request = new(email, password, loginType);
             return request;
         }
     }

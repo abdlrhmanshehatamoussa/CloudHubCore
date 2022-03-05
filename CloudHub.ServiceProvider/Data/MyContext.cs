@@ -6,6 +6,10 @@ namespace CloudHub.ServiceProvider.Data
 
     internal class MyContext : DbContext
     {
+        public MyContext()
+        {
+
+        }
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
             int migrationsCount = Database.GetAppliedMigrations().Count();
@@ -29,7 +33,13 @@ namespace CloudHub.ServiceProvider.Data
         public virtual DbSet<PrivateDocument> PrivateDocuments { get; set; } = null!;
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (optionsBuilder.IsConfigured == false)
+            {
+                optionsBuilder.UseNpgsql("Host=127.0.0.1;Database=cloudhub-api-core-local;Username=postgres;Password=123456");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
