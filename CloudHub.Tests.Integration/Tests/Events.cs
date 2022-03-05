@@ -1,5 +1,6 @@
 ﻿using CloudHub.API.Contracts;
 using CloudHub.Utils;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -19,7 +20,7 @@ namespace CloudHub.Tests.Integration
                 category: "category",
                 created_on: "2022-01-13 18:13:06.623782",
                 description: "desc",
-                payload: null,
+                payload: JsonConvert.SerializeObject(new { p1 = "v1", p2 = "v2" }),
                 source: "source1"
             );
             string nonce = await GetNonce();
