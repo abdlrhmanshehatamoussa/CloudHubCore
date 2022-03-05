@@ -37,7 +37,8 @@ namespace CloudHub.ServiceProvider.Data
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseNpgsql("Host=127.0.0.1;Database=cloudhub-api-core-local;Username=postgres;Password=123456");
+                string connectionString = File.ReadAllText("constr.txt");
+                optionsBuilder.UseNpgsql(connectionString);
             }
         }
 
