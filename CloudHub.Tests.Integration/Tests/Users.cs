@@ -16,7 +16,7 @@ namespace CloudHub.Tests.Integration
             string email = string.Format("{0}@gmail.com", HelperFunctions.RandomString(10));
             string password = HelperFunctions.RandomString(10);
             int loginType = (int)ELoginTypes.LOGIN_TYPE_BASIC;
-            RegisterRequestContract registerContract = new RegisterRequestContract(HelperFunctions.RandomString(10), email, password, "", loginType);
+            RegisterRequestContract registerContract = new(HelperFunctions.RandomString(10), email, password, "", loginType);
             string nonce = await GetNonce();
 
             //Act
@@ -33,7 +33,7 @@ namespace CloudHub.Tests.Integration
             nonce = await GetNonce();
 
             //Act
-            LoginRequestContract loginContract = new LoginRequestContract(email, password, loginType);
+            LoginRequestContract loginContract = new (email, password, loginType);
             HttpResponseMessage response3 = await _myHttpClient.PostAsyncJson("users/login", loginContract, BuildHeaders(nonce));
 
             //Assert

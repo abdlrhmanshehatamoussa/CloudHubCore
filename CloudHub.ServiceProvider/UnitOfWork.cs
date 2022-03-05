@@ -13,7 +13,7 @@ namespace CloudHub.ServiceProvider
     {
         public UnitOfWork(IConfigDatabase dbConfigurations)
         {
-            DbContextOptionsBuilder<MyContext> builder = new DbContextOptionsBuilder<MyContext>();
+            DbContextOptionsBuilder<MyContext> builder = new();
             builder.UseNpgsql(dbConfigurations.ConnectionString);
             _dbContext = new MyContext(builder.Options);
         }
@@ -26,6 +26,7 @@ namespace CloudHub.ServiceProvider
         public IRepository<Login> LoginsRepository => new GenericRepository<Login>(_dbContext);
         public IRepository<Tenant> TenantsRepository => new GenericRepository<Tenant>(_dbContext);
         public IRepository<Feature> FeaturesRepository => new GenericRepository<Feature>(_dbContext);
+        public IRepository<Event> EventsRepository => new GenericRepository<Event>(_dbContext);
         public IRepository<Nonce> NoncesRepository => new GenericRepository<Nonce>(_dbContext);
         public IRepository<PaymentGateway> PaymentGatewaysRepository => new GenericRepository<PaymentGateway>(_dbContext);
         public IRepository<Purchase> PurchasesRepository => new GenericRepository<Purchase>(_dbContext);

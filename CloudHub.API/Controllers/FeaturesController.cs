@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers
 {
+    [ApiController]
     [Route("features")]
     public class FeaturesController : BasicController
     {

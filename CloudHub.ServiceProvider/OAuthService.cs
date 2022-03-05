@@ -13,7 +13,7 @@ namespace CloudHub.ServiceProvider
     {
         public OAuthService(IConfigOAuthService configurations)
         {
-            GoogleOAuthExtractor googleOAuthExtractor = new GoogleOAuthExtractor(configurations.GoogleOAuthUrl);
+            GoogleOAuthExtractor googleOAuthExtractor = new(configurations.GoogleOAuthUrl);
             this.Extractors.Add(ELoginTypes.LOGIN_TYPE_GOOGLE, googleOAuthExtractor);
         }
 

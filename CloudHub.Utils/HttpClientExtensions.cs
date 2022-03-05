@@ -5,7 +5,7 @@ namespace CloudHub.Utils
 {
     public static class HttpClientExtensions
     {
-        private static Dictionary<string, string> EmptyDictionary = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> EmptyDictionary = new();
 
         public static async Task<T> Parse<T>(this HttpResponseMessage response)
         {
@@ -30,6 +30,15 @@ namespace CloudHub.Utils
 
         private static async Task<HttpResponseMessage> SendAsyncJson(this HttpClient client, HttpMethod method, string endpoint)
             => await SendAsyncJson(client, method, endpoint, headers: EmptyDictionary, data: null);
+
+
+        //Patch
+        public static async Task<HttpResponseMessage> PatchAsyncJson(this HttpClient client, string endpoint, dynamic? data, Dictionary<string, string> headers)
+            => await SendAsyncJson(client, HttpMethod.Patch, endpoint, data: data, headers: headers);
+        public static async Task<HttpResponseMessage> PatchAsyncJson(this HttpClient client, string endpoint, dynamic? data)
+            => await PatchAsyncJson(client, endpoint, headers: EmptyDictionary, data: data);
+        public static async Task<HttpResponseMessage> PatchAsyncJson(this HttpClient client, string endpoint)
+            => await PatchAsyncJson(client, endpoint, headers: EmptyDictionary, data: null);
 
 
         //Post

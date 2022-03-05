@@ -19,6 +19,7 @@ namespace CloudHub.ServiceProvider.Data
         public virtual DbSet<Nonce> Nonces { get; set; } = null!;
         public virtual DbSet<PaymentGateway> PaymentGateways { get; set; } = null!;
         public virtual DbSet<Purchase> Purchases { get; set; } = null!;
+        public virtual DbSet<Event> Events { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
         public virtual DbSet<Tenant> Tenants { get; set; } = null!;

@@ -2,6 +2,7 @@
 
 namespace CloudHub.API.Contracts
 {
+#pragma warning disable IDE1006 // Naming Styles
     public struct LoginResponseContract
     {
         public string email { get; set; }

@@ -15,6 +15,7 @@ namespace CloudHub.Tests.Unit.Domain
         public IRepository<Login> LoginsRepository => new TestRepository<Login>(_dbContext);
         public IRepository<Tenant> TenantsRepository => new TestRepository<Tenant>(_dbContext);
         public IRepository<Feature> FeaturesRepository => new TestRepository<Feature>(_dbContext);
+        public IRepository<Event> EventsRepository => new TestRepository<Event>(_dbContext);
         public IRepository<Nonce> NoncesRepository => new TestRepository<Nonce>(_dbContext);
         public IRepository<PaymentGateway> PaymentGatewaysRepository => new TestRepository<PaymentGateway>(_dbContext);
         public IRepository<Purchase> PurchasesRepository => new TestRepository<Purchase>(_dbContext);

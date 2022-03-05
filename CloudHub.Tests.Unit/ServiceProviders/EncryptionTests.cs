@@ -11,7 +11,7 @@ namespace CloudHub.Tests.Unit.ServiceProviders
         [TestCase("0", "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9")]
         public void Hashing_HappyScenario(string input, string output)
         {
-            EncryptionService service = new EncryptionService();
+            EncryptionService service = new ();
             string result = service.Hash(input);
             Assert.That(result, Is.EqualTo(output));
         }
@@ -21,9 +21,9 @@ namespace CloudHub.Tests.Unit.ServiceProviders
         [TestCase("hey", "hey")]
         public void Encryption_HappyScenario(string message, string key)
         {
-            EncryptionService service = new EncryptionService();
+            EncryptionService service = new ();
             string encrypted = service.Encrypt(message, key);
-            string decrypted = service.Decrypt(encrypted, key);
+            string? decrypted = service.Decrypt(encrypted, key);
             Assert.IsTrue(decrypted == message);
         }
 
@@ -32,10 +32,10 @@ namespace CloudHub.Tests.Unit.ServiceProviders
         [TestCase("hey", "hey")]
         public void Encryption_DifferentKey(string message, string key)
         {
-            EncryptionService service = new EncryptionService();
+            EncryptionService service = new ();
             string encrypted = service.Encrypt(message, key);
             string wrongKey = encrypted + message + key;
-            string decrypted = service.Decrypt(encrypted, wrongKey);
+            string? decrypted = service.Decrypt(encrypted, wrongKey);
             Assert.IsTrue(decrypted != message);
         }
     }

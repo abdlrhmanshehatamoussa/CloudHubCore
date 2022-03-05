@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CloudHub.API.Controllers
 {
+    [ApiController]
     [Route("purchases")]
     public class PurchasesController : BasicController
     {

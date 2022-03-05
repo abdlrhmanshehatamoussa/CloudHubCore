@@ -3,6 +3,7 @@ using CloudHub.Domain.Models;
 
 namespace CloudHub.API.Contracts
 {
+#pragma warning disable IDE1006 // Naming Styles
     public class RegisterRequestContract
     {
         public RegisterRequestContract(string name, string email, string password, string? image_url, int login_type)

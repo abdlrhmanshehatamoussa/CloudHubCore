@@ -17,37 +17,36 @@ namespace CloudHub.Tests.Unit.Domain
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PrivateDocument>()
-                .Property(c => c.Body)
-                .HasConversion(v => JsonConvert.SerializeObject(v),
-                    v => JsonConvert.DeserializeObject<JsonDocument>(v));
+            modelBuilder.Entity<Event>()
+               .Property(e => e.Payload)
+               .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<JsonDocument>(v)
+                );
 
-            modelBuilder.Entity<PrivateDocument>().Property(p => p.Body)
-              .HasConversion(
+            modelBuilder.Entity<PrivateDocument>()
+                .Property(p => p.Body)
+                .HasConversion(
                   v => JsonDocumentToString(v),
                   v => JsonDocument.Parse(v, new JsonDocumentOptions()));
+
 
             modelBuilder.Entity<PublicDocument>()
-                .Property(c => c.Body)
-                .HasConversion(v => JsonConvert.SerializeObject(v),
-                    v => JsonConvert.DeserializeObject<JsonDocument>(v));
-
-            modelBuilder.Entity<PublicDocument>().Property(p => p.Body)
-              .HasConversion(
-                  v => JsonDocumentToString(v),
-                  v => JsonDocument.Parse(v, new JsonDocumentOptions()));
+                .Property(p => p.Body)
+                .HasConversion(
+                    v => JsonDocumentToString(v),
+                    v => JsonDocument.Parse(v, new JsonDocumentOptions())
+                    );
         }
 
 
         private static string JsonDocumentToString(JsonDocument document)
         {
-            using (var stream = new MemoryStream())
-            {
-                var writer = new Utf8JsonWriter(stream, new JsonWriterOptions { Indented = true });
-                document.WriteTo(writer);
-                writer.Flush();
-                return Encoding.UTF8.GetString(stream.ToArray());
-            }
+            using var stream = new MemoryStream();
+            var writer = new Utf8JsonWriter(stream, new JsonWriterOptions { Indented = true });
+            document.WriteTo(writer);
+            writer.Flush();
+            return Encoding.UTF8.GetString(stream.ToArray());
         }
     }
 }

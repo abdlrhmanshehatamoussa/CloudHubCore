@@ -14,6 +14,7 @@ namespace CloudHub.Tests.Unit.Domain
         protected FakeUnitOfWork UnitOfWork = null!;
         protected UserService UserService = null!;
         protected NonceService NonceService = null!;
+        protected EventsService EventsService = null!;
 
         [SetUp]
         public void Setup()
@@ -21,6 +22,7 @@ namespace CloudHub.Tests.Unit.Domain
             UnitOfWork = new();
             UserService = new(UnitOfWork, OAuthService, EncryptionService);
             NonceService = new(UnitOfWork, EncryptionService);
+            EventsService = new(UnitOfWork, EncryptionService);
         }
 
 

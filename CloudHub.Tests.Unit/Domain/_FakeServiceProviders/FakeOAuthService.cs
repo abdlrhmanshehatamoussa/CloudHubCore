@@ -8,6 +8,7 @@ namespace CloudHub.Tests.Unit.Domain
     {
         public async Task<OAuthUser?> GetUserByToken(string token, ELoginTypes loginType)
         {
+            await Task.Delay(100);
             return null;
         }
     }

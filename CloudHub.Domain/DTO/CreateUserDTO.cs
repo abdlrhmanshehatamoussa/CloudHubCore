@@ -5,13 +5,14 @@ namespace CloudHub.Domain.DTO
 {
     public class CreateUserDTO
     {
+#pragma warning disable IDE1006 // Naming Styles
         public CreateUserDTO(string name, string email, string password, string? image_url, ELoginTypes login_type)
         {
             ValidationUtils.Mandatory(email, nameof(email));
             ValidationUtils.ValidEmail(email, nameof(email));
             ValidationUtils.Mandatory(name, nameof(name));
             ValidationUtils.Mandatory(password, nameof(password));
-            ValidationUtils.MinLength(password,8, nameof(password));
+            ValidationUtils.MinLength(password, 8, nameof(password));
             ValidationUtils.ValidEnumValue<ELoginTypes>(login_type, nameof(login_type));
 
             this.name = name;

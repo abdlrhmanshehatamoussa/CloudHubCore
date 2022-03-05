@@ -11,6 +11,7 @@ namespace CloudHub.API.Startup
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<NonceService>();
             builder.Services.AddScoped<FeatureService>();
+            builder.Services.AddScoped<EventsService>();
             builder.Services.AddScoped<PurchaseService>();
         }
     }

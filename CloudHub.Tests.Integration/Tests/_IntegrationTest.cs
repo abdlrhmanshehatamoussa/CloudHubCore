@@ -31,7 +31,7 @@ namespace CloudHub.Tests.Integration
                 ClientKey = Guid.NewGuid().ToString(),
                 ClientSecret = Guid.NewGuid().ToString()
             };
-            TestAppFactory factory = new TestAppFactory(_tenantClient);
+            TestAppFactory factory = new (_tenantClient);
             _myHttpClient = factory.CreateClient();
         }
 

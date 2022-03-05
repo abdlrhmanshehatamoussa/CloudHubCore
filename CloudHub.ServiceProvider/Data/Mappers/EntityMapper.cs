@@ -13,6 +13,7 @@ namespace CloudHub.ServiceProvider.Data
             new NonceMapper(),
             new PaymentGatewayMapper(),
             new PurchaseMapper(),
+            new EventsMapper(),
             new UserMapper(),
             new UserTokenMapper(),
             new TenantMapper(),

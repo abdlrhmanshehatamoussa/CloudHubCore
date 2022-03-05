@@ -10,6 +10,7 @@ namespace CloudHub.Domain.Services
         IRepository<Login> LoginsRepository { get; }
         IRepository<Tenant> TenantsRepository { get; }
         IRepository<Feature> FeaturesRepository { get; }
+        IRepository<Event> EventsRepository { get; }
         IRepository<Nonce> NoncesRepository { get; }
         IRepository<PaymentGateway> PaymentGatewaysRepository { get; }
         IRepository<Purchase> PurchasesRepository { get; }
